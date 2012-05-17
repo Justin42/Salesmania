@@ -1,2 +1,29 @@
 Main:
   locale: english
+  allow creative: false
+
+Bidding:
+  min start: 100
+  max start: 100000
+  
+  min increment: 100
+  max increment: 10000
+  
+  default time: 60
+  snipe time: 10
+  
+Logging:
+  enabled: true
+  filename: log.yml
+  type: yaml
+  
+  mysql host: localhost
+  mysql port: 3306
+  mysql username: USERNAME
+  mysql password: PASSWORD
+  mysql database: minecraft
+  mysql table: salesmania_log
+
+Blacklist:
+- Bedrock
+- Dirt
