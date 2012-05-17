@@ -1,5 +1,6 @@
 package net.invisioncraft.plugins.salesmania;
 
+import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,9 @@ public class Salesmania extends JavaPlugin {
         settings = new Settings(this);
 
         consoleLogger = this.getLogger();
+
+        getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
+
         consoleLogger.info("Salesmania Activated");
     }
 
