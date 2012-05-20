@@ -17,6 +17,16 @@ public class Auction {
     private Player currentWinner;
     private long currentBid;
 
+    public static enum AuctionStatus {
+        OVER_MAX,
+        UNDER_MIN,
+        SUCCESS,
+        FAILURE,
+        RUNNING,
+        COOLDOWN,
+        NOT_RUNNING;
+    }
+
     public Auction(Salesmania plugin) {
         this.plugin = plugin;
         this.settings = plugin.getSettings();
@@ -34,14 +44,16 @@ public class Auction {
         return currentWinner;
     }
 
-    public boolean bid(Player player, long bid) {
-        if(currentBid + bid > bid + settings.getMaxIncrement()) return false;
-        else if(currentBid + bid < bid + settings.getMinIncrement()) return false;
+    public AuctionStatus bid(Player player, long bid) {
+        if(currentBid + bid > bid + settings.getMaxIncrement())
+            return AuctionStatus.OVER_MAX;
+        if(currentBid + bid < bid + settings.getMinIncrement())
+            return AuctionStatus.UNDER_MIN;
         else {
             currentWinner = player;
             currentBid = bid;
         }
-        return true;
+        return AuctionStatus.SUCCESS;
     }
 
 }
