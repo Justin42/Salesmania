@@ -33,7 +33,9 @@ public class Auction {
         FAILURE,
         RUNNING,
         COOLDOWN,
-        NOT_RUNNING;
+        WINNING,
+        NOT_RUNNING,
+
     }
 
     public Auction(Salesmania plugin) {
@@ -59,7 +61,10 @@ public class Auction {
             return AuctionStatus.OVER_MAX;
         if(currentBid + bid < bid + settings.getMinIncrement())
             return AuctionStatus.UNDER_MIN;
-        else {
+        if(currentWinner != null && currentWinner == player)
+            return AuctionStatus.WINNING;
+
+            else {
             currentWinner = player;
             currentBid = bid;
         }
