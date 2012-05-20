@@ -27,7 +27,7 @@ public class AuctionBid extends AuctionCommand {
 
         switch(plugin.getAuction().bid(player, bidAmount)) {
             case SUCCESS:
-                player.sendMessage(Locale.getMessage("Bidding.budSuccess"));
+                player.sendMessage(Locale.getMessage("Bidding.bidSuccess"));
                 return true;
             case OVER_MAX:
                 player.sendMessage(Locale.getMessage("Bidding.overMax"));
