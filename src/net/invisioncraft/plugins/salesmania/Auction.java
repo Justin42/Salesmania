@@ -32,6 +32,10 @@ public class Auction {
     }
 
     public boolean bid(Player player, long bid) {
+        if(bid > currentBid) {
+            winner = player;
+            return true;
+        }
         return false;
     }
 }
