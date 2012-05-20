@@ -35,14 +35,12 @@ public class Auction {
     }
 
     public boolean bid(Player player, long bid) {
-        if(currentBid + bid > bid + settings.getMaxIncrement()) {
-            return false;
+        if(currentBid + bid > bid + settings.getMaxIncrement()) return false;
+        else if(currentBid + bid < bid + settings.getMinIncrement()) return false;
+        else {
+            currentWinner = player;
+            currentBid = bid;
         }
-        if(currentBid + bid < bid + settings.getMinIncrement()) {
-            return false;
-        }
-        currentWinner = player;
-        currentBid = bid;
         return true;
     }
 
