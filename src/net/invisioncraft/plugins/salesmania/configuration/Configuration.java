@@ -18,24 +18,17 @@ public class Configuration {
     private JavaPlugin plugin;
     private String filename;
 
-    public Configuration(JavaPlugin plugin) {
+    public Configuration(JavaPlugin plugin, String filename) {
         this.plugin = plugin;
-    }
-
-    public void setFilename(String filename) {
         this.filename = filename;
+        reload();
     }
 
     public String getFilename() {
         return filename;
     }
 
-    public boolean init() {
-        if(filename == null) return false;
-        else return reload();
-    }
-
-    public boolean reload() {
+    public void reload() {
         if(customConfigFile == null) {
             customConfigFile = new File(plugin.getDataFolder(), filename);
         }
@@ -46,7 +39,6 @@ public class Configuration {
             YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultConfigStream);
             customConfig.setDefaults(defaultConfig);
         }
-        return true;
     }
 
     public FileConfiguration getConfig() {

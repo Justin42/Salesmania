@@ -12,9 +12,7 @@ import java.util.List;
 public class Settings extends Configuration {
 
     public Settings(JavaPlugin plugin) {
-        super(plugin);
-        setFilename("config.yml");
-        init();
+        super(plugin, "config.yml");
     }
 
     // Main
