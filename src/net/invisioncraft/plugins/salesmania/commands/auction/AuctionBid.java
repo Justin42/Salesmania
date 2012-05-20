@@ -38,6 +38,9 @@ public class AuctionBid extends AuctionCommand {
             case NOT_RUNNING:
                 player.sendMessage(Locale.getMessage("Bidding.notRunning"));
                 return false;
+            case COOLDOWN:
+                player.sendMessage(Locale.getMessage("Bidding.cooldown"));
+                return false;
         }
 
         return false;

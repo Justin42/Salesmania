@@ -13,9 +13,18 @@ public class Auction {
     private Settings settings;
 
     private boolean isRunning = false;
+    private boolean isCooldown = false;
 
     private Player currentWinner;
     private long currentBid;
+
+    private Runnable cooldownRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            isCooldown = false;
+        }
+    };
 
     public static enum AuctionStatus {
         OVER_MAX,
