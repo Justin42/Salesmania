@@ -41,6 +41,9 @@ public class AuctionBid extends AuctionCommand {
             case COOLDOWN:
                 player.sendMessage(Locale.getMessage("Bidding.cooldown"));
                 return false;
+            case WINNING:
+                player.sendMessage(Locale.getMessage("Bidding.playerWinning"));
+                return false;
         }
 
         return false;
