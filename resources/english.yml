@@ -7,3 +7,4 @@ Bidding:
   consoleCantBid: "Sorry, only players can bid on items."
   notRunning: "There is no auction running"
   cooldown: "Auction is in a cooldown period, please wait %d"
+  playerWinning: "You are already winning this auction."

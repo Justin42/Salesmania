@@ -7,3 +7,4 @@ Bidding:
   consoleCantBid: "Desculpe, apenas jogadores podem licitar por items"
   notRunning: "Não esta nenhum leilão a correr"
   cooldown: "O leilão está em cooldown, porfavor espere %d"
+  playerWinning: "Já és o jogador com a oferta mais alta"
