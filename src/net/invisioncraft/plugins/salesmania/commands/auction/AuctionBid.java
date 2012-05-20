@@ -29,6 +29,15 @@ public class AuctionBid extends AuctionCommand {
             case SUCCESS:
                 player.sendMessage(Locale.getMessage("Bidding.budSuccess"));
                 return true;
+            case OVER_MAX:
+                player.sendMessage(Locale.getMessage("Bidding.overMax"));
+                return true;
+            case UNDER_MIN:
+                player.sendMessage(Locale.getMessage("Bidding.underMin"));
+                return false;
+            case NOT_RUNNING:
+                player.sendMessage(Locale.getMessage("Bidding.notRunning"));
+                return false;
         }
 
         return false;
