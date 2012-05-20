@@ -5,6 +5,7 @@ import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Owner: Justin
@@ -24,10 +25,12 @@ public class AuctionBid extends AuctionCommand {
         }
         Player player = (Player) sender;
         long bidAmount = Long.valueOf(args[0]);
-
+        ItemStack itemStack = plugin.getAuction().getItemStack();
         switch(plugin.getAuction().bid(player, bidAmount)) {
             case SUCCESS:
-                player.sendMessage(Locale.getMessage("Bidding.bidSuccess"));
+                player.sendMessage(String.format(
+                        Locale.getMessage("Bidding.bidSuccess"),
+                        bidAmount, itemStack));
                 return true;
             case OVER_MAX:
                 player.sendMessage(Locale.getMessage("Bidding.overMax"));
