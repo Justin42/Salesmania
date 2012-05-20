@@ -61,7 +61,7 @@ public class Auction {
             return AuctionStatus.OVER_MAX;
         if(currentBid + bid < bid + settings.getMinIncrement())
             return AuctionStatus.UNDER_MIN;
-        if(currentWinner != null && currentWinner == player);
+        if(currentWinner != null && currentWinner == player)
             return AuctionStatus.WINNING;
 
             else {
