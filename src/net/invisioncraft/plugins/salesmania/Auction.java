@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
  * Time: 3:59 PM
  */
 public class Auction {
-    private static Salesmania plugin;
+    private Salesmania plugin;
 
     private boolean isRunning = false;
     private Player winner;
