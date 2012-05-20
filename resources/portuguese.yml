@@ -1,0 +1,9 @@
+Bidding:
+  bidSuccess: "Ofereceu %,d on %s"
+  bidFailure: "Algo está erro com a oferta."
+  overMax:  "Não pode oferecer mais que %,d neste momento"
+  underMin: "Tem que oferecer no minimo %,d"
+  outBid: "O jogador %s ofereceu mais!"
+  consoleCantBid: "Desculpe, apenas jogadores podem licitar por items"
+  notRunning: "Não esta nenhum leilão a correr"
+  cooldown: "O leilão está em cooldown, porfavor espere %d"
