@@ -1,5 +1,6 @@
 package net.invisioncraft.plugins.salesmania;
 
+import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import org.bukkit.entity.Player;
 
 /**
@@ -9,15 +10,16 @@ import org.bukkit.entity.Player;
  */
 public class Auction {
     private Salesmania plugin;
+    private Settings settings;
 
     private boolean isRunning = false;
 
-    private Player winner;
-
+    private Player currentWinner;
     private long currentBid;
 
     public Auction(Salesmania plugin) {
         this.plugin = plugin;
+        this.settings = plugin.getSettings();
     }
 
     public void reset() {
@@ -29,35 +31,18 @@ public class Auction {
     }
 
     public Player getWinner() {
-        return winner;
+        return currentWinner;
     }
 
     public boolean bid(Player player, long bid) {
-        if(bid > currentBid) {
-            winner = player;
-            return true;
-        }
-        return false;
-    }
-
-
-
-    public boolean bid(Player player, long bid) {
-        long minIncrement =
-        plugin.getSettings().getMinIncrement()
-        if(bid > minIncrement) {
-            currentBid = bid;
-            return true
-        }
-        return false;
-    }
-
-    public boolean bid(Player player, long bid) {
-        long maxIncrement =
-                plugin.getSettings().getMinIncrement()
-        if(bid < maxIncrement) {
+        if(currentBid + bid > bid + settings.getMaxIncrement()) {
             return false;
         }
+        if(currentBid + bid < bid + settings.getMinIncrement()) {
+            return false;
+        }
+        currentWinner = player;
+        currentBid = bid;
         return true;
     }
 
