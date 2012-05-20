@@ -11,6 +11,7 @@ public class Auction {
     private Salesmania plugin;
 
     private boolean isRunning = false;
+
     private Player winner;
 
     private long currentBid;
@@ -38,4 +39,26 @@ public class Auction {
         }
         return false;
     }
+
+
+
+    public boolean bid(Player player, long bid) {
+        long minIncrement =
+        plugin.getSettings().getMinIncrement()
+        if(bid > minIncrement) {
+            currentBid = bid;
+            return true
+        }
+        return false;
+    }
+
+    public boolean bid(Player player, long bid) {
+        long maxIncrement =
+                plugin.getSettings().getMinIncrement()
+        if(bid < maxIncrement) {
+            return false;
+        }
+        return true;
+    }
+
 }
