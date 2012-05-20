@@ -9,7 +9,7 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
  */
 public class Locale  {
     Salesmania salesMania;
-    public static Configuration config;
+    private static Configuration config;
 
     public static void init(Salesmania plugin, String locale) {
         config = new Configuration(plugin, locale + ".yml");
@@ -17,6 +17,10 @@ public class Locale  {
 
     public static String getMessage(String path) {
         return config.getConfig().getString(path);
+    }
+
+    public Configuration getConfig() {
+        return config;
     }
 
 
