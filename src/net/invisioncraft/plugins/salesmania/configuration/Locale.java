@@ -10,8 +10,15 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Locale extends Configuration {
     Salesmania salesMania;
-    public Locale(JavaPlugin plugin, String filename) {
-        super(plugin, filename);
+
+    private static Configuration config;
+
+    public static void init(Salesmania plugin, String locale) {
+        Locale.config = new Configuration(plugin, locale + ".yml");
+    }
+
+    public static void getMessage(String path) {
+
     }
 
 
