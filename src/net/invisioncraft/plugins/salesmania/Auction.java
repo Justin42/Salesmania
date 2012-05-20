@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
  * Time: 3:59 PM
  */
 public class Auction {
-    private static Auction instance;
     private static Salesmania plugin;
 
     private boolean isRunning = false;
@@ -16,8 +15,8 @@ public class Auction {
 
     private long currentBid;
 
-    public static void init(Salesmania plugin) {
-        Auction.plugin = plugin;
+    public Auction(Salesmania plugin) {
+        this.plugin = plugin;
     }
 
     public void reset() {
