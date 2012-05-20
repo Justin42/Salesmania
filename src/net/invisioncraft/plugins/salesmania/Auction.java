@@ -45,6 +45,7 @@ public class Auction {
     }
 
     public AuctionStatus bid(Player player, long bid) {
+        if(!isRunning) return AuctionStatus.NOT_RUNNING;
         if(currentBid + bid > bid + settings.getMaxIncrement())
             return AuctionStatus.OVER_MAX;
         if(currentBid + bid < bid + settings.getMinIncrement())
