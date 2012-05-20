@@ -1,8 +1,8 @@
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
+import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Owner: Justin
@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class AuctionCancel extends AuctionCommand {
 
-    public AuctionCancel(JavaPlugin plugin) {
+    public AuctionCancel(Salesmania plugin) {
         super(plugin);
     }
 

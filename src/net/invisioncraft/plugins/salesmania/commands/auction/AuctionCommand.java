@@ -1,8 +1,8 @@
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
+import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Owner: Justin
@@ -10,9 +10,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Time: 10:27 AM
  */
 public abstract class AuctionCommand {
-    JavaPlugin plugin;
+    Salesmania plugin;
 
-    public AuctionCommand(JavaPlugin plugin) {
+    public AuctionCommand(Salesmania plugin) {
         this.plugin = plugin;
     }
 

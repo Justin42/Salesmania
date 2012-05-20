@@ -1,5 +1,6 @@
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
+import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +26,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
     AuctionEnd auctionEnd;
     AuctionCancel auctionCancel;
 
-    public AuctionCommandExecutor(JavaPlugin plugin) {
+    public AuctionCommandExecutor(Salesmania plugin) {
         this.plugin = plugin;
 
         // Initialize command handlers
