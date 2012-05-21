@@ -19,6 +19,8 @@ public class Auction {
     private Player currentWinner;
     private long currentBid;
 
+    private long cooldownTime;
+
     private ItemStack itemStack;
 
     private Runnable cooldownRunnable = new Runnable() {
@@ -55,6 +57,22 @@ public class Auction {
 
     public Player getWinner() {
         return currentWinner;
+    }
+
+    public long getCurrentBid() {
+        return currentBid;
+    }
+
+    public long getMaxBid() {
+        return currentBid + settings.getMaxIncrement();
+    }
+
+    public long getMinBid() {
+        return currentBid + settings.getMinIncrement();
+    }
+
+    public long getCooldownTime() {
+        return cooldownTime;
     }
 
     public ItemStack getItemStack() {
