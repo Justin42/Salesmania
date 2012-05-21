@@ -17,6 +17,7 @@ public class Auction {
     private boolean isCooldown = false;
 
     private Player currentWinner;
+    private Player owner;
     private long currentBid;
 
     private long cooldownTime;
@@ -82,6 +83,7 @@ public class Auction {
     public boolean start(Player player, ItemStack itemStack, long startBid)  {
         currentBid = startBid;
         this.itemStack = itemStack;
+        this.owner = player;
         return true;
     }
 
