@@ -79,7 +79,20 @@ public class Auction {
         return itemStack;
     }
 
-    public AuctionStatus bid(Player player, long bid) {
+    public long Start()  {
+        plugin.getAuction().start(player, player.getItemInHand(), Long.valueOf(args[0]));
+
+
+
+    }
+
+
+
+
+
+    public AuctionStatus bid(Player player, long bid)
+    {
+
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
         if(currentBid + bid > bid + settings.getMaxIncrement())
             return AuctionStatus.OVER_MAX;
@@ -88,11 +101,15 @@ public class Auction {
         if(currentWinner != null && currentWinner == player)
             return AuctionStatus.WINNING;
 
-            else {
+
+        else
+    {
             currentWinner = player;
             currentBid = bid;
-        }
-        return AuctionStatus.SUCCESS;
+            return AuctionStatus.SUCCESS;
+
     }
 
+
+    }
 }

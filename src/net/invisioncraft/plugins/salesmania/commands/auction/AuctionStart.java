@@ -26,6 +26,7 @@ public class AuctionStart extends CommandHandler {
             return false;
         }
         if(plugin.getAuction().isRunning()) {
+            Player player = (Player) sender;
             sender.sendMessage(Locale.getMessage("Auction.alreadyStarted"));
             return false;
         }
