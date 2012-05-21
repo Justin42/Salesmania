@@ -80,33 +80,19 @@ public class Auction {
     }
 
     public boolean start(Player player, ItemStack itemStack, long startBid)  {
+        currentBid = startBid;
+        this.itemStack = itemStack;
         return true;
     }
 
-
-
-
-
-    public AuctionStatus bid(Player player, long bid)
-    {
-
+    public AuctionStatus bid(Player player, long bid) {
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
-        if(currentBid + bid > bid + settings.getMaxIncrement())
-            return AuctionStatus.OVER_MAX;
-        if(currentBid + bid < bid + settings.getMinIncrement())
-            return AuctionStatus.UNDER_MIN;
-        if(currentWinner != null && currentWinner == player)
-            return AuctionStatus.WINNING;
+        if(currentBid + bid > bid + settings.getMaxIncrement()) return AuctionStatus.OVER_MAX;
+        if(currentBid + bid < bid + settings.getMinIncrement()) return AuctionStatus.UNDER_MIN;
+        if(currentWinner != null && currentWinner == player) return AuctionStatus.WINNING;
 
-
-        else
-    {
-            currentWinner = player;
-            currentBid = bid;
-            return AuctionStatus.SUCCESS;
-
-    }
-
-
+        currentWinner = player;
+        currentBid = bid;
+        return AuctionStatus.SUCCESS;
     }
 }
