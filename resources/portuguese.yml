@@ -5,10 +5,10 @@ Bidding:
   underMin: "Tem que oferecer no minimo %,d"
   outBid: "O jogador %s ofereceu mais!"
   notRunning: "Não esta nenhum leilão a correr"
-  cooldown: "O leilão está em cooldown, porfavor espere %d"
   playerWinning: "Já és o jogador com a oferta mais alta"
 Auction:
   alreadyStarted: ""
+  cooldown: "O leilão está em cooldown, porfavor espere %d"
 Console:
   cantStartAuction: ""
   cantBid: "Desculpe, apenas jogadores podem licitar por items"
