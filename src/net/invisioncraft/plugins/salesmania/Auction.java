@@ -88,6 +88,8 @@ public class Auction {
     public AuctionStatus start(Player player, ItemStack itemStack, long startBid)  {
         if(isRunning()) return AuctionStatus.RUNNING;
         if(isCooldown()) return AuctionStatus.COOLDOWN;
+        if(startBid < settings.getMinStart()) return AuctionStatus.UNDER_MIN;
+        if(startBid > settings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
         currentBid = startBid;
         this.itemStack = itemStack;
