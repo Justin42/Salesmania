@@ -1,5 +1,6 @@
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
+import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
@@ -26,23 +27,30 @@ public class AuctionBid extends AuctionCommand {
         Player player = (Player) sender;
         long bidAmount = Long.valueOf(args[0]);
         ItemStack itemStack = plugin.getAuction().getItemStack();
-        switch(plugin.getAuction().bid(player, bidAmount)) {
+        Auction auction = plugin.getAuction();
+        switch(auction.bid(player, bidAmount)) {
             case SUCCESS:
                 player.sendMessage(String.format(
                         Locale.getMessage("Bidding.bidSuccess"),
                         bidAmount, itemStack.getType().name()));
                 return true;
             case OVER_MAX:
-                player.sendMessage(Locale.getMessage("Bidding.overMax"));
+                player.sendMessage(String.format(
+                        Locale.getMessage("Bidding.overMax"),
+                        auction.getMaxBid()));
                 return true;
             case UNDER_MIN:
-                player.sendMessage(Locale.getMessage("Bidding.underMin"));
+                player.sendMessage(String.format(
+                        Locale.getMessage("Bidding.underMin"),
+                        auction.getMinBid()));
                 return false;
             case NOT_RUNNING:
                 player.sendMessage(Locale.getMessage("Bidding.notRunning"));
                 return false;
             case COOLDOWN:
-                player.sendMessage(Locale.getMessage("Bidding.cooldown"));
+                player.sendMessage(String.format(
+                        Locale.getMessage("Bidding.cooldown"),
+                        auction.getCooldownTime()));
                 return false;
             case WINNING:
                 player.sendMessage(Locale.getMessage("Bidding.playerWinning"));
