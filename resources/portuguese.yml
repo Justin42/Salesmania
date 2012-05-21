@@ -1,6 +1,6 @@
 Bidding:
   bidSuccess: "Ofereceu %,d on %s"
-  bidFailure: "Algo está erro com a oferta."
+  bidFailure: "Algo está errado com a oferta."
   overMax:  "Não pode oferecer mais que %,d neste momento"
   underMin: "Tem que oferecer no minimo %,d"
   outBid: "O jogador %s ofereceu mais!"
