@@ -1,6 +1,7 @@
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
 import net.invisioncraft.plugins.salesmania.Auction;
+import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
@@ -13,16 +14,17 @@ import org.bukkit.inventory.ItemStack;
  * Date: 5/17/12
  * Time: 10:25 AM
  */
-public class AuctionBid extends AuctionCommand {
-
+public class AuctionBid extends CommandHandler {
+    Salesmania plugin;
     public AuctionBid(Salesmania plugin) {
         super(plugin);
+        plugin = getPlugin();
     }
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Locale.getMessage("Bidding.consoleCantBid"));
+            sender.sendMessage(Locale.getMessage("Console.cantBid"));
         }
         Player player = (Player) sender;
         long bidAmount = Long.valueOf(args[0]);

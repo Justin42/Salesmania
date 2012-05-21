@@ -4,7 +4,12 @@ Bidding:
   overMax:  "You can't bid over %,d at this time"
   underMin: "You must bid at least %,d"
   outBid: "You've been outbid by %s!"
-  consoleCantBid: "Sorry, only players can bid on items."
   notRunning: "There is no auction running"
   cooldown: "Auction is in a cooldown period, please wait %d"
   playerWinning: "You are already winning this auction."
+Auction:
+  alreadyStarted: "There is already an auction running."
+Console:
+  cantStartAuction: "Sorry, only players can start an auction."
+  cantBid: "Sorry, only players can bid on items."
+  

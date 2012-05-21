@@ -1,5 +1,6 @@
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
+import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,10 +10,11 @@ import org.bukkit.command.CommandSender;
  * Date: 5/17/12
  * Time: 10:25 AM
  */
-public class AuctionEnd extends AuctionCommand {
-
+public class AuctionEnd extends CommandHandler {
+    Salesmania plugin;
     public AuctionEnd(Salesmania plugin) {
         super(plugin);
+        this.plugin = getPlugin();
     }
 
     @Override
