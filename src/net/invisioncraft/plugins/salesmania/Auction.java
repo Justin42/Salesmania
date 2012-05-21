@@ -56,6 +56,11 @@ public class Auction {
         return isRunning;
     }
 
+    public boolean isCooldown() {
+        if(getCooldownTime() == 0) return false;
+        else return true;
+    }
+
     public Player getWinner() {
         return currentWinner;
     }
@@ -80,11 +85,14 @@ public class Auction {
         return itemStack;
     }
 
-    public boolean start(Player player, ItemStack itemStack, long startBid)  {
+    public AuctionStatus start(Player player, ItemStack itemStack, long startBid)  {
+        if(isRunning()) return AuctionStatus.RUNNING;
+        if(isCooldown()) return AuctionStatus.COOLDOWN;
+
         currentBid = startBid;
         this.itemStack = itemStack;
         this.owner = player;
-        return true;
+        return AuctionStatus.SUCCESS;
     }
 
     public AuctionStatus bid(Player player, long bid) {

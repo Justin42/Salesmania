@@ -1,5 +1,6 @@
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
+import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
@@ -27,13 +28,17 @@ public class AuctionStart extends CommandHandler {
         }
 
         Player player = (Player) sender;
-        if(plugin.getAuction().isRunning()) {
-            player.sendMessage(Locale.getMessage("Auction.alreadyStarted"));
-            return false;
+        Auction auction = plugin.getAuction();
+        switch(auction.start(player, player.getItemInHand(), Long.valueOf(args[0]))) {
+            case RUNNING:
+                player.sendMessage(Locale.getMessage("Auction.alreadyStarted"));
+                return false;
+            case COOLDOWN:
+                player.sendMessage(String.format(
+                        Locale.getMessage("Auction.cooldown"),
+                        auction.getCooldownTime()));
+                return false;
         }
-
-        plugin.getAuction().start(player, player.getItemInHand(), Long.valueOf(args[0]));
-
         return false;
     }
 }
