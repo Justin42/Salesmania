@@ -79,11 +79,8 @@ public class Auction {
         return itemStack;
     }
 
-    public long Start()  {
-        plugin.getAuction().start(player, player.getItemInHand(), Long.valueOf(args[0]));
-
-
-
+    public boolean start(Player player, ItemStack itemStack, long startBid)  {
+        return true;
     }
 
 
