@@ -30,7 +30,7 @@ public class AuctionBid extends AuctionCommand {
             case SUCCESS:
                 player.sendMessage(String.format(
                         Locale.getMessage("Bidding.bidSuccess"),
-                        bidAmount, itemStack));
+                        bidAmount, itemStack.getType().name()));
                 return true;
             case OVER_MAX:
                 player.sendMessage(Locale.getMessage("Bidding.overMax"));
