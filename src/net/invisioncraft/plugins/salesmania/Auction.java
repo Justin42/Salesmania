@@ -2,6 +2,7 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Owner: Justin
@@ -17,6 +18,8 @@ public class Auction {
 
     private Player currentWinner;
     private long currentBid;
+
+    private ItemStack itemStack;
 
     private Runnable cooldownRunnable = new Runnable() {
 
@@ -44,7 +47,6 @@ public class Auction {
     }
 
     public void reset() {
-
     }
 
     public boolean isRunning() {
@@ -53,6 +55,10 @@ public class Auction {
 
     public Player getWinner() {
         return currentWinner;
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack;
     }
 
     public AuctionStatus bid(Player player, long bid) {
