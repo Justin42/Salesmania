@@ -49,11 +49,6 @@ public class AuctionBid extends CommandHandler {
             case NOT_RUNNING:
                 player.sendMessage(Locale.getMessage("Bidding.notRunning"));
                 return false;
-            case COOLDOWN:
-                player.sendMessage(String.format(
-                        Locale.getMessage("Bidding.cooldown"),
-                        auction.getCooldownTime()));
-                return false;
             case WINNING:
                 player.sendMessage(Locale.getMessage("Bidding.playerWinning"));
                 return false;
