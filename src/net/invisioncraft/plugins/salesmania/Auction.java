@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
  * Time: 3:59 PM
  */
 public class Auction {
-    private static long TICKS_PER_SECOND = 2;
+    private static long TICKS_PER_SECOND = 20;
     private Salesmania plugin;
     private Settings settings;
 
