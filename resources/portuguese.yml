@@ -15,7 +15,7 @@ Bidding:
   playerWinning: "Já és o jogador com a oferta mais alta"
 Auction:
   alreadyStarted: "There is already an auction running."
-  cooldown: "O leilão está em cooldown, porfavor espere %d"
+  cooldown: "O leilão está em cooldown, por favor espere %d"
 Console:
   cantStartAuction: "Sorry, only players can start an auction."
   cantBid: "Desculpe, apenas jogadores podem licitar por items"
