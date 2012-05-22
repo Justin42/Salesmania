@@ -25,6 +25,10 @@ public class Settings extends Configuration {
     }
 
     // Bidding
+    public long getCooldown() {
+        return getConfig().getLong("Bidding.cooldown");
+    }
+
     public int getMinStart() {
         return getConfig().getInt("Bidding.min start");
     }

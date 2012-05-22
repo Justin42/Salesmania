@@ -12,6 +12,7 @@ Bidding:
   default time: 60
   snipe time: 10
   
+  cooldown: 300
 Logging:
   enabled: true
   filename: log.yml
