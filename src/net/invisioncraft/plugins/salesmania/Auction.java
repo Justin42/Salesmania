@@ -107,4 +107,14 @@ public class Auction {
         currentBid = bid;
         return AuctionStatus.SUCCESS;
     }
+
+    public void end() {
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, settings.getCooldown());
+        running=false;
+        stop();
+
+
+    }
+
+
 }
