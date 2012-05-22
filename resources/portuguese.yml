@@ -1,10 +1,10 @@
 Permission:
-  noPermission: "You dont have permission to %s"
+  noPermission: "Não tem permissão para %s"
   Auction:
-    start: "start an auction"
-    bid: "bid on an auction"
-    cancel: "cancel an auction"
-    end: "end an auction"
+    start: "começar um leilão."
+    bid: "licitar num leilão."
+    cancel: "cancelar um leilão."
+    end: "terminar um leilão."
 Bidding:
   bidSuccess: "Ofereceu %,d on %s"
   bidFailure: "Algo está errado com a oferta."
@@ -14,9 +14,9 @@ Bidding:
   notRunning: "Não esta nenhum leilão a correr"
   playerWinning: "Já és o jogador com a oferta mais alta"
 Auction:
-  alreadyStarted: "There is already an auction running."
+  alreadyStarted: "Já está um leilão a decorrer."
   cooldown: "O leilão está em cooldown, por favor espere %d"
 Console:
-  cantStartAuction: "Sorry, only players can start an auction."
+  cantStartAuction: "Desculpe, apenas jogadores podem iniciar um leilão."
   cantBid: "Desculpe, apenas jogadores podem licitar por items"
   
