@@ -1,6 +1,8 @@
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
+import net.invisioncraft.plugins.salesmania.event.AuctionEndEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -110,10 +112,10 @@ public class Auction {
     }
 
     public void end() {
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionEndEvent(this, AuctionStatus.SUCCESS));
         isRunning = false;
         reset();
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
-
     }
 
 
