@@ -18,6 +18,7 @@ public class LocaleHandler {
     public LocaleHandler(Salesmania plugin) {
         this.plugin = plugin;
         localeMap = new HashMap<String, Locale>();
+        localeMap.put(plugin.getSettings().getDefaultLocale(), new Locale(plugin, plugin.getSettings().getDefaultLocale()));
         config = new Configuration(plugin, "playerLocale.yml").getConfig();
     }
 
@@ -33,9 +34,8 @@ public class LocaleHandler {
             if(plugin.getSettings().getLocales().contains(localeName)) {
                 return localeMap.put(localeName, new Locale(plugin, localeName));
             }
-            else if (localeMap.get(plugin.getSettings().getDefaultLocale())) {
-            }
+            else return localeMap.get(plugin.getSettings().getDefaultLocale());
         }
-        return locale;
+        else return locale;
     }
 }
