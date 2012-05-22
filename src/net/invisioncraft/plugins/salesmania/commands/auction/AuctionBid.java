@@ -7,7 +7,6 @@ import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Owner: Justin
@@ -28,13 +27,19 @@ public class AuctionBid extends CommandHandler {
         }
         Player player = (Player) sender;
         long bidAmount = Long.valueOf(args[0]);
-        ItemStack itemStack = plugin.getAuction().getItemStack();
         Auction auction = plugin.getAuction();
+
+        if(!player.hasPermission("salesmania.auction.bid")) {
+            player.sendMessage(String.format(
+                    Locale.getMessage("Permission.noPermission"),
+                    Locale.getMessage("Permisson.Auction.bid")));
+            return false;
+        }
         switch(auction.bid(player, bidAmount)) {
             case SUCCESS:
                 player.sendMessage(String.format(
                         Locale.getMessage("Bidding.bidSuccess"),
-                        bidAmount, itemStack.getType().name()));
+                        bidAmount, auction.getItemStack().getType().name()));
                 return true;
             case OVER_MAX:
                 player.sendMessage(String.format(

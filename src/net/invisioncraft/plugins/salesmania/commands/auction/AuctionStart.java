@@ -29,14 +29,18 @@ public class AuctionStart extends CommandHandler {
 
         Player player = (Player) sender;
         Auction auction = plugin.getAuction();
+        if(!player.hasPermission("salesmania.auction.start")) {
+            player.sendMessage(String.format(
+                    Locale.getMessage("Permission.noPermission"),
+                    Locale.getMessage("Permisson.Auction.start")));
+            return false;
+        }
         switch(auction.start(player, player.getItemInHand(), Long.valueOf(args[0]))) {
             case RUNNING:
                 player.sendMessage(Locale.getMessage("Auction.alreadyStarted"));
                 return false;
             case COOLDOWN:
-                player.sendMessage(String.format(
-                        Locale.getMessage("Auction.cooldown"),
-                        auction.getCooldownTime()));
+                player.sendMessage(Locale.getMessage("Auction.cooldown"));
                 return false;
         }
         return false;
