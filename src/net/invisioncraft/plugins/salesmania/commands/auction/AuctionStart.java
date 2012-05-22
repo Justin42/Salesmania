@@ -7,6 +7,7 @@ import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Owner: Justin
@@ -29,13 +30,14 @@ public class AuctionStart extends CommandHandler {
 
         Player player = (Player) sender;
         Auction auction = plugin.getAuction();
+        ItemStack itemStack = player.getItemInHand();
         if(!player.hasPermission("salesmania.auction.start")) {
             player.sendMessage(String.format(
                     Locale.getMessage("Permission.noPermission"),
                     Locale.getMessage("Permisson.Auction.start")));
             return false;
         }
-        switch(auction.start(player, player.getItemInHand(), Long.valueOf(args[0]))) {
+        switch(auction.start(player, itemStack, Long.valueOf(args[0]))) {
             case RUNNING:
                 player.sendMessage(Locale.getMessage("Auction.alreadyStarted"));
                 return false;
