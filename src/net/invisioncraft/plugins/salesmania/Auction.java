@@ -59,9 +59,8 @@ public class Auction {
         return isRunning;
     }
 
-    public boolean inCooldown() {
-        if(getCooldownTime() == 0) return false;
-        else return true;
+    public boolean isInCooldown() {
+        return inCooldown;
     }
 
     public Player getWinner() {
@@ -86,7 +85,7 @@ public class Auction {
 
     public AuctionStatus start(Player player, ItemStack itemStack, long startBid)  {
         if(isRunning()) return AuctionStatus.RUNNING;
-        if(inCooldown()) return AuctionStatus.COOLDOWN;
+        if(isInCooldown()) return AuctionStatus.COOLDOWN;
         if(startBid < settings.getMinStart()) return AuctionStatus.UNDER_MIN;
         if(startBid > settings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
