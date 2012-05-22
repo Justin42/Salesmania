@@ -1,5 +1,5 @@
 Permission:
-  noPermission: "You dont have permission to %s"
+  noPermission: "You don't have permission to %s"
   Auction:
     start: "start an auction"
     bid: "bid on an auction"
