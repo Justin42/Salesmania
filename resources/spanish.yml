@@ -1,0 +1,22 @@
+Permission:
+  noPermission: "No tiene permiso para %s"
+  Auction:
+    start: "iniciar una subasta."
+    bid: "licitar en una subasta."
+    cancel: "cancelar una subasta."
+    end: "terminar una subasta."
+Bidding:
+  bidSuccess: "Has licitado %,d por %s"
+  bidFailure: "Algo está mal con la licitación."
+  overMax:  "No se puede hacer una oferta superior a %,d en este momento"
+  underMin: "Se debe licitar por lo menos %,d"
+  outBid: "El jugador %s ofreció más!"
+  notRunning: "No hay subastas en curso."
+  playerWinning: "Ya eres el mejor postor."
+Auction:
+  alreadyStarted: "Ya está una subasta en curso."
+  cooldown: "La subasta está en un período de enfriamiento, por favor espere %d"
+Console:
+  cantStartAuction: "Lo sentimos, pero sólo los jugadores pueden empezar una subasta."
+  cantBid: "Lo sentimos, pero sólo jugadores pueden hacer una oferta por artículos"
+  
