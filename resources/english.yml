@@ -1,3 +1,10 @@
+Permission:
+  noPermission: "You dont have permission to %s"
+  Auction:
+    start: "start an auction"
+    bid: "bid on an auction"
+    cancel: "cancel an auction"
+    end: "end an auction"
 Bidding:
   bidSuccess: "You've bid %,d on %s"
   bidFailure: "Something went wrong while bidding."
