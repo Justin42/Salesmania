@@ -17,7 +17,7 @@ public class Auction {
     private Settings settings;
 
     private boolean isRunning = false;
-    private boolean isCooldown = false;
+    private boolean inCooldown = false;
 
     private Player currentWinner;
     private Player owner;
@@ -31,7 +31,7 @@ public class Auction {
 
         @Override
         public void run() {
-            isCooldown = false;
+            inCooldown = false;
         }
     };
 
@@ -59,7 +59,7 @@ public class Auction {
         return isRunning;
     }
 
-    public boolean isCooldown() {
+    public boolean inCooldown() {
         if(getCooldownTime() == 0) return false;
         else return true;
     }
@@ -80,17 +80,13 @@ public class Auction {
         return currentBid + settings.getMinIncrement();
     }
 
-    public long getCooldownTime() {
-        return cooldownTime;
-    }
-
     public ItemStack getItemStack() {
         return itemStack;
     }
 
     public AuctionStatus start(Player player, ItemStack itemStack, long startBid)  {
         if(isRunning()) return AuctionStatus.RUNNING;
-        if(isCooldown()) return AuctionStatus.COOLDOWN;
+        if(inCooldown()) return AuctionStatus.COOLDOWN;
         if(startBid < settings.getMinStart()) return AuctionStatus.UNDER_MIN;
         if(startBid > settings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
