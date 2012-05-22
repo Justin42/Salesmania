@@ -1,5 +1,11 @@
 Main:
-  locale: english
+  defaultLocale: english
+  availableLocale:
+  - english
+  - portuguese
+  - spanish
+  - italian
+  - vietnamese
   
 Auction:
   allowCreative: false

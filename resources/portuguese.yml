@@ -6,12 +6,12 @@ Permission:
     cancel: "cancelar um leilão."
     end: "terminar um leilão."
 Bidding:
-  bidSuccess: "Ofereceu %,d on %s"
-  bidFailure: "Algo está errado com a oferta."
-  overMax:  "Não pode oferecer mais que %,d neste momento"
-  underMin: "Tem que oferecer no minimo %,d"
+  bidSuccess: "Ofereceu %,d por %s"
+  bidFailure: "Algo está errado com a licitação."
+  overMax:  "Não pode licitar mais que %,d neste momento"
+  underMin: "Tem que licitar no minimo %,d"
   outBid: "O jogador %s ofereceu mais!"
-  notRunning: "Não esta nenhum leilão a correr"
+  notRunning: "Não esta nenhum leilão a decorrer"
   playerWinning: "Já és o jogador com a oferta mais alta"
 Auction:
   alreadyStarted: "Já está um leilão a decorrer."
