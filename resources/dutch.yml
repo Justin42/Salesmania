@@ -1,0 +1,22 @@
+Permission:
+  noPermission: "Je hebt geen permissie om dit te doen %s"
+  Auction:
+    start: "start een veiling."
+    bid: "bied op een veiling."
+    cancel: "stop een veiling."
+    end: "beeindig een veiling."
+Bidding:
+  bidSuccess: "Je hebt %,d op %s"
+  bidFailure: "Er is iets mis gegaan tijdens het bieden."
+  overMax:  "Je kan nu niet bieden %,d in deze tijd."
+  underMin: "Je moet als laatst zoveel bieden %,d"
+  outBid: "Je bent overboden door %s!"
+  notRunning: "Er is geen veiling bezig."
+  playerWinning: "Je bent deze veiling al aan het winnen."
+Auction:
+  alreadyStarted: "Er is al een veiling bezig."
+  cooldown: "Veiling werk niet op dit moment, wacht alstublieft %d"
+Console:
+  cantStartAuction: "Sorry, alleen spelers kunnen een veiling beginnen."
+  cantBid: "Sorry, alleen spelers kunnen bieden."
+  
