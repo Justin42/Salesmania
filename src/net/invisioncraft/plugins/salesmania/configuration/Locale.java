@@ -1,6 +1,7 @@
 package net.invisioncraft.plugins.salesmania.configuration;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * Owner: Justin
@@ -9,18 +10,14 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
  */
 public class Locale  {
     Salesmania salesMania;
-    private static Configuration config;
+    private static FileConfiguration config;
 
-    public static void init(Salesmania plugin, String locale) {
-        config = new Configuration(plugin, locale + ".yml");
+    public Locale(Salesmania plugin, String locale) {
+        config = new Configuration(plugin, locale + ".yml").getConfig();
     }
 
     public static String getMessage(String path) {
-        return config.getConfig().getString(path);
-    }
-
-    public Configuration getConfig() {
-        return config;
+        return config.getString(path);
     }
 
 

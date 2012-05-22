@@ -16,8 +16,12 @@ public class Settings extends Configuration {
     }
 
     // Main
-    public String getLocale() {
+    public String getDefaultLocale() {
         return getConfig().getString("Main.locale");
+    }
+
+    public List<String> getLocales() {
+        return getConfig().getStringList("Main.availableLocale");
     }
 
     public boolean getAllowCreative() {
