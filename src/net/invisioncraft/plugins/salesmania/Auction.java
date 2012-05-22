@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
  * Time: 3:59 PM
  */
 public class Auction {
+    private static long TICKS_PER_SECOND = 2;
     private Salesmania plugin;
     private Settings settings;
 
@@ -109,10 +110,9 @@ public class Auction {
     }
 
     public void end() {
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, settings.getCooldown());
-        running=false;
-        stop();
-
+        isRunning = false;
+        reset();
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
 
     }
 
