@@ -2,6 +2,7 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.invisioncraft.plugins.salesmania.event.AuctionEndEvent;
+import net.invisioncraft.plugins.salesmania.event.AuctionStartEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -91,6 +92,7 @@ public class Auction {
         currentBid = startBid;
         this.itemStack = itemStack;
         this.owner = player;
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionStartEvent(this));
         return AuctionStatus.SUCCESS;
     }
 

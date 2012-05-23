@@ -2,6 +2,7 @@ package net.invisioncraft.plugins.salesmania.event;
 
 import net.invisioncraft.plugins.salesmania.Auction;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 /**
  * Owner: Justin
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
  * Time: 2:29 AM
  */
 public class AuctionBidEvent {
+    private static final HandlerList handlers = new HandlerList();
     Player lastWinner;
     long lastBid;
     Player winner;
@@ -34,5 +36,13 @@ public class AuctionBidEvent {
 
     public long getBid() {
         return bid;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }

@@ -19,6 +19,7 @@ public class AuctionEndEvent extends Event {
     private Player winner;
     private long winningBid;
     private ItemStack itemStack;
+    private Player owner;
 
     public AuctionEndEvent(Auction auction, Auction.AuctionStatus status) {
         this.status = status;
@@ -26,6 +27,7 @@ public class AuctionEndEvent extends Event {
         winner = auction.getWinner();
         winningBid = auction.getCurrentBid();
         itemStack = auction.getItemStack();
+        owner = auction.getOwner();
     }
 
     public Auction getAuction() {
