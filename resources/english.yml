@@ -19,4 +19,6 @@ Auction:
 Console:
   cantStartAuction: "Sorry, only players can start an auction."
   cantBid: "Sorry, only players can bid on items."
+Etc:
+  reloadConfig: "Reloaded configuration file: %s";
   

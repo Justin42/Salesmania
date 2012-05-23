@@ -2,9 +2,12 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.Configuration;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
@@ -17,6 +20,7 @@ public class Salesmania extends JavaPlugin {
     private Auction currentAuction;
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
+
     @Override
     public void onEnable() {
         configSet = new HashSet<Configuration>();
@@ -53,8 +57,20 @@ public class Salesmania extends JavaPlugin {
         configSet.add(config);
     }
 
-    public void reloadConfig() {
+    public void reloadConfig(CommandSender sender) {
+        Locale locale;
+        if(sender != null) {
+            if(sender instanceof Player) {
+                locale = localeHandler.getPlayerLocale((Player)sender);
+            }
+            else locale = localeHandler.getDefaultLocale();
+        }
+        else locale = localeHandler.getDefaultLocale();
+
         for(Configuration config : configSet) {
+            sender.sendMessage(String.format(
+                    locale.getMessage("Etc.reloadConfig"),
+                    config.getFilename()));
             config.reload();
         }
     }
