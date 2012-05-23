@@ -1,11 +1,13 @@
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
+import net.invisioncraft.plugins.salesmania.configuration.Configuration;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashSet;
 import java.util.logging.Logger;
 
 public class Salesmania extends JavaPlugin {
@@ -17,7 +19,7 @@ public class Salesmania extends JavaPlugin {
     private HashSet<Configuration> configSet;
     @Override
     public void onEnable() {
-        configSet = new HashSet<Configuration>()
+        configSet = new HashSet<Configuration>();
         settings = new Settings(this);
         consoleLogger = this.getLogger();
         localeHandler = new LocaleHandler(this);
