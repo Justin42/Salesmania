@@ -1,8 +1,8 @@
 package net.invisioncraft.plugins.salesmania.configuration;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
@@ -23,8 +23,8 @@ public class LocaleHandler {
         config = new Configuration(plugin, "playerLocale.yml").getConfig();
     }
 
-    public Locale getPlayerLocale(Player player) {
-        String localeName = config.getString(player.getName());
+    public Locale getLocale(CommandSender sender) {
+        String localeName = config.getString(sender.getName());
         if(localeName == null) localeName = plugin.getSettings().getDefaultLocale();
         return getLocale(localeName);
     }

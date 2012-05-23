@@ -11,10 +11,8 @@ import org.bukkit.command.CommandSender;
  * Time: 10:25 AM
  */
 public class AuctionEnd extends CommandHandler {
-    Salesmania plugin;
     public AuctionEnd(Salesmania plugin) {
         super(plugin);
-        this.plugin = getPlugin();
     }
 
     @Override

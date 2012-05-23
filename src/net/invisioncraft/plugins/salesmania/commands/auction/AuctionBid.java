@@ -14,49 +14,47 @@ import org.bukkit.entity.Player;
  * Time: 10:25 AM
  */
 public class AuctionBid extends CommandHandler {
-    Salesmania plugin;
     public AuctionBid(Salesmania plugin) {
         super(plugin);
-        plugin = getPlugin();
     }
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
+        Locale locale = plugin.getLocaleHandler().getLocale(sender);
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Locale.getMessage("Console.cantBid"));
+            sender.sendMessage(locale.getMessage("Console.cantBid"));
         }
         Player player = (Player) sender;
-        Locale playerLocale = plugin.getLocaleHandler().getPlayerLocale(player);
         long bidAmount = Long.valueOf(args[0]);
         Auction auction = plugin.getAuction();
 
         if(!player.hasPermission("salesmania.auction.bid")) {
             player.sendMessage(String.format(
-                    playerLocale.getMessage("Permission.noPermission"),
-                    playerLocale.getMessage("Permisson.Auction.bid")));
+                    locale.getMessage("Permission.noPermission"),
+                    locale.getMessage("Permisson.Auction.bid")));
             return false;
         }
         switch(auction.bid(player, bidAmount)) {
             case SUCCESS:
                 player.sendMessage(String.format(
-                        playerLocale.getMessage("Bidding.bidSuccess"),
+                        locale.getMessage("Bidding.bidSuccess"),
                         bidAmount, auction.getItemStack().getType().name()));
                 return true;
             case OVER_MAX:
                 player.sendMessage(String.format(
-                        playerLocale.getMessage("Bidding.overMax"),
+                        locale.getMessage("Bidding.overMax"),
                         auction.getMaxBid()));
                 return true;
             case UNDER_MIN:
                 player.sendMessage(String.format(
-                        playerLocale.getMessage("Bidding.underMin"),
+                        locale.getMessage("Bidding.underMin"),
                         auction.getMinBid()));
                 return false;
             case NOT_RUNNING:
-                player.sendMessage(playerLocale.getMessage("Bidding.notRunning"));
+                player.sendMessage(locale.getMessage("Bidding.notRunning"));
                 return false;
             case WINNING:
-                player.sendMessage(playerLocale.getMessage("Bidding.playerWinning"));
+                player.sendMessage(locale.getMessage("Bidding.playerWinning"));
                 return false;
         }
 

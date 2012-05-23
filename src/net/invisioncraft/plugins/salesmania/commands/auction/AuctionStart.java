@@ -21,6 +21,7 @@ public class AuctionStart extends CommandHandler {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
+        Locale locale = plugin.getLocaleHandler().getLocale(sender);
         if(!(sender instanceof Player)) {
             sender.sendMessage(localeHandler.getDefaultLocale().
                     getMessage("Console.cantStartAuction"));
@@ -28,21 +29,20 @@ public class AuctionStart extends CommandHandler {
         }
 
         Player player = (Player) sender;
-        Locale playerLocale = localeHandler.getPlayerLocale(player);
         Auction auction = plugin.getAuction();
         ItemStack itemStack = player.getItemInHand();
         if(!player.hasPermission("salesmania.auction.start")) {
             player.sendMessage(String.format(
-                    playerLocale.getMessage("Permission.noPermission"),
-                    playerLocale.getMessage("Permisson.Auction.start")));
+                    locale.getMessage("Permission.noPermission"),
+                    locale.getMessage("Permisson.Auction.start")));
             return false;
         }
         switch(auction.start(player, itemStack, Long.valueOf(args[0]))) {
             case RUNNING:
-                player.sendMessage(playerLocale.getMessage("Auction.alreadyStarted"));
+                player.sendMessage(locale.getMessage("Auction.alreadyStarted"));
                 return false;
             case COOLDOWN:
-                player.sendMessage(playerLocale.getMessage("Auction.cooldown"));
+                player.sendMessage(locale.getMessage("Auction.cooldown"));
                 return false;
         }
         return false;

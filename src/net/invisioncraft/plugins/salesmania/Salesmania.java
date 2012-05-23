@@ -7,7 +7,6 @@ import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
@@ -58,15 +57,7 @@ public class Salesmania extends JavaPlugin {
     }
 
     public void reloadConfig(CommandSender sender) {
-        Locale locale;
-        if(sender != null) {
-            if(sender instanceof Player) {
-                locale = localeHandler.getPlayerLocale((Player)sender);
-            }
-            else locale = localeHandler.getDefaultLocale();
-        }
-        else locale = localeHandler.getDefaultLocale();
-
+        Locale locale = localeHandler.getLocale(sender);
         for(Configuration config : configSet) {
             sender.sendMessage(String.format(
                     locale.getMessage("Etc.reloadConfig"),
