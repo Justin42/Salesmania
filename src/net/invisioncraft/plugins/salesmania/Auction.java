@@ -23,8 +23,6 @@ public class Auction {
     private Player owner;
     private long currentBid;
 
-    private long cooldownTime;
-
     private ItemStack itemStack;
 
     private Runnable cooldownRunnable = new Runnable() {
@@ -44,15 +42,12 @@ public class Auction {
         COOLDOWN,
         WINNING,
         NOT_RUNNING,
-
+        CANCELED
     }
 
     public Auction(Salesmania plugin) {
         this.plugin = plugin;
         this.settings = plugin.getSettings();
-    }
-
-    public void reset() {
     }
 
     public boolean isRunning() {
@@ -113,8 +108,15 @@ public class Auction {
     public void end() {
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEndEvent(this, AuctionStatus.SUCCESS));
         isRunning = false;
-        reset();
+        inCooldown = true;
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
+    }
+
+    public void cancel() {
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionEndEvent(this, AuctionStatus.CANCELED));
+        isRunning = false;
+        inCooldown = true;
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
     }
 
 
