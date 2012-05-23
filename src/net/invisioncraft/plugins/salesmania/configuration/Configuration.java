@@ -45,4 +45,16 @@ public class Configuration {
         if(customConfig == null) reload();
         return customConfig;
     }
+
+    public void save() {
+        if (customConfig == null || customConfigFile == null) {
+            return;
+        }
+        try {
+            customConfig.save(customConfigFile);
+        } catch (IOException ex) {
+            plugin.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);
+        }
+    }
+
 }
