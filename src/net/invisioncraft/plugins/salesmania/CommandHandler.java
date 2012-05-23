@@ -1,5 +1,6 @@
 package net.invisioncraft.plugins.salesmania;
 
+import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -9,14 +10,12 @@ import org.bukkit.command.CommandSender;
  * Time: 10:27 AM
  */
 public abstract class CommandHandler {
-    private Salesmania plugin;
+    protected Salesmania plugin;
+    protected LocaleHandler localeHandler;
 
     public CommandHandler(Salesmania plugin) {
         this.plugin = plugin;
-    }
-
-    public Salesmania getPlugin() {
-        return plugin;
+        localeHandler = plugin.getLocaleHandler();
     }
 
     public abstract boolean execute(CommandSender sender, Command command, String label, String[] args);

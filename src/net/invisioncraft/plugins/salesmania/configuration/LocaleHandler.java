@@ -15,6 +15,7 @@ public class LocaleHandler {
     private static FileConfiguration config;
     private Salesmania plugin;
     HashMap<String, Locale> localeMap;
+
     public LocaleHandler(Salesmania plugin) {
         this.plugin = plugin;
         localeMap = new HashMap<String, Locale>();
@@ -26,6 +27,10 @@ public class LocaleHandler {
         String localeName = config.getString(player.getName());
         if(localeName == null) localeName = plugin.getSettings().getDefaultLocale();
         return getLocale(localeName);
+    }
+
+    public Locale getDefaultLocale() {
+        return localeMap.get(plugin.getSettings().getDefaultLocale());
     }
 
     private Locale getLocale(String localeName) {

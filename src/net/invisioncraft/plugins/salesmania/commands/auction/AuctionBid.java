@@ -26,36 +26,37 @@ public class AuctionBid extends CommandHandler {
             sender.sendMessage(Locale.getMessage("Console.cantBid"));
         }
         Player player = (Player) sender;
+        Locale playerLocale = plugin.getLocaleHandler().getPlayerLocale(player);
         long bidAmount = Long.valueOf(args[0]);
         Auction auction = plugin.getAuction();
 
         if(!player.hasPermission("salesmania.auction.bid")) {
             player.sendMessage(String.format(
-                    Locale.getMessage("Permission.noPermission"),
-                    Locale.getMessage("Permisson.Auction.bid")));
+                    playerLocale.getMessage("Permission.noPermission"),
+                    playerLocale.getMessage("Permisson.Auction.bid")));
             return false;
         }
         switch(auction.bid(player, bidAmount)) {
             case SUCCESS:
                 player.sendMessage(String.format(
-                        Locale.getMessage("Bidding.bidSuccess"),
+                        playerLocale.getMessage("Bidding.bidSuccess"),
                         bidAmount, auction.getItemStack().getType().name()));
                 return true;
             case OVER_MAX:
                 player.sendMessage(String.format(
-                        Locale.getMessage("Bidding.overMax"),
+                        playerLocale.getMessage("Bidding.overMax"),
                         auction.getMaxBid()));
                 return true;
             case UNDER_MIN:
                 player.sendMessage(String.format(
-                        Locale.getMessage("Bidding.underMin"),
+                        playerLocale.getMessage("Bidding.underMin"),
                         auction.getMinBid()));
                 return false;
             case NOT_RUNNING:
-                player.sendMessage(Locale.getMessage("Bidding.notRunning"));
+                player.sendMessage(playerLocale.getMessage("Bidding.notRunning"));
                 return false;
             case WINNING:
-                player.sendMessage(Locale.getMessage("Bidding.playerWinning"));
+                player.sendMessage(playerLocale.getMessage("Bidding.playerWinning"));
                 return false;
         }
 

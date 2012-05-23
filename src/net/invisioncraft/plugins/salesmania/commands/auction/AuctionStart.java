@@ -15,34 +15,34 @@ import org.bukkit.inventory.ItemStack;
  * Time: 10:25 AM
  */
 public class AuctionStart extends CommandHandler {
-    Salesmania plugin;
     public AuctionStart(Salesmania plugin) {
         super(plugin);
-        this.plugin = getPlugin();
     }
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Locale.getMessage("Console.cantStartAuction"));
+            sender.sendMessage(localeHandler.getDefaultLocale().
+                    getMessage("Console.cantStartAuction"));
             return false;
         }
 
         Player player = (Player) sender;
+        Locale playerLocale = localeHandler.getPlayerLocale(player);
         Auction auction = plugin.getAuction();
         ItemStack itemStack = player.getItemInHand();
         if(!player.hasPermission("salesmania.auction.start")) {
             player.sendMessage(String.format(
-                    Locale.getMessage("Permission.noPermission"),
-                    Locale.getMessage("Permisson.Auction.start")));
+                    playerLocale.getMessage("Permission.noPermission"),
+                    playerLocale.getMessage("Permisson.Auction.start")));
             return false;
         }
         switch(auction.start(player, itemStack, Long.valueOf(args[0]))) {
             case RUNNING:
-                player.sendMessage(Locale.getMessage("Auction.alreadyStarted"));
+                player.sendMessage(playerLocale.getMessage("Auction.alreadyStarted"));
                 return false;
             case COOLDOWN:
-                player.sendMessage(Locale.getMessage("Auction.cooldown"));
+                player.sendMessage(playerLocale.getMessage("Auction.cooldown"));
                 return false;
         }
         return false;

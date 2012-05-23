@@ -16,9 +16,7 @@ public class Locale  {
         config = new Configuration(plugin, locale + ".yml").getConfig();
     }
 
-    public static String getMessage(String path) {
+    public String getMessage(String path) {
         return config.getString(path);
     }
-
-
 }

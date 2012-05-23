@@ -1,7 +1,7 @@
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,15 +9,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Logger;
 
 public class Salesmania extends JavaPlugin {
-    public Logger consoleLogger;
-    public Economy economy;
-    public Settings settings;
-    public Auction currentAuction;
+    private Logger consoleLogger;
+    private Economy economy;
+    private Settings settings;
+    private Auction currentAuction;
+    private LocaleHandler localeHandler;
     @Override
     public void onEnable() {
         settings = new Settings(this);
         consoleLogger = this.getLogger();
-        Locale.init(this, settings.getLocale());
+        localeHandler = new LocaleHandler(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
 
@@ -38,5 +39,9 @@ public class Salesmania extends JavaPlugin {
             currentAuction = new Auction(this);
         }
         return currentAuction;
+    }
+
+    public LocaleHandler getLocaleHandler() {
+        return localeHandler;
     }
 }
