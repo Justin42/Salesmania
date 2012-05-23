@@ -5,7 +5,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
 
 /**
  * Owner: Justin
@@ -53,7 +55,7 @@ public class Configuration {
         try {
             customConfig.save(customConfigFile);
         } catch (IOException ex) {
-            plugin.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);
+            plugin.getLogger().log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);
         }
     }
 
