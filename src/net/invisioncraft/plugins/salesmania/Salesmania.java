@@ -14,8 +14,10 @@ public class Salesmania extends JavaPlugin {
     private Settings settings;
     private Auction currentAuction;
     private LocaleHandler localeHandler;
+    private HashSet<Configuration> configSet;
     @Override
     public void onEnable() {
+        configSet = new HashSet<Configuration>()
         settings = new Settings(this);
         consoleLogger = this.getLogger();
         localeHandler = new LocaleHandler(this);
@@ -43,5 +45,15 @@ public class Salesmania extends JavaPlugin {
 
     public LocaleHandler getLocaleHandler() {
         return localeHandler;
+    }
+
+    public void registerConfig(Configuration config) {
+        configSet.add(config);
+    }
+
+    public void reloadConfig() {
+        for(Configuration config : configSet) {
+            config.reload();
+        }
     }
 }
