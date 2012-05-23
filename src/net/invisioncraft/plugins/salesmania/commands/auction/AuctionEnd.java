@@ -2,8 +2,10 @@ package net.invisioncraft.plugins.salesmania.commands.auction;
 
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * Owner: Justin
@@ -17,6 +19,24 @@ public class AuctionEnd extends CommandHandler {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        Locale locale = plugin.getLocaleHandler().getLocale(sender);
+
+        if(!(sender instanceof Player)) {
+            plugin.getAuction().end();
+            return true;
+        }
+        Player player = (Player) sender;
+
+        if(player.hasPermission("salesmania.auction.end") |
+        player == plugin.getAuction().getOwner()) {
+            plugin.getAuction().end();
+            return true;
+        }
+        else {
+            sender.sendMessage(String.format(
+                    locale.getMessage("Permission.noPermission"),
+                    locale.getMessage("Permission.Auction.end")));
+            return false;
+        }
     }
 }

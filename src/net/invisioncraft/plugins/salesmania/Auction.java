@@ -67,6 +67,10 @@ public class Auction {
         return currentWinner;
     }
 
+    public Player getOwner() {
+        return owner;
+    }
+
     public long getCurrentBid() {
         return currentBid;
     }
