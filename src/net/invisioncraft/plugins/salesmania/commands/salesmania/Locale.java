@@ -11,6 +11,10 @@ import org.bukkit.command.CommandSender;
  * Time: 8:01 PM
  */
 public class Locale extends CommandHandler {
+    enum LocaleCommand {
+        LIST,
+        SET
+    }
 
     public Locale(Salesmania plugin) {
         super(plugin);
@@ -18,6 +22,7 @@ public class Locale extends CommandHandler {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        LocaleCommand localeCommand = LocaleCommand.valueOf(args[1].toUpperCase());
+        return false;
     }
 }
