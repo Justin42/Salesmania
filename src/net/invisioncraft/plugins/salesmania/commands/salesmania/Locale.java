@@ -23,6 +23,13 @@ public class Locale extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         LocaleCommand localeCommand = LocaleCommand.valueOf(args[1].toUpperCase());
-        return false;
+        switch(localecommand) {
+            case LIST:
+                return false;
+            case SET:
+                return false;
+            default:
+                return false;
+        }
     }
 }
