@@ -27,6 +27,12 @@ public class LocaleHandler {
         String localeName = config.getString(sender.getName());
         if(localeName == null) localeName = plugin.getSettings().getDefaultLocale();
         return getLocale(localeName);
+
+    }
+
+    public boolean setLocale(CommandSender sender, String locale) {
+        config.set(sender.getName(), locale);
+
     }
 
     public Locale getDefaultLocale() {

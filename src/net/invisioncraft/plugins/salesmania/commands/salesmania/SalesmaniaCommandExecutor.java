@@ -29,6 +29,7 @@ public class SalesmaniaCommandExecutor implements CommandExecutor {
         SalesmaniaCommand salesmaniaCommand = SalesmaniaCommand.valueOf(args[0].toUpperCase());
         switch(salesmaniaCommand) {
             case LOCALE:
+                localeCommand.execute(commandSender, command, label, args);
                 return true;
             default:
                 return false;
