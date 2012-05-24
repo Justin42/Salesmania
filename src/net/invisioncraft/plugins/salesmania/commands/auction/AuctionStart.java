@@ -37,7 +37,7 @@ public class AuctionStart extends CommandHandler {
                     locale.getMessage("Permisson.Auction.start")));
             return false;
         }
-        switch(auction.start(player, itemStack, Long.valueOf(args[0]))) {
+        switch(auction.start(player, itemStack, Long.valueOf(args[1]))) {
             case RUNNING:
                 player.sendMessage(locale.getMessage("Auction.alreadyStarted"));
                 return false;

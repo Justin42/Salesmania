@@ -25,7 +25,7 @@ public class AuctionBid extends CommandHandler {
             sender.sendMessage(locale.getMessage("Console.cantBid"));
         }
         Player player = (Player) sender;
-        long bidAmount = Long.valueOf(args[0]);
+        long bidAmount = Long.valueOf(args[1]);
         Auction auction = plugin.getAuction();
 
         if(!player.hasPermission("salesmania.auction.bid")) {
