@@ -4,7 +4,6 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Owner: Justin
@@ -12,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Time: 9:49 AM
  */
 public class AuctionCommandExecutor implements CommandExecutor {
-    protected JavaPlugin plugin;
+    protected Salesmania plugin;
 
     enum AuctionCommand {
         START, S,
