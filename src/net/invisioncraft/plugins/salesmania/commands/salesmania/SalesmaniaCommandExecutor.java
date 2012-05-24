@@ -10,18 +10,28 @@ import org.bukkit.command.CommandSender;
  * Date: 5/23/12
  * Time: 8:08 PM
  */
-public class SalesmaniaCommandExecutor extends CommandExecutor {
+public class SalesmaniaCommandExecutor implements CommandExecutor {
     protected Salesmania plugin;
+    protected Locale localeCommand;
 
+    enum SalesmaniaCommand {
+        LOCALE,
+    }
 
-   public SalesmaniaCommandExecutor(Salesmania plugin) {
+    public SalesmaniaCommandExecutor(Salesmania plugin) {
         this.plugin = plugin;
         localeCommand = new Locale(plugin);
     }
 
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
+        SalesmaniaCommand salesmaniaCommand = SalesmaniaCommand.valueOf(args[0].toUpperCase());
+        switch(salesmaniaCommand) {
+            case LOCALE:
+                return true;
+            default:
+                return false;
+        }
     }
 }
