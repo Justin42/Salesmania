@@ -11,12 +11,17 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class Locale  {
     Salesmania salesMania;
     private static FileConfiguration config;
-
+    private String localeName;
     public Locale(Salesmania plugin, String locale) {
+        localeName = locale;
         config = new Configuration(plugin, locale + ".yml").getConfig();
     }
 
     public String getMessage(String path) {
         return config.getString(path);
+    }
+
+    public String getName() {
+        return localeName;
     }
 }

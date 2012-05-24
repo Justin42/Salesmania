@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
  */
 public class SalesmaniaCommandExecutor implements CommandExecutor {
     protected Salesmania plugin;
-    protected Locale localeCommand;
+    protected LocaleCommand localeCommand;
 
     enum SalesmaniaCommand {
         LOCALE,
@@ -20,7 +20,7 @@ public class SalesmaniaCommandExecutor implements CommandExecutor {
 
     public SalesmaniaCommandExecutor(Salesmania plugin) {
         this.plugin = plugin;
-        localeCommand = new Locale(plugin);
+        localeCommand = new LocaleCommand(plugin);
     }
 
 

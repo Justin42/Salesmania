@@ -20,5 +20,9 @@ Console:
   cantStartAuction: "Sorry, only players can start an auction."
   cantBid: "Sorry, only players can bid on items."
 Etc:
-  reloadConfig: "Reloaded configuration file: %s";
+  reloadConfig: "Reloaded configuration file: %s"
+Locale:
+  available: "Available locales: %s"
+  changed: "Your locale has been changed to %s"
+  notFound: "No locale '%s' available"
   
