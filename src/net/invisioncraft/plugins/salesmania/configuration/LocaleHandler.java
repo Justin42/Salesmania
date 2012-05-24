@@ -32,9 +32,9 @@ public class LocaleHandler {
 
     public boolean setLocale(CommandSender sender, String locale) {
         if(plugin.getSettings().getLocales().contains(locale)) {
-        config.set(sender.getName(), locale);
-        return true;
-    }
+            config.set(sender.getName(), locale);
+            return true;
+        }
         else return false;
     }
 
