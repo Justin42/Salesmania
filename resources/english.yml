@@ -24,6 +24,8 @@ Auction:
   - "Item: %quantity% %item%"
   - "Owner: %owner%"
   - "Winner: %winner% at $%bid%"
+  endInfo:
+  - "Auction Ended: %item% sold for $%bid%"
   time: "%d seconds remaining in auction."
   bidRaised: "Bid raised to %,d by %s"
 Console:
