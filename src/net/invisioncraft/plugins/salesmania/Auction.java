@@ -121,5 +121,14 @@ public class Auction {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
     }
 
+    public String infoReplace(String info) {
+        info.replace("%owner%", owner.getName());
+        info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
+        info.replace("%item%", itemStack.getType().name());
+        info.replace("%bid%", String.valueOf(currentBid));
+        info.replace("%winner%", currentWinner.getName());
+        return info;
+    }
+
 
 }

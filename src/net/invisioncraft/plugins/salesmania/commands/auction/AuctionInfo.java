@@ -2,8 +2,11 @@ package net.invisioncraft.plugins.salesmania.commands.auction;
 
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import java.util.List;
 
 /**
  * Owner: Justin
@@ -16,6 +19,12 @@ public class AuctionInfo extends CommandHandler {
     }
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-        return false;
+        Locale locale = localeHandler.getLocale(sender);
+        List<String> infoList = locale.getMessageList("Auction.info");
+        for (String info : infoList) {
+            plugin.getAuction().infoReplace(info);
+        }
+        sender.sendMessage((String[])infoList.toArray());
+        return true;
     }
 }

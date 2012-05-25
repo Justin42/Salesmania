@@ -14,8 +14,18 @@ Bidding:
   notRunning: "There is no auction running"
   playerWinning: "You are already winning this auction."
 Auction:
+  tag: "[Auction]"
   alreadyStarted: "There is already an auction running."
   cooldown: "Auction is in a cooldown period, please wait %d"
+  startInfo:
+  - "%owner% has put %quantity% %item% up for auction."
+  - "Starting Bid: $%bid%"
+  info:
+  - "Item: %quantity% %item%"
+  - "Owner: %owner%"
+  - "Winner: %winner% at $%bid%"
+  time: "%d seconds remaining in auction."
+  bidRaised: "Bid raised to %,d by %s"
 Console:
   cantStartAuction: "Sorry, only players can start an auction."
   cantBid: "Sorry, only players can bid on items."

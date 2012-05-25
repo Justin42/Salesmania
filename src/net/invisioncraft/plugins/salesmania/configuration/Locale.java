@@ -3,6 +3,8 @@ package net.invisioncraft.plugins.salesmania.configuration;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.List;
+
 /**
  * Owner: Justin
  * Date: 5/16/12
@@ -19,6 +21,10 @@ public class Locale  {
 
     public String getMessage(String path) {
         return config.getString(path);
+    }
+
+    public List<String> getMessageList(String path) {
+        return config.getStringList(path);
     }
 
     public String getName() {
