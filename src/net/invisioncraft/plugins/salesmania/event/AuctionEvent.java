@@ -7,29 +7,37 @@ import org.bukkit.event.HandlerList;
 /**
  * Owner: Justin
  * Date: 5/25/12
- * Time: 12:54 AM
+ * Time: 4:46 AM
  */
-public class AuctionTimerEvent extends Event {
+public class AuctionEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
-    Auction auction;
-    private long remainingTime;
 
-    public AuctionTimerEvent(Auction auction) {
-        remainingTime = auction.getTimeRemaining();
-        this.auction = auction;
+    EventType eventType;
+    Auction auction;
+
+    enum EventType {
+        BID,
+        END,
+        START,
+        TIMER
     }
 
-    public long getRemainingTime() {
-        return remainingTime;
+    public AuctionEvent(Auction auction, EventType eventType) {
+        this.eventType = eventType;
+        this.auction = auction;
     }
 
     public Auction getAuction() {
         return auction;
     }
 
+    public EventType getEventType() {
+        return eventType;
+    }
+
     @Override
     public HandlerList getHandlers() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return handlers;
     }
 
     public static HandlerList getHandlerList() {

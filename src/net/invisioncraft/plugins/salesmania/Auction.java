@@ -1,9 +1,6 @@
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
-import net.invisioncraft.plugins.salesmania.event.AuctionEndEvent;
-import net.invisioncraft.plugins.salesmania.event.AuctionStartEvent;
-import net.invisioncraft.plugins.salesmania.event.AuctionTimerEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
