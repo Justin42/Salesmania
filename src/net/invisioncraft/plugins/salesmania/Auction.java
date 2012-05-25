@@ -26,11 +26,20 @@ public class Auction {
 
     private ItemStack itemStack;
 
-    private Runnable cooldownRunnable = new Runnable() {
+    private long timeRemaining = 0;
 
+    private Runnable cooldownRunnable = new Runnable() {
         @Override
         public void run() {
             inCooldown = false;
+        }
+    };
+
+    private Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            timeRemaining -= 1;
+            if(timeRemaining == 0) end();
         }
     };
 
@@ -92,6 +101,7 @@ public class Auction {
         currentBid = startBid;
         this.itemStack = itemStack;
         this.owner = player;
+        timeRemaining = settings.getDefaultTime();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionStartEvent(this));
         return AuctionStatus.SUCCESS;
     }
@@ -130,5 +140,7 @@ public class Auction {
         return info;
     }
 
-
+    public long getTimeRemaining() {
+        return timeRemaining;
+    }
 }
