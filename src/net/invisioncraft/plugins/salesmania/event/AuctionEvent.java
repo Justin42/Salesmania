@@ -15,7 +15,7 @@ public class AuctionEvent extends Event {
     EventType eventType;
     Auction auction;
 
-    enum EventType {
+    public enum EventType {
         BID,
         END,
         START,
