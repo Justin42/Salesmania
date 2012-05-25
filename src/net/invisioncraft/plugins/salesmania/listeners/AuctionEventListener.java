@@ -62,6 +62,7 @@ public class AuctionEventListener implements Listener {
     }
 
     public void onAuctionEndEvent() {
+        // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             Locale locale = plugin.getLocaleHandler().getLocale(player);
             for(String message : locale.getMessageList("Auction.endInfo")) {
@@ -70,5 +71,9 @@ public class AuctionEventListener implements Listener {
                 player.sendMessage(message);
             }
         }
+    }
+
+    public void onAuctionCancelEvent() {
+
     }
 }

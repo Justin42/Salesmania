@@ -18,6 +18,7 @@ public class AuctionEvent extends Event {
     public enum EventType {
         BID,
         END,
+        CANCEL,
         START,
         TIMER
     }

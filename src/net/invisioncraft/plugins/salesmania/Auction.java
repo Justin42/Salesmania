@@ -1,6 +1,7 @@
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
+import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -99,7 +100,7 @@ public class Auction {
         this.itemStack = itemStack;
         this.owner = player;
         timeRemaining = settings.getDefaultTime();
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionStartEvent(this));
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         return AuctionStatus.SUCCESS;
     }
 
@@ -115,14 +116,14 @@ public class Auction {
     }
 
     public void end() {
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionEndEvent(this, AuctionStatus.SUCCESS));
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.END));
         isRunning = false;
         inCooldown = true;
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
     }
 
     public void cancel() {
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionEndEvent(this, AuctionStatus.CANCELED));
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.CANCEL));
         isRunning = false;
         inCooldown = true;
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
@@ -146,7 +147,7 @@ public class Auction {
     }
 
     private void callTimerEvent() {
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionTimerEvent(this));
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.TIMER));
     }
 
     public Salesmania getPlugin() {
