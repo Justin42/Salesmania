@@ -151,4 +151,8 @@ public class Auction {
     private void callTimerEvent() {
         Bukkit.getServer().getPluginManager().callEvent(new AuctionTimerEvent(this));
     }
+
+    public Salesmania getPlugin() {
+        return plugin;
+    }
 }

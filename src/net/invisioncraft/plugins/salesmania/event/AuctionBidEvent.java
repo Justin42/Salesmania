@@ -15,11 +15,13 @@ public class AuctionBidEvent {
     long lastBid;
     Player winner;
     long bid;
+    Auction auction;
     public AuctionBidEvent(Auction auction, Player winner, long bid) {
         lastWinner = auction.getWinner();
         lastBid = auction.getCurrentBid();
         this.winner = winner;
         this.bid = bid;
+        this.auction = auction;
     }
 
     public Player getLastWinner() {
@@ -36,6 +38,10 @@ public class AuctionBidEvent {
 
     public long getBid() {
         return bid;
+    }
+
+    public Auction getAuction() {
+        return auction;
     }
 
     public HandlerList getHandlers() {
