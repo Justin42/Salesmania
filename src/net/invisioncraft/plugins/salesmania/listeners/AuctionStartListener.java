@@ -14,11 +14,16 @@ import org.bukkit.event.Listener;
  * Time: 1:23 AM
  */
 public class AuctionStartListener implements Listener {
+    Salesmania plugin;
+    Auction auction;
     @EventHandler
     public void onAuctionStart(AuctionStartEvent startEvent) {
-        Auction auction = startEvent.getAuction();
-        Salesmania plugin = auction.getPlugin();
+        auction = startEvent.getAuction();
+        plugin = auction.getPlugin();
+        broadcast();
+    }
 
+    public void broadcast() {
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             Locale locale = plugin.getLocaleHandler().getLocale(player);
             for(String message : locale.getMessageList("Auction.startInfo")) {
