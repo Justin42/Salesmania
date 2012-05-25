@@ -3,6 +3,7 @@ package net.invisioncraft.plugins.salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.invisioncraft.plugins.salesmania.event.AuctionEndEvent;
 import net.invisioncraft.plugins.salesmania.event.AuctionStartEvent;
+import net.invisioncraft.plugins.salesmania.event.AuctionTimerEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,8 +39,7 @@ public class Auction {
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            timeRemaining -= 1;
-            if(timeRemaining == 0) end();
+            callTimerEvent();
         }
     };
 
@@ -142,5 +142,13 @@ public class Auction {
 
     public long getTimeRemaining() {
         return timeRemaining;
+    }
+
+    public void setTimeRemaining(long time) {
+        timeRemaining = time;
+    }
+
+    private void callTimerEvent() {
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionTimerEvent(this));
     }
 }
