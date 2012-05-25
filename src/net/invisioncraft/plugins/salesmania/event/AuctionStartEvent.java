@@ -16,10 +16,12 @@ public class AuctionStartEvent extends Event {
     Player owner;
     ItemStack itemStack;
     long startingBid;
+    Auction auction;
     public AuctionStartEvent(Auction auction) {
         owner = auction.getOwner();
         itemStack = auction.getItemStack();
         startingBid = auction.getCurrentBid();
+        this.auction = auction;
     }
 
     public Player getOwner() {
@@ -32,6 +34,10 @@ public class AuctionStartEvent extends Event {
 
     public long getStartingBid() {
         return startingBid;
+    }
+
+    public Auction getAuction() {
+        return auction;
     }
 
     public HandlerList getHandlers() {

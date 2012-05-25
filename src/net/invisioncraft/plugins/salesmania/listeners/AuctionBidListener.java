@@ -17,13 +17,14 @@ public class AuctionBidListener implements Listener {
     @EventHandler
     public void onAuctionBid(AuctionBidEvent bidEvent) {
         Salesmania plugin = bidEvent.getAuction().getPlugin();
-        Locale locale;
+
         for(Player player : Bukkit.getOnlinePlayers()) {
-            locale = plugin.getLocaleHandler().getLocale(player);
+            Locale locale = plugin.getLocaleHandler().getLocale(player);
             String message = locale.getMessage("Auction.tag") +
                     String.format(locale.getMessage("Auction.bidRaised"),
                             bidEvent.getBid(), bidEvent.getBid());
             player.sendMessage(message);
         }
+
     }
 }
