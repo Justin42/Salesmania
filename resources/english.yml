@@ -28,6 +28,7 @@ Auction:
   - "Auction Ended: %item% sold for $%bid%"
   time: "%d seconds remaining in auction."
   bidRaised: "Bid raised to %,d by %s"
+  canceled: "Auction canceled."
 Console:
   cantStartAuction: "Sorry, only players can start an auction."
   cantBid: "Sorry, only players can bid on items."

@@ -74,6 +74,9 @@ public class AuctionEventListener implements Listener {
     }
 
     public void onAuctionCancelEvent() {
-
+        for(Player player : plugin.getServer().getOnlinePlayers()) {
+            Locale locale = plugin.getLocaleHandler().getLocale(player);
+            player.sendMessage(locale.getMessage("Auction.canceled"));
+        }
     }
 }
