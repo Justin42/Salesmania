@@ -38,6 +38,8 @@ public class Auction {
         @Override
         public void run() {
             callTimerEvent();
+            timeRemaining -= 1;
+            if(timeRemaining == 0) end();
         }
     };
 
