@@ -10,3 +10,18 @@ softdepend: [Vault]
 commands:
   auction:
     description: Salesmania auction
+    permission: salesmania.auction
+
+  permissions:
+    salesmania.*:
+      description: Access to all salesmania commands
+      default: op
+      children:
+        salesmania.auction.*: true
+        
+    salesmania.auction.*:
+      description: Access to all salesmania auction commands
+      default: op
+      children:
+        salesmania.auction.start: true
+    
