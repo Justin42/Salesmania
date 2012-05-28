@@ -21,6 +21,13 @@ public class LocaleHandler {
         localeMap = new HashMap<String, Locale>();
         localeMap.put(plugin.getSettings().getDefaultLocale(), new Locale(plugin, plugin.getSettings().getDefaultLocale()));
         config = new Configuration(plugin, "playerLocale.yml").getConfig();
+        loadLocales();
+    }
+
+    public void loadLocales() {
+        for(String localeName : plugin.getSettings().getLocales()) {
+            getLocale(localeName);
+        }
     }
 
     public Locale getLocale(CommandSender sender) {
