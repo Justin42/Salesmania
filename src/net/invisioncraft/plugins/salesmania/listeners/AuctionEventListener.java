@@ -21,6 +21,8 @@ public class AuctionEventListener implements Listener {
     @EventHandler
     public void onAuctionEvent(AuctionEvent auctionEvent) {
         this.auctionEvent = auctionEvent;
+        auction = auctionEvent.getAuction();
+        plugin = auction.getPlugin();
         switch (auctionEvent.getEventType()) {
             case BID:
                 onAuctionBidEvent();
