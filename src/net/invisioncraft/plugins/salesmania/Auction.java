@@ -132,12 +132,12 @@ public class Auction {
     }
 
     public String infoReplace(String info) {
-        info.replace("%owner%", owner.getName());
-        info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
-        info.replace("%item%", itemStack.getType().name());
-        info.replace("%bid%", String.valueOf(currentBid));
-        if(currentWinner != null) info.replace("%winner%", currentWinner.getName());
-        else info.replace("%winner%", "None");
+        info = info.replace("%owner%", owner.getName());
+        info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
+        info = info.replace("%item%", itemStack.getType().name());
+        info = info.replace("%bid%", String.valueOf(currentBid));
+        if(currentWinner != null) info = info.replace("%winner%", currentWinner.getName());
+        else info = info.replace("%winner%", "None");
         return info;
     }
 
