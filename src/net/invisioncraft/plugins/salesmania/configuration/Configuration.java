@@ -24,6 +24,7 @@ public class Configuration {
         this.plugin = plugin;
         this.filename = filename;
         reload();
+        save();
     }
 
     public String getFilename() {
