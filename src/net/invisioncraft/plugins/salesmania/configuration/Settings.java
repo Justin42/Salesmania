@@ -17,7 +17,7 @@ public class Settings extends Configuration {
 
     // Main
     public String getDefaultLocale() {
-        return getConfig().getString("Main.locale");
+        return getConfig().getString("Main.defaultLocale");
     }
 
     public List<String> getLocales() {
