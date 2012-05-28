@@ -44,6 +44,16 @@ public class AuctionStart extends CommandHandler {
             case COOLDOWN:
                 player.sendMessage(locale.getMessage("Auction.cooldown"));
                 return false;
+            case UNDER_MIN:
+                player.sendMessage(String.format(locale.getMessage("Auction.startUnderMin"),
+                        settings.getMinStart()));
+                return false;
+            case OVER_MAX:
+                player.sendMessage(String.format(locale.getMessage("Auction.startOverMax"),
+                        settings.getMaxStart()));
+                return false;
+            case SUCCESS:
+                return true;
         }
         return false;
     }
