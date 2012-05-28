@@ -6,10 +6,10 @@ Permission:
     cancel: "cancel an auction"
     end: "end an auction"
 Bidding:
-  bidSuccess: "You've bid %,d on %s"
+  bidSuccess: "You've bid $%,.2f on %s"
   bidFailure: "Something went wrong while bidding."
-  overMax:  "You can't bid over %,d at this time"
-  underMin: "You must bid at least %,d"
+  overMax:  "You can't bid over $%,.2f at this time"
+  underMin: "You must bid at least $%,.2f"
   outBid: "You've been outbid by %s!"
   notRunning: "There is no auction running"
   playerWinning: "You are already winning this auction."
@@ -27,8 +27,11 @@ Auction:
   endInfo:
   - "Auction Ended: %item% sold for $%bid%"
   time: "%d seconds remaining in auction."
-  bidRaised: "Bid raised to %,d by %s"
+  bidRaised: "Bid raised to $%,.2f by %s"
   canceled: "Auction canceled."
+  startOverMax: "The starting bid can't be over $%,.2f"
+  startUnderMin: "The starting bid must be over $%,.2f"
+  
 Console:
   cantStartAuction: "Sorry, only players can start an auction."
   cantBid: "Sorry, only players can bid on items."
