@@ -41,6 +41,7 @@ public class Configuration {
         if(defaultConfigStream != null) {
             YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultConfigStream);
             customConfig.setDefaults(defaultConfig);
+            customConfig.options().copyDefaults(true);
         }
     }
 
