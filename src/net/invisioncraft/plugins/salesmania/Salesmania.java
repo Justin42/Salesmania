@@ -5,6 +5,7 @@ import net.invisioncraft.plugins.salesmania.configuration.Configuration;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
+import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,6 +29,7 @@ public class Salesmania extends JavaPlugin {
         localeHandler = new LocaleHandler(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
+        getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
 
         consoleLogger.info("Salesmania Activated");
     }
