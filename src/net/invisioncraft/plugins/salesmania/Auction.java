@@ -21,7 +21,7 @@ public class Auction {
 
     private Player currentWinner;
     private Player owner;
-    private long currentBid;
+    private float currentBid;
 
     private ItemStack itemStack;
 
@@ -76,15 +76,15 @@ public class Auction {
         return owner;
     }
 
-    public long getCurrentBid() {
+    public float getCurrentBid() {
         return currentBid;
     }
 
-    public long getMaxBid() {
+    public float getMaxBid() {
         return currentBid + settings.getMaxIncrement();
     }
 
-    public long getMinBid() {
+    public float getMinBid() {
         return currentBid + settings.getMinIncrement();
     }
 
@@ -92,7 +92,7 @@ public class Auction {
         return itemStack;
     }
 
-    public AuctionStatus start(Player player, ItemStack itemStack, long startBid)  {
+    public AuctionStatus start(Player player, ItemStack itemStack, float startBid)  {
         if(isRunning()) return AuctionStatus.RUNNING;
         if(isInCooldown()) return AuctionStatus.COOLDOWN;
         if(startBid < settings.getMinStart()) return AuctionStatus.UNDER_MIN;

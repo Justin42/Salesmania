@@ -33,19 +33,19 @@ public class Settings extends Configuration {
         return getConfig().getLong("Auction.cooldown");
     }
 
-    public int getMinStart() {
-        return getConfig().getInt("Auction.minStart");
+    public float getMinStart() {
+        return getConfig().getLong("Auction.minStart");
     }
 
-    public int getMaxStart() {
-        return getConfig().getInt("Auction.maxStart");
+    public float getMaxStart() {
+        return getConfig().getLong("Auction.maxStart");
     }
 
-    public int getMinIncrement() {
+    public float getMinIncrement() {
         return getConfig().getInt("Auction.Bidding.minIncrement");
     }
 
-    public int getMaxIncrement() {
+    public float getMaxIncrement() {
         return getConfig().getInt("Auction.Bidding.maxIncrement");
     }
 
