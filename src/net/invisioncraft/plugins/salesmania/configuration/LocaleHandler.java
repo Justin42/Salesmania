@@ -24,8 +24,9 @@ public class LocaleHandler {
     }
 
     public Locale getLocale(CommandSender sender) {
-        String localeName = config.getString(sender.getName());
-        if(localeName == null) localeName = plugin.getSettings().getDefaultLocale();
+        String localeName;
+        if(config.contains(sender.getName())) localeName = config.getString(sender.getName());
+        else localeName = plugin.getSettings().getDefaultLocale();
         return getLocale(localeName);
 
     }
