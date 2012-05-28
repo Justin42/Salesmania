@@ -135,7 +135,7 @@ public class Auction {
         info = info.replace("%owner%", owner.getName());
         info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
         info = info.replace("%item%", itemStack.getType().name());
-        info = info.replace("%bid%", String.valueOf(currentBid));
+        info = info.replace("%bid%", String.format("%,.2f", currentBid));
         if(currentWinner != null) info = info.replace("%winner%", currentWinner.getName());
         else info = info.replace("%winner%", "None");
         return info;
