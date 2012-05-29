@@ -53,6 +53,14 @@ public class Settings extends Configuration {
         return getConfig().getInt("Auction.Bidding.defaultTime");
     }
 
+    public long getMaxTime() {
+        return getConfig().getLong("Auction.maxTime");
+    }
+
+    public List<Long> getNofityTime() {
+        return getConfig().getLongList("Auction.notifyTime");
+    }
+
     public int getSnipeTime() {
         return getConfig().getInt("Auction.Bidding.snipeTime");
     }
