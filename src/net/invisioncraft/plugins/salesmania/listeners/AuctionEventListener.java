@@ -3,10 +3,13 @@ package net.invisioncraft.plugins.salesmania.listeners;
 import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.List;
 
 /**
  * Owner: Justin
@@ -17,12 +20,13 @@ public class AuctionEventListener implements Listener {
     AuctionEvent auctionEvent;
     Salesmania plugin;
     Auction auction;
-
+    Settings settings;
     @EventHandler
     public void onAuctionEvent(AuctionEvent auctionEvent) {
         this.auctionEvent = auctionEvent;
         auction = auctionEvent.getAuction();
         plugin = auction.getPlugin();
+        settings = plugin.getSettings();
         switch (auctionEvent.getEventType()) {
             case BID:
                 onAuctionBidEvent();
@@ -40,6 +44,16 @@ public class AuctionEventListener implements Listener {
     }
 
     private void onAuctionTimerEvent() {
+        long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
+        List<Long> notifyTimes = settings.getNofityTime();
+        if(notifyTimes.contains(timeRemaining)) {
+            for(Player player : plugin.getServer().getOnlinePlayers()) {
+                Locale locale = plugin.getLocaleHandler().getLocale(player);
+                player.sendMessage(String.format(
+                        locale.getMessage("Auction.tag") + locale.getMessage("Auction.timeRemaining"),
+                        timeRemaining));
+            }
+        }
     }
 
     private void onAuctionStartEvent() {
