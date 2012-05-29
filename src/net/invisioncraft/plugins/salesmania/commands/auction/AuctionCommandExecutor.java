@@ -18,7 +18,8 @@ public class AuctionCommandExecutor implements CommandExecutor {
         BID, B,
         END,
         CANCEL,
-        INFO
+        INFO,
+        IGNORE
     }
 
     AuctionStart auctionStart;
@@ -26,6 +27,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
     AuctionEnd auctionEnd;
     AuctionCancel auctionCancel;
     AuctionInfo auctionInfo;
+    AuctionIgnore auctionIgnore;
 
     public AuctionCommandExecutor(Salesmania plugin) {
         this.plugin = plugin;
@@ -36,6 +38,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
         auctionCancel = new AuctionCancel(plugin);
         auctionBid = new AuctionBid(plugin);
         auctionInfo = new AuctionInfo(plugin);
+        auctionIgnore = new AuctionIgnore(plugin);
     }
 
     @Override
@@ -63,6 +66,11 @@ public class AuctionCommandExecutor implements CommandExecutor {
 
             case INFO:
                 auctionInfo.execute(sender, command, label, args);
+                break;
+
+            case IGNORE:
+                auctionIgnore.execute(sender, command, label, args);
+                break;
 
             default:
                 return false;

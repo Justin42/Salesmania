@@ -1,10 +1,7 @@
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
-import net.invisioncraft.plugins.salesmania.configuration.Configuration;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
-import net.invisioncraft.plugins.salesmania.configuration.Settings;
+import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.CommandSender;
@@ -17,6 +14,7 @@ public class Salesmania extends JavaPlugin {
     private Logger consoleLogger;
     private Economy economy;
     private Settings settings;
+    private IgnoreAuction ignoreAuction;
     private Auction currentAuction;
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
@@ -27,6 +25,7 @@ public class Salesmania extends JavaPlugin {
         settings = new Settings(this);
         consoleLogger = this.getLogger();
         localeHandler = new LocaleHandler(this);
+        ignoreAuction = new IgnoreAuction(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
@@ -66,5 +65,9 @@ public class Salesmania extends JavaPlugin {
                     config.getFilename()));
             config.reload();
         }
+    }
+
+    public IgnoreAuction getIgnoreAuction() {
+        return ignoreAuction;
     }
 }

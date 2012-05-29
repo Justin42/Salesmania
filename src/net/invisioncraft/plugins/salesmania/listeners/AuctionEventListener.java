@@ -2,6 +2,7 @@ package net.invisioncraft.plugins.salesmania.listeners;
 
 import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.IgnoreAuction;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
@@ -21,12 +22,14 @@ public class AuctionEventListener implements Listener {
     Salesmania plugin;
     Auction auction;
     Settings settings;
+    IgnoreAuction ignoreAuction;
     @EventHandler
     public void onAuctionEvent(AuctionEvent auctionEvent) {
         this.auctionEvent = auctionEvent;
         auction = auctionEvent.getAuction();
         plugin = auction.getPlugin();
         settings = plugin.getSettings();
+        ignoreAuction = plugin.getIgnoreAuction();
         switch (auctionEvent.getEventType()) {
             case BID:
                 onAuctionBidEvent();
@@ -48,6 +51,7 @@ public class AuctionEventListener implements Listener {
         List<Long> notifyTimes = settings.getNofityTime();
         if(notifyTimes.contains(timeRemaining)) {
             for(Player player : plugin.getServer().getOnlinePlayers()) {
+                if(ignoreAuction.isIgnored(player)) continue;
                 Locale locale = plugin.getLocaleHandler().getLocale(player);
                 player.sendMessage(String.format(
                         locale.getMessage("Auction.tag") + locale.getMessage("Auction.timeRemaining"),
@@ -59,6 +63,7 @@ public class AuctionEventListener implements Listener {
     private void onAuctionStartEvent() {
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
+            if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
             for(String message : locale.getMessageList("Auction.startInfo")) {
                 message = locale.getMessage("Auction.tag") + message;
@@ -71,6 +76,7 @@ public class AuctionEventListener implements Listener {
     public void onAuctionBidEvent() {
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
+            if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
             String message = String.format(locale.getMessage("Auction.bidRaised"),
                     auction.getCurrentBid(), auction.getWinner());
@@ -81,6 +87,7 @@ public class AuctionEventListener implements Listener {
     public void onAuctionEndEvent() {
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
+            if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
             for(String message : locale.getMessageList("Auction.endInfo")) {
                 message = locale.getMessage("Auction.tag") + message;
@@ -92,6 +99,7 @@ public class AuctionEventListener implements Listener {
 
     public void onAuctionCancelEvent() {
         for(Player player : plugin.getServer().getOnlinePlayers()) {
+            if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.canceled"));
         }

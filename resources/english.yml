@@ -14,7 +14,9 @@ Bidding:
   notRunning: "There is no auction running"
   playerWinning: "You are already winning this auction."
 Auction:
-  tag: "[Auction]"
+  tag: "[Auction] "
+  ignoring: "You are now ignoring all auction messages."
+  notIgnoring: "You are no longer ignoring auction messages."
   alreadyStarted: "There is already an auction running."
   cooldown: "Auction is in a cooldown period."
   startInfo:
@@ -25,7 +27,7 @@ Auction:
   - "Owner: %owner%"
   - "Winner: %winner% at $%bid%"
   endInfo:
-  - "Auction Ended: %item% sold for $%bid%"
+  - "Auction Ended: %quantity% %item% sold for $%bid%"
   time: "%d seconds remaining in auction."
   bidRaised: "Bid raised to $%,.2f by %s"
   canceled: "Auction canceled."
