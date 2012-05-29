@@ -37,11 +37,18 @@ public class Auction {
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            callTimerEvent();
-            timeRemaining -= 1;
-            if(timeRemaining == 0) end();
+            if(isRunning) {
+                timeRemaining -= 1;
+                if (timeRemaining == 0) end();
+                callTimerEvent();
+            }
+            else {
+                Bukkit.getServer().getScheduler().cancelTask(timerID);
+            }
         }
     };
+
+    private int timerID;
 
     public static enum AuctionStatus {
         OVER_MAX,
@@ -101,9 +108,15 @@ public class Auction {
         currentBid = startBid;
         this.itemStack = itemStack;
         this.owner = player;
+        isRunning = true;
         timeRemaining = settings.getDefaultTime();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
+        timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
         return AuctionStatus.SUCCESS;
+    }
+
+    public int getTimerID() {
+        return timerID;
     }
 
     public AuctionStatus bid(Player player, long bid) {
@@ -121,6 +134,8 @@ public class Auction {
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.END));
         isRunning = false;
         inCooldown = true;
+
+        plugin.getServer().getScheduler().cancelTask(timerID);
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
     }
 
