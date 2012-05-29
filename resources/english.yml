@@ -16,7 +16,7 @@ Bidding:
 Auction:
   tag: "[Auction]"
   alreadyStarted: "There is already an auction running."
-  cooldown: "Auction is in a cooldown period, please wait %d"
+  cooldown: "Auction is in a cooldown period."
   startInfo:
   - "%owner% has put %quantity% %item% up for auction."
   - "Starting Bid: $%bid%"
@@ -31,6 +31,7 @@ Auction:
   canceled: "Auction canceled."
   startOverMax: "The starting bid can't be over $%,.2f"
   startUnderMin: "The starting bid must be over $%,.2f"
+  timeRemaining: "%d seconds remaining."
   
 Console:
   cantStartAuction: "Sorry, only players can start an auction."
