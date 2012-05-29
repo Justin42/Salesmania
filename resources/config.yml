@@ -10,8 +10,18 @@ Main:
 Auction:
   allowCreative: false
   cooldown: 300
+  maxTime: 300
   minStart: 100
   maxStart: 100000
+  
+  notifyTime:
+  - 30
+  - 10
+  - 5
+  - 4
+  - 3
+  - 2
+  - 1
   
   Blacklist:
   - Bedrock
