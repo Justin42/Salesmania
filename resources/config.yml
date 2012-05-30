@@ -2,10 +2,6 @@ Main:
   defaultLocale: english
   availableLocale:
   - english
-  - portuguese
-  - spanish
-  - italian
-  - dutch
   
 Auction:
   allowCreative: false
