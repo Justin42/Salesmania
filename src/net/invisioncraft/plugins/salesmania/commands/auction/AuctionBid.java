@@ -37,24 +37,24 @@ public class AuctionBid extends CommandHandler {
         switch(auction.bid(player, bidAmount)) {
             case SUCCESS:
                 player.sendMessage(String.format(
-                        locale.getMessage("Bidding.bidSuccess"),
+                        locale.getMessage("Auction.Bidding.bidSuccess"),
                         bidAmount, auction.getItemStack().getType().name()));
                 return true;
             case OVER_MAX:
                 player.sendMessage(String.format(
-                        locale.getMessage("Bidding.overMax"),
+                        locale.getMessage("Auction.Bidding.overMax"),
                         auction.getMaxBid()));
                 return true;
             case UNDER_MIN:
                 player.sendMessage(String.format(
-                        locale.getMessage("Bidding.underMin"),
+                        locale.getMessage("Auction.Bidding.underMin"),
                         auction.getMinBid()));
                 return false;
             case NOT_RUNNING:
-                player.sendMessage(locale.getMessage("Bidding.notRunning"));
+                player.sendMessage(locale.getMessage("Auction.Bidding.notRunning"));
                 return false;
             case WINNING:
-                player.sendMessage(locale.getMessage("Bidding.playerWinning"));
+                player.sendMessage(locale.getMessage("Auction.Bidding.playerWinning"));
                 return false;
         }
 

@@ -1,33 +1,26 @@
 Permission:
   noPermission: "You don't have permission to %s"
+  
   Auction:
     start: "start an auction"
     bid: "bid on an auction"
     cancel: "cancel an auction"
     end: "end an auction"
-Bidding:
-  bidSuccess: "You've bid $%,.2f on %s"
-  bidFailure: "Something went wrong while bidding."
-  overMax:  "You can't bid over $%,.2f at this time"
-  underMin: "You must bid at least $%,.2f"
-  outBid: "You've been outbid by %s!"
-  notRunning: "There is no auction running"
-  playerWinning: "You are already winning this auction."
+    
+Misc:
+  reloadConfig: "Reloaded configuration file: %s"
+
+Locale:
+  available: "Available locales: %s"
+  changed: "Your locale has been changed to %s"
+  notFound: "No locale '%s' available"
+    
 Auction:
   tag: "[Auction] "
   ignoring: "You are now ignoring all auction messages."
   notIgnoring: "You are no longer ignoring auction messages."
   alreadyStarted: "There is already an auction running."
   cooldown: "Auction is in a cooldown period."
-  startInfo:
-  - "%owner% has put %quantity% %item% up for auction."
-  - "Starting Bid: $%bid%"
-  info:
-  - "Item: %quantity% %item%"
-  - "Owner: %owner%"
-  - "Winner: %winner% at $%bid%"
-  endInfo:
-  - "Auction Ended: %quantity% %item% sold for $%bid%"
   time: "%d seconds remaining in auction."
   bidRaised: "Bid raised to $%,.2f by %s"
   canceled: "Auction canceled."
@@ -35,13 +28,28 @@ Auction:
   startUnderMin: "The starting bid must be over $%,.2f"
   timeRemaining: "%d seconds remaining."
   
-Console:
-  cantStartAuction: "Sorry, only players can start an auction."
-  cantBid: "Sorry, only players can bid on items."
-Etc:
-  reloadConfig: "Reloaded configuration file: %s"
-Locale:
-  available: "Available locales: %s"
-  changed: "Your locale has been changed to %s"
-  notFound: "No locale '%s' available"
+  startInfo:
+  - "%owner% has put %quantity% %item% up for auction."
+  - "Starting Bid: $%bid%"
+  
+  info:
+  - "Item: %quantity% %item%"
+  - "Owner: %owner%"
+  - "Winner: %winner% at $%bid%"
+  
+  endInfo:
+  - "Auction Ended: %quantity% %item% sold for $%bid%"
+  
+  Bidding:
+    bidSuccess: "You've bid $%,.2f on %s"
+    bidFailure: "Something went wrong while bidding."
+    overMax:  "You can't bid over $%,.2f at this time"
+    underMin: "You must bid at least $%,.2f"
+    outBid: "You've been outbid by %s!"
+    notRunning: "There is no auction running"
+    playerWinning: "You are already winning this auction."
+  
+  Console:
+    cantStartAuction: "Sorry, only players can start an auction."
+    cantBid: "Sorry, only players can bid on items."
   
