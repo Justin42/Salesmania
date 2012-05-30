@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class IgnoreAuction extends Configuration {
     public IgnoreAuction(Salesmania plugin) {
-        super(plugin, "ignore.yml");
+        super(plugin, "auctionIgnore.yml");
     }
 
     public boolean isIgnored(CommandSender sender) {

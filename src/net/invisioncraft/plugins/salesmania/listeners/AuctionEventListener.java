@@ -2,9 +2,9 @@ package net.invisioncraft.plugins.salesmania.listeners;
 
 import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.IgnoreAuction;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,14 +21,14 @@ public class AuctionEventListener implements Listener {
     AuctionEvent auctionEvent;
     Salesmania plugin;
     Auction auction;
-    Settings settings;
     IgnoreAuction ignoreAuction;
+    AuctionSettings auctionSettings;
     @EventHandler
     public void onAuctionEvent(AuctionEvent auctionEvent) {
         this.auctionEvent = auctionEvent;
         auction = auctionEvent.getAuction();
         plugin = auction.getPlugin();
-        settings = plugin.getSettings();
+        auctionSettings = plugin.getSettings().getAuctionSettings();
         ignoreAuction = plugin.getIgnoreAuction();
         switch (auctionEvent.getEventType()) {
             case BID:
@@ -48,7 +48,7 @@ public class AuctionEventListener implements Listener {
 
     private void onAuctionTimerEvent() {
         long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
-        List<Long> notifyTimes = settings.getNofityTime();
+        List<Long> notifyTimes = auctionSettings.getNofityTime();
         if(notifyTimes.contains(timeRemaining)) {
             for(Player player : plugin.getServer().getOnlinePlayers()) {
                 if(ignoreAuction.isIgnored(player)) continue;

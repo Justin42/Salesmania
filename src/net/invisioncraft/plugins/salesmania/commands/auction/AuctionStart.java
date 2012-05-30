@@ -3,6 +3,7 @@ package net.invisioncraft.plugins.salesmania.commands.auction;
 import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,8 +16,10 @@ import org.bukkit.inventory.ItemStack;
  * Time: 10:25 AM
  */
 public class AuctionStart extends CommandHandler {
+    AuctionSettings auctionSettings;
     public AuctionStart(Salesmania plugin) {
         super(plugin);
+        auctionSettings = plugin.getSettings().getAuctionSettings();
     }
 
     @Override
@@ -46,11 +49,11 @@ public class AuctionStart extends CommandHandler {
                 return false;
             case UNDER_MIN:
                 player.sendMessage(String.format(locale.getMessage("Auction.startUnderMin"),
-                        settings.getMinStart()));
+                        auctionSettings.getMinStart()));
                 return false;
             case OVER_MAX:
                 player.sendMessage(String.format(locale.getMessage("Auction.startOverMax"),
-                        settings.getMaxStart()));
+                        auctionSettings.getMaxStart()));
                 return false;
             case SUCCESS:
                 return true;

@@ -14,18 +14,19 @@ import java.util.HashMap;
 public class LocaleHandler {
     private static FileConfiguration config;
     private Salesmania plugin;
-    HashMap<String, Locale> localeMap;
-
+    private HashMap<String, Locale> localeMap;
+    private LocaleSettings localeSettings;
     public LocaleHandler(Salesmania plugin) {
         this.plugin = plugin;
         localeMap = new HashMap<String, Locale>();
-        localeMap.put(plugin.getSettings().getDefaultLocale(), new Locale(plugin, plugin.getSettings().getDefaultLocale()));
+        localeSettings = plugin.getSettings().getLocaleSettings();
+        localeMap.put(localeSettings.getDefaultLocale(), new Locale(plugin, localeSettings.getDefaultLocale()));
         config = new Configuration(plugin, "playerLocale.yml").getConfig();
         loadLocales();
     }
 
     public void loadLocales() {
-        for(String localeName : plugin.getSettings().getLocales()) {
+        for(String localeName : localeSettings.getLocales()) {
             getLocale(localeName);
         }
     }
@@ -33,13 +34,13 @@ public class LocaleHandler {
     public Locale getLocale(CommandSender sender) {
         String localeName;
         if(config.contains(sender.getName())) localeName = config.getString(sender.getName());
-        else localeName = plugin.getSettings().getDefaultLocale();
+        else localeName = localeSettings.getDefaultLocale();
         return getLocale(localeName);
 
     }
 
     public boolean setLocale(CommandSender sender, String locale) {
-        if(plugin.getSettings().getLocales().contains(locale)) {
+        if(localeSettings.getLocales().contains(locale)) {
             config.set(sender.getName(), locale);
             return true;
         }
@@ -47,16 +48,16 @@ public class LocaleHandler {
     }
 
     public Locale getDefaultLocale() {
-        return localeMap.get(plugin.getSettings().getDefaultLocale());
+        return localeMap.get(localeSettings.getDefaultLocale());
     }
 
     private Locale getLocale(String localeName) {
         Locale locale = localeMap.get(localeName);
         if(locale == null) {
-            if(plugin.getSettings().getLocales().contains(localeName)) {
+            if(localeSettings.getLocales().contains(localeName)) {
                 return localeMap.put(localeName, new Locale(plugin, localeName));
             }
-            else return localeMap.get(plugin.getSettings().getDefaultLocale());
+            else return localeMap.get(localeSettings.getDefaultLocale());
         }
         else return locale;
     }

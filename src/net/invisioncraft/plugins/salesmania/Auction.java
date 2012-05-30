@@ -1,6 +1,6 @@
 package net.invisioncraft.plugins.salesmania;
 
-import net.invisioncraft.plugins.salesmania.configuration.Settings;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
  */
 public class Auction {
     private static long TICKS_PER_SECOND = 20;
-    private Salesmania plugin;
-    private Settings settings;
+    Salesmania plugin;
+    AuctionSettings auctionSettings;
 
     private boolean isRunning = false;
     private boolean inCooldown = false;
@@ -64,7 +64,7 @@ public class Auction {
 
     public Auction(Salesmania plugin) {
         this.plugin = plugin;
-        this.settings = plugin.getSettings();
+        auctionSettings = plugin.getSettings().getAuctionSettings();
     }
 
     public boolean isRunning() {
@@ -88,11 +88,11 @@ public class Auction {
     }
 
     public float getMaxBid() {
-        return currentBid + settings.getMaxIncrement();
+        return currentBid + auctionSettings.getMaxIncrement();
     }
 
     public float getMinBid() {
-        return currentBid + settings.getMinIncrement();
+        return currentBid + auctionSettings.getMinIncrement();
     }
 
     public ItemStack getItemStack() {
@@ -102,14 +102,14 @@ public class Auction {
     public AuctionStatus start(Player player, ItemStack itemStack, float startBid)  {
         if(isRunning()) return AuctionStatus.RUNNING;
         if(isInCooldown()) return AuctionStatus.COOLDOWN;
-        if(startBid < settings.getMinStart()) return AuctionStatus.UNDER_MIN;
-        if(startBid > settings.getMaxStart()) return AuctionStatus.OVER_MAX;
+        if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
+        if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
         currentBid = startBid;
         this.itemStack = itemStack;
         this.owner = player;
         isRunning = true;
-        timeRemaining = settings.getDefaultTime();
+        timeRemaining = auctionSettings.getDefaultTime();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
         return AuctionStatus.SUCCESS;
@@ -121,8 +121,8 @@ public class Auction {
 
     public AuctionStatus bid(Player player, long bid) {
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
-        if(currentBid + bid > bid + settings.getMaxIncrement()) return AuctionStatus.OVER_MAX;
-        if(currentBid + bid < bid + settings.getMinIncrement()) return AuctionStatus.UNDER_MIN;
+        if(currentBid + bid > bid + auctionSettings.getMaxIncrement()) return AuctionStatus.OVER_MAX;
+        if(currentBid + bid < bid + auctionSettings.getMinIncrement()) return AuctionStatus.UNDER_MIN;
         if(currentWinner != null && currentWinner == player) return AuctionStatus.WINNING;
 
         currentWinner = player;
@@ -136,14 +136,14 @@ public class Auction {
         inCooldown = true;
 
         plugin.getServer().getScheduler().cancelTask(timerID);
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
     }
 
     public void cancel() {
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.CANCEL));
         isRunning = false;
         inCooldown = true;
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, settings.getCooldown()*TICKS_PER_SECOND);
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
     }
 
     public String infoReplace(String info) {

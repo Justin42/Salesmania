@@ -3,6 +3,7 @@ package net.invisioncraft.plugins.salesmania.commands.salesmania;
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.configuration.LocaleSettings;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -12,6 +13,7 @@ import org.bukkit.command.CommandSender;
  * Time: 8:01 PM
  */
 public class LocaleCommand extends CommandHandler {
+    LocaleSettings localeSettings;
     enum LocaleCommands {
         LIST,
         SET
@@ -19,6 +21,7 @@ public class LocaleCommand extends CommandHandler {
 
     public LocaleCommand(Salesmania plugin) {
         super(plugin);
+        localeSettings = plugin.getSettings().getLocaleSettings();
     }
 
     @Override
@@ -28,7 +31,7 @@ public class LocaleCommand extends CommandHandler {
         switch(localeCommand) {
             case LIST:
                 String localeList = "";
-                for (String localeName : plugin.getSettings().getLocales()) {
+                for (String localeName : localeSettings.getLocales()) {
                     localeList.concat(locale + " ");
                 }
                 sender.sendMessage(String.format(
