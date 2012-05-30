@@ -27,6 +27,7 @@ Auction:
   startOverMax: "The starting bid can't be over $%,.2f"
   startUnderMin: "The starting bid must be over $%,.2f"
   timeRemaining: "%d seconds remaining."
+  notRunning: "There is no auction running"
   
   startInfo:
   - "%owner% has put %quantity% %item% up for auction."
@@ -46,7 +47,6 @@ Auction:
     overMax:  "You can't bid over $%,.2f at this time"
     underMin: "You must bid at least $%,.2f"
     outBid: "You've been outbid by %s!"
-    notRunning: "There is no auction running"
     playerWinning: "You are already winning this auction."
   
   Console:

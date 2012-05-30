@@ -51,7 +51,7 @@ public class AuctionBid extends CommandHandler {
                         auction.getMinBid()));
                 return false;
             case NOT_RUNNING:
-                player.sendMessage(locale.getMessage("Auction.Bidding.notRunning"));
+                player.sendMessage(locale.getMessage("Auction.notRunning"));
                 return false;
             case WINNING:
                 player.sendMessage(locale.getMessage("Auction.Bidding.playerWinning"));

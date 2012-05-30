@@ -25,11 +25,11 @@ public class AuctionEnd extends CommandHandler {
             plugin.getAuction().end();
             return true;
         }
-        Player player = (Player) sender;
 
-        if(player.hasPermission("salesmania.auction.end") |
-        player == plugin.getAuction().getOwner()) {
-            plugin.getAuction().end();
+        Player player = (Player) sender;
+        if(player.hasPermission("salesmania.auction.end") | player == plugin.getAuction().getOwner()) {
+            if(plugin.getAuction().isRunning()) plugin.getAuction().end();
+            else sender.sendMessage(locale.getMessage("Auction.notRunning"));
             return true;
         }
         else {

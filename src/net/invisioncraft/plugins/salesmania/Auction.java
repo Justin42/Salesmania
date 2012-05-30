@@ -131,12 +131,14 @@ public class Auction {
     }
 
     public void end() {
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.END));
-        isRunning = false;
-        inCooldown = true;
+        if(isRunning()) {
+            Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.END));
+            isRunning = false;
+            inCooldown = true;
 
-        plugin.getServer().getScheduler().cancelTask(timerID);
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
+            plugin.getServer().getScheduler().cancelTask(timerID);
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
+        }
     }
 
     public void cancel() {
