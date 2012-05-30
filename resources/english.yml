@@ -14,6 +14,9 @@ Locale:
   available: "Available locales: %s"
   changed: "Your locale has been changed to %s"
   notFound: "No locale '%s' available"
+
+Syntax:
+  auctionStart: "/auction start <price>"
     
 Auction:
   tag: "[Auction] "

@@ -34,13 +34,13 @@ public class AuctionStart extends CommandHandler {
 
         // Syntax check
         if(args.length < 2) {
-            sender.sendMessage(plugin.getCommand("auction").getUsage());
+            sender.sendMessage(locale.getMessage("Syntax.auctionStart"));
             return false;
         }
         try {
             Float.valueOf(args[1]);
         } catch (NumberFormatException ex) {
-            sender.sendMessage(plugin.getCommand("auction").getUsage());
+            sender.sendMessage(locale.getMessage("Syntax.auctionStart"));
             return false;
         }
 
