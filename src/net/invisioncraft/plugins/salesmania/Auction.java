@@ -107,7 +107,8 @@ public class Auction {
 
         currentBid = startBid;
         this.itemStack = itemStack;
-        this.owner = player;
+        owner = player;
+        currentWinner = owner;
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));

@@ -28,6 +28,7 @@ Auction:
   startUnderMin: "The starting bid must be over $%,.2f"
   timeRemaining: "%d seconds remaining."
   notRunning: "There is no auction running"
+  noBids: "Auction ended with no bids."
   
   startInfo:
   - "%owner% has put %quantity% %item% up for auction."

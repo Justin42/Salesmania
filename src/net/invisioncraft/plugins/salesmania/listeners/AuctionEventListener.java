@@ -86,7 +86,14 @@ public class AuctionEventListener implements Listener {
 
     public void onAuctionEndEvent() {
         // Broadcast
-        for(Player player : plugin.getServer().getOnlinePlayers()) {
+        if(plugin.getAuction().getWinner() == plugin.getAuction().getOwner()) {
+            for(Player player : plugin.getServer().getOnlinePlayers()) {
+                if(ignoreAuction.isIgnored(player)) continue;
+                Locale locale = plugin.getLocaleHandler().getLocale(player);
+                player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.noBids"));
+            }
+        }
+        else for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
             for(String message : locale.getMessageList("Auction.endInfo")) {
