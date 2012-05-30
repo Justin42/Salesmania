@@ -25,9 +25,22 @@ public class AuctionStart extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
+
         if(!(sender instanceof Player)) {
             sender.sendMessage(localeHandler.getDefaultLocale().
                     getMessage("Console.cantStartAuction"));
+            return false;
+        }
+
+        // Syntax check
+        if(args.length < 2) {
+            sender.sendMessage(plugin.getCommand("auction").getUsage());
+            return false;
+        }
+        try {
+            Float.valueOf(args[1]);
+        } catch (NumberFormatException ex) {
+            sender.sendMessage(plugin.getCommand("auction").getUsage());
             return false;
         }
 
