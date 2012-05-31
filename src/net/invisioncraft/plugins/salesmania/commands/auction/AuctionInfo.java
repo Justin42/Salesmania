@@ -21,9 +21,10 @@ public class AuctionInfo extends CommandHandler {
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = localeHandler.getLocale(sender);
         List<String> infoList = locale.getMessageList("Auction.info");
-        for (String info : infoList) {
-            plugin.getAuction().infoReplace(info);
-        }
+        infoList = plugin.getAuction().infoReplace(infoList);
+        infoList = plugin.getAuction().enchantReplace(infoList,
+                locale.getMessage("Auction.enchant"),
+                locale.getMessage("Auction.enchantInfo"));
         sender.sendMessage((String[])infoList.toArray());
         return true;
     }

@@ -68,11 +68,13 @@ public class AuctionEventListener implements Listener {
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
-            for(String message : locale.getMessageList("Auction.startInfo")) {
-                message = locale.getMessage("Auction.tag") + message;
-                message = auction.infoReplace(message);
-                player.sendMessage(message);
-            }
+            List<String> infoList = locale.getMessageList("Auction.startInfo");
+            infoList = auction.infoReplace(infoList);
+            infoList = auction.enchantReplace(infoList,
+                    locale.getMessage("Auction.enchant"),
+                    locale.getMessage("Auction.enchantInfo"));
+            infoList = auction.addTag(infoList, locale.getMessage("Auction.tag"));
+            player.sendMessage(infoList.toArray(new String[0]));
         }
     }
 
@@ -99,11 +101,12 @@ public class AuctionEventListener implements Listener {
         else for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
-            for(String message : locale.getMessageList("Auction.endInfo")) {
-                message = locale.getMessage("Auction.tag") + message;
-                message = auction.infoReplace(message);
-                player.sendMessage(message);
-            }
+            List<String> infoList = locale.getMessageList("Auction.endInfo");
+            infoList = auction.infoReplace(infoList);
+            infoList = auction.enchantReplace(infoList,
+                    locale.getMessage("Auction.enchant"),
+                    locale.getMessage("Auction.enchantInfo"));
+            infoList = auction.addTag(infoList, locale.getMessage("Auction.tag"));
         }
     }
 

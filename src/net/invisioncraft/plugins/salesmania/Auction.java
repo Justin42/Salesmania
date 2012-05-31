@@ -3,8 +3,14 @@ package net.invisioncraft.plugins.salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Owner: Justin
@@ -149,14 +155,47 @@ public class Auction {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
     }
 
-    public String infoReplace(String info) {
-        info = info.replace("%owner%", owner.getName());
-        info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
-        info = info.replace("%item%", itemStack.getType().name());
-        info = info.replace("%bid%", String.format("%,.2f", currentBid));
-        if(currentWinner != null) info = info.replace("%winner%", currentWinner.getName());
-        else info = info.replace("%winner%", "None");
-        return info;
+    public List<String> infoReplace(List<String> infoList) {
+        List<String> newInfoList = new ArrayList<String>();
+
+        Iterator<String> infoIterator = infoList.iterator();
+        while(infoIterator.hasNext()) {
+            String info = infoIterator.next();
+            if(info == "%enchantinfo%" && itemStack.getEnchantments().isEmpty()) {
+                continue;
+            }
+            info = info.replace("%owner%", owner.getName());
+            info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
+            info = info.replace("%item%", itemStack.getType().name());
+            info = info.replace("%bid%", String.format("%,.2f", currentBid));
+
+            if(currentWinner == owner) info = info.replace("%winner%", currentWinner.getName());
+            else info = info.replace("%winner%", "None");
+
+            newInfoList.add(info);
+        }
+        return newInfoList;
+    }
+
+    public List<String> enchantReplace(List<String> infoList, String enchant, String enchantInfo) {
+        if(itemStack.getEnchantments().isEmpty()) return infoList;
+        if(!infoList.contains("%enchantinfo%")) return infoList;
+        for(Map.Entry<Enchantment, Integer> ench : itemStack.getEnchantments().entrySet()) {
+            enchant += enchantInfo
+                    .replace("%enchant%", ench.getKey().getName())
+                    .replace("%enchantlvl%", String.valueOf(ench.getValue()));
+
+        }
+        infoList.set(infoList.indexOf("%enchantinfo%"), enchant);
+        return infoList;
+    }
+
+    public List<String> addTag(List<String> messages, String tag) {
+        List<String> messageList = new ArrayList<String>();
+        for(String message : messages) {
+            messageList.add(tag + message);
+        }
+        return messageList;
     }
 
     public long getTimeRemaining() {

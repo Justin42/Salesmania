@@ -36,6 +36,10 @@ Auction:
   startInfo:
   - "%owner% has put %quantity% %item% up for auction."
   - "Starting Bid: $%bid%"
+  - "%enchantinfo%"
+  
+  enchant: "Enchant: "
+  enchantInfo: "%enchant%(%enchantlvl%) "
   
   info:
   - "Item: %quantity% %item%"
