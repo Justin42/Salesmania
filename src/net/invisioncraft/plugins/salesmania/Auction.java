@@ -178,7 +178,10 @@ public class Auction {
     }
 
     public List<String> enchantReplace(List<String> infoList, String enchant, String enchantInfo) {
-        if(itemStack.getEnchantments().isEmpty()) return infoList;
+        if(itemStack.getEnchantments().isEmpty()) {
+            infoList.remove("%enchantinfo%");
+            return infoList;
+        }
         if(!infoList.contains("%enchantinfo%")) return infoList;
         for(Map.Entry<Enchantment, Integer> ench : itemStack.getEnchantments().entrySet()) {
             enchant += enchantInfo
