@@ -1,5 +1,5 @@
 Permission:
-  noPermission: "You don't have permission to %s"
+  noPermission: "§cYou don't have permission to %s"
   
   Auction:
     start: "start an auction"
@@ -12,50 +12,50 @@ Misc:
 
 Locale:
   available: "Available locales: %s"
-  changed: "Your locale has been changed to %s"
-  notFound: "No locale '%s' available"
+  changed: "§aYour locale has been changed to %s"
+  notFound: "§cNo locale '%s' available"
 
 Syntax:
   auctionStart: "/auction start <price>"
     
 Auction:
-  tag: "[Auction] "
-  ignoring: "You are now ignoring all auction messages."
-  notIgnoring: "You are no longer ignoring auction messages."
-  alreadyStarted: "There is already an auction running."
-  cooldown: "Auction is in a cooldown period."
-  time: "%d seconds remaining in auction."
-  bidRaised: "Bid raised to $%,.2f by %s"
-  canceled: "Auction canceled."
-  startOverMax: "The starting bid can't be over $%,.2f"
-  startUnderMin: "The starting bid must be over $%,.2f"
+  tag: "§2[Auction] §f"
+  ignoring: "§cYou are now ignoring all auction messages."
+  notIgnoring: "§aYou are no longer ignoring auction messages."
+  alreadyStarted: "§cThere is already an auction running."
+  cooldown: "§cAuction is in a cooldown period."
+  time: "§c%d seconds remaining in auction."
+  bidRaised: "§aBid raised to $%,.2f by §3%s"
+  canceled: "§cAuction canceled."
+  startOverMax: "§cThe starting bid can't be over $%,.2f"
+  startUnderMin: "§cThe starting bid must be over $%,.2f"
   timeRemaining: "%d seconds remaining."
-  notRunning: "There is no auction running"
-  noBids: "Auction ended with no bids."
+  notRunning: "§cThere is no auction running"
+  noBids: "§cAuction ended with no bids."
   
   startInfo:
-  - "%owner% has put %quantity% %item% up for auction."
+  - "§3%owner%§f has put §a%quantity% %item%§f up for auction."
   - "%enchantinfo%"
-  - "Starting Bid: $%bid%"
+  - "§aStarting Bid: §2$%bid%"
   
-  enchant: "Enchant: "
-  enchantInfo: "%enchant%(%enchantlvl%) "
+  enchant: "§aEnchant: §f"
+  enchantInfo: "§e%enchant%§f(§6%enchantlvl%§f) "
   
   info:
-  - "Item: %quantity% %item%"
-  - "Owner: %owner%"
-  - "Winner: %winner% at $%bid%"
+  - "§aItem: %quantity% %item%"
+  - "§aOwner: §3%owner%"
+  - "§aWinner: §3%winner% §fat §2$%bid%"
   
   endInfo:
-  - "Auction Ended: %quantity% %item% sold for $%bid%"
+  - "§aAuction Ended: %quantity% %item% sold for $%bid%"
   
   Bidding:
-    bidSuccess: "You've bid $%,.2f on %s"
-    bidFailure: "Something went wrong while bidding."
-    overMax:  "You can't bid over $%,.2f at this time"
-    underMin: "You must bid at least $%,.2f"
-    outBid: "You've been outbid by %s!"
-    playerWinning: "You are already winning this auction."
+    bidSuccess: "§aYou've bid $%,.2f on %s"
+    bidFailure: "§cSomething went wrong while bidding."
+    overMax:  "§cYou can't bid over $%,.2f at this time"
+    underMin: "§cYou must bid at least $%,.2f"
+    outBid: "§cYou've been outbid by %s!"
+    playerWinning: "§cYou are already winning this auction."
   
   Console:
     cantStartAuction: "Sorry, only players can start an auction."
