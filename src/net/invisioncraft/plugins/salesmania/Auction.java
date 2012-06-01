@@ -152,11 +152,13 @@ public class Auction {
         }
     }
 
-    public void cancel() {
+    public AuctionStatus cancel() {
+        if(!isRunning()) return AuctionStatus.NOT_RUNNING;
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.CANCEL));
         isRunning = false;
         inCooldown = true;
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
+        return AuctionStatus.SUCCESS;
     }
 
     private float getDurability() {
