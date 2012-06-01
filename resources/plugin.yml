@@ -5,8 +5,8 @@ author: Justin
 authors: [Khaos_Fury]
 website: http://invisioncraft.net
 main: net.invisioncraft.plugins.salesmania.Salesmania
-
 softdepend: [Vault]
+
 commands:
   auction:
     description: Salesmania auction

@@ -5,6 +5,7 @@ import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
@@ -19,6 +20,8 @@ public class Salesmania extends JavaPlugin {
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
 
+    private boolean usingVault = false;
+
     @Override
     public void onEnable() {
         configSet = new HashSet<Configuration>();
@@ -29,6 +32,14 @@ public class Salesmania extends JavaPlugin {
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
+
+        // Vault
+        if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {
+            RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+            if(economyProvider != null) economy = economyProvider.getProvider();
+            usingVault = true;
+            consoleLogger.info("Found Vault.");
+        }
 
         consoleLogger.info("Salesmania Activated");
     }
@@ -65,6 +76,10 @@ public class Salesmania extends JavaPlugin {
                     config.getFilename()));
             config.reload();
         }
+    }
+
+    public boolean usingVault() {
+        return usingVault;
     }
 
     public IgnoreAuction getIgnoreAuction() {

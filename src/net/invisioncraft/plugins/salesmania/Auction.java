@@ -2,6 +2,7 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import net.milkbowl.vault.item.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -161,14 +162,13 @@ public class Auction {
         Iterator<String> infoIterator = infoList.iterator();
         while(infoIterator.hasNext()) {
             String info = infoIterator.next();
-            if(info == "%enchantinfo%" && itemStack.getEnchantments().isEmpty()) {
-                continue;
-            }
             info = info.replace("%owner%", owner.getName());
             info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
-            info = info.replace("%item%", itemStack.getType().name());
-            info = info.replace("%bid%", String.format("%,.2f", currentBid));
 
+            if(plugin.usingVault()) info = info.replace("%item%", Items.itemById(itemStack.getTypeId()).getName());
+            else info = info.replace("%item%", itemStack.getType().name());
+
+            info = info.replace("%bid%", String.format("%,.2f", currentBid));
             if(currentWinner == owner) info = info.replace("%winner%", currentWinner.getName());
             else info = info.replace("%winner%", "None");
 
