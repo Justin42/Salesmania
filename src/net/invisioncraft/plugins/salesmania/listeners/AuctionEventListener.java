@@ -72,7 +72,7 @@ public class AuctionEventListener implements Listener {
             infoList = auction.infoReplace(infoList);
             infoList = auction.enchantReplace(infoList,
                     locale.getMessage("Auction.enchant"),
-                    locale.getMessage("Auction.enchantInfo"));
+                    locale.getMessage("Auction.enchantInfo"), locale);
             infoList = auction.addTag(infoList, locale.getMessage("Auction.tag"));
             player.sendMessage(infoList.toArray(new String[0]));
         }
@@ -105,7 +105,7 @@ public class AuctionEventListener implements Listener {
             infoList = auction.infoReplace(infoList);
             infoList = auction.enchantReplace(infoList,
                     locale.getMessage("Auction.enchant"),
-                    locale.getMessage("Auction.enchantInfo"));
+                    locale.getMessage("Auction.enchantInfo"), locale);
             infoList = auction.addTag(infoList, locale.getMessage("Auction.tag"));
         }
     }

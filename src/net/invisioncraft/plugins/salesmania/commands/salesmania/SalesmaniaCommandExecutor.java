@@ -16,6 +16,7 @@ public class SalesmaniaCommandExecutor implements CommandExecutor {
 
     enum SalesmaniaCommand {
         LOCALE,
+        RELOAD
     }
 
     public SalesmaniaCommandExecutor(Salesmania plugin) {
@@ -25,11 +26,15 @@ public class SalesmaniaCommandExecutor implements CommandExecutor {
 
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         SalesmaniaCommand salesmaniaCommand = SalesmaniaCommand.valueOf(args[0].toUpperCase());
         switch(salesmaniaCommand) {
             case LOCALE:
-                localeCommand.execute(commandSender, command, label, args);
+                localeCommand.execute(sender, command, label, args);
+                return true;
+            case RELOAD:
+                if(!sender.hasPermission("salesmania.admin.reload")) return false;
+                plugin.reloadConfig(sender);
                 return true;
             default:
                 return false;

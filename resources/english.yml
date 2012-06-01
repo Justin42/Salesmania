@@ -35,8 +35,8 @@ Auction:
   
   startInfo:
   - "%owner% has put %quantity% %item% up for auction."
-  - "Starting Bid: $%bid%"
   - "%enchantinfo%"
+  - "Starting Bid: $%bid%"
   
   enchant: "Enchant: "
   enchantInfo: "%enchant%(%enchantlvl%) "
@@ -60,4 +60,27 @@ Auction:
   Console:
     cantStartAuction: "Sorry, only players can start an auction."
     cantBid: "Sorry, only players can bid on items."
+    
+Enchantment:
+  ARROW_DAMAGE: "Power"
+  ARROW_FIRE: "Flame"
+  ARROW_INFINITE: "Infinity"
+  ARROW_KNOCKBACK: "Knockback"
+  DAMAGE_ALL: "Sharpness"
+  DAMAGE_ANTHROPODS: "Bane of Anthropods"
+  DAMAGE_UNDEAD: "Smite"
+  DIG_SPEED: "Efficiency"
+  DURABILITY: "Durability"
+  FIRE_ASPECT: "Fire Aspect"
+  KNOCKBACK: "Knockback"
+  LOOT_BONUS_BLOCKS: "Fortune"
+  LOOT_BONUS_MOBS: "Looting"
+  OXYGEN: "Water Breathing"
+  PROTECTION_ENVIRONMENTAL: "Protection"
+  PROTECTION_EXPLOSIONS: "Blast Protection"
+  PROTECTION_FALL: "Feather Falling"
+  PROTECTION_FIRE: "Fire Protection"
+  PROTECTION_PROJECTILE: "Projectile Protection"
+  SILK_TOUCH: "Silk Touch"
+  WATER_WORKER: "Aqua Affinity"
   

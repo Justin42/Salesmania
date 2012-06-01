@@ -11,17 +11,25 @@ commands:
   auction:
     description: Salesmania auction
     permission: salesmania.auction
-
+  salesmania:
+    description: Salesmania
+    permission: salesmania.admin
   permissions:
     salesmania.*:
       description: Access to all salesmania commands
       default: op
       children:
         salesmania.auction.*: true
+        salesmania.admin: true
         
     salesmania.auction.*:
       description: Access to all salesmania auction commands
       default: op
       children:
         salesmania.auction.start: true
+    salesmania.admin.*:
+      description: Provides access salesmania admin commands
+      default: op
+      children:
+        salesmania.admin.reload: true
     

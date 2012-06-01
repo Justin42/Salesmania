@@ -1,8 +1,8 @@
 package net.invisioncraft.plugins.salesmania.configuration;
 
+import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,12 +17,13 @@ import java.util.logging.Level;
 public class Configuration {
     private FileConfiguration customConfig;
     private File customConfigFile;
-    private JavaPlugin plugin;
+    private Salesmania plugin;
     private String filename;
 
-    public Configuration(JavaPlugin plugin, String filename) {
+    public Configuration(Salesmania plugin, String filename) {
         this.plugin = plugin;
         this.filename = filename;
+        plugin.registerConfig(this);
         reload();
         save();
     }

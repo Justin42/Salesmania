@@ -1,6 +1,7 @@
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
+import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.milkbowl.vault.economy.Economy;
@@ -31,6 +32,7 @@ public class Salesmania extends JavaPlugin {
         ignoreAuction = new IgnoreAuction(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
+        getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
         getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
 
         // Vault
@@ -72,7 +74,7 @@ public class Salesmania extends JavaPlugin {
         Locale locale = localeHandler.getLocale(sender);
         for(Configuration config : configSet) {
             sender.sendMessage(String.format(
-                    locale.getMessage("Etc.reloadConfig"),
+                    locale.getMessage("Misc.reloadConfig"),
                     config.getFilename()));
             config.reload();
         }

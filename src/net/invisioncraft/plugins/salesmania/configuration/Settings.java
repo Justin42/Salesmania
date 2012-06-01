@@ -1,6 +1,6 @@
 package net.invisioncraft.plugins.salesmania.configuration;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import net.invisioncraft.plugins.salesmania.Salesmania;
 
 /**
  * Owner: Justin
@@ -12,7 +12,7 @@ public class Settings extends Configuration {
     private DatabaseSettings databaseSettings;
     private LocaleSettings localeSettings;
     private LogSettings logSettings;
-    public Settings(JavaPlugin plugin) {
+    public Settings(Salesmania plugin) {
         super(plugin, "config.yml");
         auctionSettings = new AuctionSettings(this);
         databaseSettings = new DatabaseSettings(this);

@@ -1,6 +1,7 @@
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.milkbowl.vault.item.Items;
 import org.bukkit.Bukkit;
@@ -177,17 +178,16 @@ public class Auction {
         return newInfoList;
     }
 
-    public List<String> enchantReplace(List<String> infoList, String enchant, String enchantInfo) {
+    public List<String> enchantReplace(List<String> infoList, String enchant, String enchantInfo, Locale locale) {
         if(itemStack.getEnchantments().isEmpty()) {
             infoList.remove("%enchantinfo%");
             return infoList;
         }
         if(!infoList.contains("%enchantinfo%")) return infoList;
         for(Map.Entry<Enchantment, Integer> ench : itemStack.getEnchantments().entrySet()) {
-            enchant += enchantInfo
-                    .replace("%enchant%", ench.getKey().getName())
-                    .replace("%enchantlvl%", String.valueOf(ench.getValue()));
-
+            enchant += enchantInfo.replace("%enchantlvl%", String.valueOf(ench.getValue()));
+            if(locale != null) enchant = enchant.replace("%enchant%", locale.getMessage("Enchantment." + ench.getKey().getName()));
+            else enchant = enchant.replace("%enchant%", ench.getKey().getName());
         }
         infoList.set(infoList.indexOf("%enchantinfo%"), enchant);
         return infoList;

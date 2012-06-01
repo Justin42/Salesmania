@@ -24,7 +24,7 @@ public class AuctionInfo extends CommandHandler {
         infoList = plugin.getAuction().infoReplace(infoList);
         infoList = plugin.getAuction().enchantReplace(infoList,
                 locale.getMessage("Auction.enchant"),
-                locale.getMessage("Auction.enchantInfo"));
+                locale.getMessage("Auction.enchantInfo"), locale);
         sender.sendMessage((String[])infoList.toArray());
         return true;
     }
