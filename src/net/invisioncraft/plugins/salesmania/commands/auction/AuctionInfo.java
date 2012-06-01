@@ -20,6 +20,10 @@ public class AuctionInfo extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = localeHandler.getLocale(sender);
+        if(!plugin.getAuction().isRunning()) {
+            sender.sendMessage(locale.getMessage("Auction.notRunning"));
+            return false;
+        }
         List<String> infoList = locale.getMessageList("Auction.info");
         infoList = plugin.getAuction().infoReplace(infoList);
         infoList = plugin.getAuction().enchantReplace(infoList,
