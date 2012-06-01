@@ -59,6 +59,7 @@ Auction:
     underMin: "§cYou must bid at least $%,.2f"
     outBid: "§cYou've been outbid by %s!"
     playerWinning: "§cYou are already winning this auction."
+    playerOwner: "§cYou can't bid on your own auction."
   
   Console:
     cantStartAuction: "Sorry, only players can start an auction."

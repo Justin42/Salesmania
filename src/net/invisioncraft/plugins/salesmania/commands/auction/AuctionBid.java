@@ -55,6 +55,8 @@ public class AuctionBid extends CommandHandler {
                 return false;
             case WINNING:
                 player.sendMessage(locale.getMessage("Auction.Bidding.playerWinning"));
+            case OWNER:
+                player.sendMessage(locale.getMessage("Auction.Bidding.playerOwner"));
                 return false;
         }
 

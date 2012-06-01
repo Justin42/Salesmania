@@ -67,7 +67,8 @@ public class Auction {
         COOLDOWN,
         WINNING,
         NOT_RUNNING,
-        CANCELED
+        CANCELED,
+        OWNER
     }
 
     public Auction(Salesmania plugin) {
@@ -129,6 +130,7 @@ public class Auction {
     }
 
     public AuctionStatus bid(Player player, long bid) {
+        if(player == owner) return AuctionStatus.OWNER;
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
         if(currentBid + bid > bid + auctionSettings.getMaxIncrement()) return AuctionStatus.OVER_MAX;
         if(currentBid + bid < bid + auctionSettings.getMinIncrement()) return AuctionStatus.UNDER_MIN;
