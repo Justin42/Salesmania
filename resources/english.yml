@@ -18,8 +18,13 @@ Locale:
 Syntax:
   Auction:
     auction:
-    - "/auction start <price>"
-    auctionStart: "/auction start <price>"
+    - "/auction start <startbid>"
+    - "/auction bid <bid>"
+    - "/auction cancel"
+    - "/auction end"
+    - "/auction info"
+    auctionStart: "/auction start <startbid>"
+    auctionBid: "/auction bid <bid>"
     
 Auction:
   tag: "§2[Auction] §f"
