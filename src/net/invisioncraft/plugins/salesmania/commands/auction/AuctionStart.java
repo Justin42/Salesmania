@@ -33,14 +33,15 @@ public class AuctionStart extends CommandHandler {
         }
 
         // Syntax check
+        float startingBid;
         if(args.length < 2) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
         }
         try {
-            Float.valueOf(args[1]);
+            startingBid = Float.valueOf(args[1]);
         } catch (NumberFormatException ex) {
-            sender.sendMessage(locale.getMessage("Syntax.auctionStart"));
+            sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
         }
 
@@ -53,7 +54,7 @@ public class AuctionStart extends CommandHandler {
                     locale.getMessage("Permisson.Auction.start")));
             return false;
         }
-        switch(auction.start(player, itemStack, Float.valueOf(args[1]))) {
+        switch(auction.start(player, itemStack, startingBid)) {
             case RUNNING:
                 player.sendMessage(locale.getMessage("Auction.alreadyStarted"));
                 return false;

@@ -25,10 +25,15 @@ public class AuctionBid extends CommandHandler {
             sender.sendMessage(locale.getMessage("Console.cantBid"));
         }
         Player player = (Player) sender;
-        long bidAmount;
 
+        // Syntax check
+        float bidAmount;
+        if(args.length < 2) {
+            sender.sendMessage(locale.getMessage("Syntax.Auction.auctionBid"));
+            return false;
+        }
         try {
-            bidAmount = Long.valueOf(args[1]);
+            bidAmount = Float.valueOf(args[1]);
         }   catch (NumberFormatException ex) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionBid"));
             return false;

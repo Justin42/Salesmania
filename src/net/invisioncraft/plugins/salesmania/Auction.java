@@ -129,7 +129,7 @@ public class Auction {
         return timerID;
     }
 
-    public AuctionStatus bid(Player player, long bid) {
+    public AuctionStatus bid(Player player, float bid) {
         if(player == owner) return AuctionStatus.OWNER;
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
         if(currentBid + bid > bid + auctionSettings.getMaxIncrement()) return AuctionStatus.OVER_MAX;
