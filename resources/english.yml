@@ -16,7 +16,10 @@ Locale:
   notFound: "§cNo locale '%s' available"
 
 Syntax:
-  auctionStart: "/auction start <price>"
+  Auction:
+    auction:
+    - "/auction start <price>"
+    auctionStart: "/auction start <price>"
     
 Auction:
   tag: "§2[Auction] §f"

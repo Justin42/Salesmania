@@ -34,7 +34,7 @@ public class AuctionStart extends CommandHandler {
 
         // Syntax check
         if(args.length < 2) {
-            sender.sendMessage(locale.getMessage("Syntax.auctionStart"));
+            sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
         }
         try {
