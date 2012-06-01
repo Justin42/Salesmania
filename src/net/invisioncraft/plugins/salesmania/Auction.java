@@ -181,8 +181,9 @@ public class Auction {
             else info = info.replace("%item%", itemStack.getType().name());
 
             info = info.replace("%bid%", String.format("%,.2f", currentBid));
-            if(currentWinner == owner) info = info.replace("%winner%", currentWinner.getName());
-            else info = info.replace("%winner%", "None");
+
+            if(currentWinner == owner) info = info.replace("%winner%", "None");
+            else info = info.replace("%winner%", currentWinner.getName());
 
             newInfoList.add(info);
         }

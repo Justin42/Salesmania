@@ -44,6 +44,8 @@ Auction:
   
   info:
   - "§aItem: %quantity% %item%"
+  - "§aDurability: §6%durability%"
+  - "%enchantinfo%"
   - "§aOwner: §3%owner%"
   - "§aWinner: §3%winner% §fat §2$%bid%"
   
