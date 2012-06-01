@@ -35,6 +35,7 @@ Auction:
   
   startInfo:
   - "§3%owner%§f has put §a%quantity% %item%§f up for auction."
+  - "§aDurability: §6%durability%"
   - "%enchantinfo%"
   - "§aStarting Bid: §2$%bid%"
   

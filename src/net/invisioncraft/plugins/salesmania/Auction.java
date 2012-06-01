@@ -157,12 +157,23 @@ public class Auction {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
     }
 
+    private float getDurability() {
+        float dur = (Float.valueOf(itemStack.getType().getMaxDurability()) - Float.valueOf(itemStack.getDurability())) / Float.valueOf(itemStack.getType().getMaxDurability());
+        return dur * 100;
+    }
+
     public List<String> infoReplace(List<String> infoList) {
         List<String> newInfoList = new ArrayList<String>();
 
         Iterator<String> infoIterator = infoList.iterator();
         while(infoIterator.hasNext()) {
             String info = infoIterator.next();
+
+            if(info.contains("%durability%")) {
+                if(itemStack.getType().getMaxDurability() == 0) continue;
+                info = info.replace("%durability%", String.format("%.2f", getDurability()) + "%");
+            }
+
             info = info.replace("%owner%", owner.getName());
             info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
 
