@@ -33,7 +33,7 @@ Auction:
   alreadyStarted: "§cThere is already an auction running."
   cooldown: "§cAuction is in a cooldown period."
   time: "§c%d seconds remaining in auction."
-  bidRaised: "§aBid raised to $%,.2f by §3%s"
+  bidRaised: "§aBid raised to §2$%,.2f§a by §3%s"
   canceled: "§cAuction canceled."
   startOverMax: "§cThe starting bid can't be over $%,.2f"
   startUnderMin: "§cThe starting bid must be over $%,.2f"
@@ -61,7 +61,7 @@ Auction:
   - "§aAuction Ended: %quantity% %item% sold for $%bid%"
   
   Bidding:
-    bidSuccess: "§aYou've bid $%,.2f on %s"
+    bidSuccess: "§aYou've bid §2$%,.2f§a on %s"
     bidFailure: "§cSomething went wrong while bidding."
     overMax:  "§cYou can't bid over $%,.2f at this time"
     underMin: "§cYou must bid at least $%,.2f"

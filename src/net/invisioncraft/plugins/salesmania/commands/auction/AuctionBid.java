@@ -4,6 +4,7 @@ import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.milkbowl.vault.item.Items;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -51,7 +52,7 @@ public class AuctionBid extends CommandHandler {
             case SUCCESS:
                 player.sendMessage(String.format(
                         locale.getMessage("Auction.Bidding.bidSuccess"),
-                        bidAmount, auction.getItemStack().getType().name()));
+                        bidAmount, Items.itemById(auction.getItemStack().getTypeId()).getName()));
                 return true;
             case OVER_MAX:
                 player.sendMessage(String.format(
@@ -68,6 +69,7 @@ public class AuctionBid extends CommandHandler {
                 return false;
             case WINNING:
                 player.sendMessage(locale.getMessage("Auction.Bidding.playerWinning"));
+                return false;
             case OWNER:
                 player.sendMessage(locale.getMessage("Auction.Bidding.playerOwner"));
                 return false;

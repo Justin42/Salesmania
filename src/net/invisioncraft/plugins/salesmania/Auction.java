@@ -138,6 +138,7 @@ public class Auction {
 
         currentWinner = player;
         currentBid = bid;
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.BID));
         return AuctionStatus.SUCCESS;
     }
 

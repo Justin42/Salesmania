@@ -83,8 +83,9 @@ public class AuctionEventListener implements Listener {
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
-            String message = String.format(locale.getMessage("Auction.bidRaised"),
-                    auction.getCurrentBid(), auction.getWinner());
+            String message = locale.getMessage("Auction.tag");
+            message += String.format(locale.getMessage("Auction.bidRaised"),
+                    auction.getCurrentBid(), auction.getWinner().getName());
             player.sendMessage(message);
         }
     }
