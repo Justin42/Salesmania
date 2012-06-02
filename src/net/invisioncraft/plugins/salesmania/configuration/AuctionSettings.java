@@ -52,8 +52,12 @@ public class AuctionSettings {
         return config.getLongList("Auction.notifyTime");
     }
 
-    public int getSnipeTime() {
-        return config.getInt("Auction.Bidding.snipeTime");
+    public long getSnipeTime() {
+        return config.getLong("Auction.Bidding.snipeTime");
+    }
+
+    public long getSnipeValue() {
+        return config.getLong("Auction.Bidding.snipeValue");
     }
 
     public List<String> getBlacklist() {

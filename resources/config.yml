@@ -28,6 +28,7 @@ Auction:
     maxIncrement: 10000
     defaultTime: 60
     snipeTime: 10
+    snipeValue: 5
     
   Logging:
     enabled: true

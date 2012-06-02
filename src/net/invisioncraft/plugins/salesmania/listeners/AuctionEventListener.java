@@ -79,6 +79,11 @@ public class AuctionEventListener implements Listener {
     }
 
     public void onAuctionBidEvent() {
+        // Anti-Snipe
+        if(auction.getTimeRemaining() < auctionSettings.getSnipeTime()) {
+            auction.setTimeRemaining(auction.getTimeRemaining() + auctionSettings.getSnipeValue());
+        }
+
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
