@@ -140,25 +140,40 @@ public class AuctionEventListener implements Listener {
     }
 
     public void onAuctionCancelEvent() {
+        // Logging
+        Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
+        plugin.getLogger().info(locale.getMessage("Auction.canceled"));
+
+        // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
-            Locale locale = plugin.getLocaleHandler().getLocale(player);
+            locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.canceled"));
         }
     }
 
     public void onAuctionEnableEvent() {
+        // Logging
+        Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
+        plugin.getLogger().info(locale.getMessage("Auction.enabled"));
+
+        // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
-            Locale locale = plugin.getLocaleHandler().getLocale(player);
+            locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.enabled"));
         }
     }
 
     public void onAuctionDisableEvent() {
+        // Logging
+        Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
+        plugin.getLogger().info(locale.getMessage("Auction.disabled"));
+
+        // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
-            Locale locale = plugin.getLocaleHandler().getLocale(player);
+            locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.disabled"));
         }
     }
