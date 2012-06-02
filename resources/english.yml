@@ -58,7 +58,7 @@ Auction:
   - "§aWinner: §3%winner% §fat §2$%bid%"
   
   endInfo:
-  - "§aAuction Ended: %quantity% %item% sold for $%bid%"
+  - "§aAuction Ended: %quantity% %item% sold for §2$%bid%"
   
   Bidding:
     bidSuccess: "§aYou've bid §2$%,.2f§a on %s"

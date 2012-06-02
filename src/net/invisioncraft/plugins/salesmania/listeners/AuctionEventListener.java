@@ -108,6 +108,7 @@ public class AuctionEventListener implements Listener {
                     locale.getMessage("Auction.enchant"),
                     locale.getMessage("Auction.enchantInfo"), locale);
             infoList = auction.addTag(infoList, locale.getMessage("Auction.tag"));
+            player.sendMessage(infoList.toArray(new String[0]));
         }
     }
 
