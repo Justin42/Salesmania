@@ -132,9 +132,9 @@ public class Auction {
     public AuctionStatus bid(Player player, float bid) {
         if(player == owner) return AuctionStatus.OWNER;
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
+        if(currentWinner != null && currentWinner == player) return AuctionStatus.WINNING;
         if(bid > getMaxBid()) return AuctionStatus.OVER_MAX;
         if(bid < getMinBid()) return AuctionStatus.UNDER_MIN;
-        if(currentWinner != null && currentWinner == player) return AuctionStatus.WINNING;
 
         currentWinner = player;
         currentBid = bid;
