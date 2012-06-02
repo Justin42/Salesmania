@@ -31,21 +31,12 @@ public class AuctionEventListener implements Listener {
         auctionSettings = plugin.getSettings().getAuctionSettings();
         ignoreAuction = plugin.getIgnoreAuction();
         switch (auctionEvent.getEventType()) {
-            case BID:
-                onAuctionBidEvent();
-                break;
-            case END:
-                onAuctionEndEvent();
-                break;
-            case START:
-                onAuctionStartEvent();
-                break;
-            case TIMER:
-                onAuctionTimerEvent();
-                break;
-            case CANCEL:
-                onAuctionCancelEvent();
-                break;
+            case BID: onAuctionBidEvent(); break;
+            case END: onAuctionEndEvent(); break;
+            case START: onAuctionStartEvent(); break;
+            case TIMER: onAuctionTimerEvent(); break;
+            case CANCEL: onAuctionCancelEvent(); break;
+            case ENABLE: onAuctionEnableEvent(); break;
         }
     }
 
@@ -122,6 +113,22 @@ public class AuctionEventListener implements Listener {
             if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.canceled"));
+        }
+    }
+
+    public void onAuctionEnableEvent() {
+        for(Player player : plugin.getServer().getOnlinePlayers()) {
+            if(ignoreAuction.isIgnored(player)) continue;
+            Locale locale = plugin.getLocaleHandler().getLocale(player);
+            player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.enabled"));
+        }
+    }
+
+    public void onAuctionDisabled() {
+        for(Player player : plugin.getServer().getOnlinePlayers()) {
+            if(ignoreAuction.isIgnored(player)) continue;
+            Locale locale = plugin.getLocaleHandler().getLocale(player);
+            player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.disabled"));
         }
     }
 }
