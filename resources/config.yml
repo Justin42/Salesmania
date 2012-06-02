@@ -15,10 +15,6 @@ Auction:
   - 30
   - 10
   - 5
-  - 4
-  - 3
-  - 2
-  - 1
   
   Blacklist:
   - Bedrock
@@ -29,7 +25,7 @@ Auction:
     maxIncrement: 10000
     defaultTime: 60
     snipeTime: 10
-    snipeValue: 5
+    snipeValue: 10
     
   Logging:
     enabled: true
