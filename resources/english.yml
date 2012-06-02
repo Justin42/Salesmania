@@ -9,6 +9,7 @@ Permission:
     
 Misc:
   reloadConfig: "Reloaded configuration file: %s"
+  saveConfig: "Saved configuration file: %s"
 
 Locale:
   available: "Available locales: %s"

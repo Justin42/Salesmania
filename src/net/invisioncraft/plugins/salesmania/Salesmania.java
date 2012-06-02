@@ -48,7 +48,7 @@ public class Salesmania extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        saveConfig();
     }
 
     public Settings getSettings() {
@@ -73,10 +73,22 @@ public class Salesmania extends JavaPlugin {
     public void reloadConfig(CommandSender sender) {
         Locale locale = localeHandler.getLocale(sender);
         for(Configuration config : configSet) {
+            consoleLogger.info(String.format(
+                    locale.getMessage("Misc.reloadConfig"), config.getFilename()));
             sender.sendMessage(String.format(
                     locale.getMessage("Misc.reloadConfig"),
                     config.getFilename()));
             config.reload();
+        }
+    }
+
+    @Override
+    public void saveConfig() {
+        Locale locale = localeHandler.getLocale(getServer().getConsoleSender());
+        for(Configuration config : configSet) {
+            config.save();
+            consoleLogger.info(String.format(
+                    locale.getMessage("Misc.saveConfig"), config.getFilename()));
         }
     }
 
