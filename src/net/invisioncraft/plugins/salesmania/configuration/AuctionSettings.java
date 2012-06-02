@@ -64,4 +64,12 @@ public class AuctionSettings {
         return config.getStringList("Auction.Blacklist");
     }
 
+    public boolean getEnabled() {
+        return config.getBoolean("Auction.enabled");
+    }
+
+    public void setEnabled(boolean enabled) {
+        config.set("Auction.enabled", enabled);
+    }
+
 }

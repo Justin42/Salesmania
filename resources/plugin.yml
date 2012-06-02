@@ -34,4 +34,6 @@ commands:
         salesmania.admin.reload: true
         salesmania.auction.cancel: true
         salesmania.auction.end: true
+        salesmania.auction.enable: true
+        salesmania.auction.disable: true
     

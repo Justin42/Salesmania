@@ -45,15 +45,24 @@ public class AuctionStart extends CommandHandler {
             return false;
         }
 
-        Player player = (Player) sender;
-        Auction auction = plugin.getAuction();
-        ItemStack itemStack = player.getItemInHand();
-        if(!player.hasPermission("salesmania.auction.start")) {
-            player.sendMessage(String.format(
+        // Disable check
+        if(!auctionSettings.getEnabled()) {
+            sender.sendMessage(locale.getMessage("Auction.disabled"));
+            return false;
+        }
+
+        // Permission check
+        if(!sender.hasPermission("salesmania.auction.start")) {
+            sender.sendMessage(String.format(
                     locale.getMessage("Permission.noPermission"),
                     locale.getMessage("Permisson.Auction.start")));
             return false;
         }
+
+        Player player = (Player) sender;
+        Auction auction = plugin.getAuction();
+        ItemStack itemStack = player.getItemInHand();
+
         switch(auction.start(player, itemStack, startingBid)) {
             case RUNNING:
                 player.sendMessage(locale.getMessage("Auction.alreadyStarted"));

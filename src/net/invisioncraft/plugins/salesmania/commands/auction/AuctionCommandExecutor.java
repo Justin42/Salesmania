@@ -20,7 +20,9 @@ public class AuctionCommandExecutor implements CommandExecutor {
         END,
         CANCEL,
         INFO,
-        IGNORE
+        IGNORE,
+        ENABLE,
+        DISABLE
     }
 
     AuctionStart auctionStart;
@@ -29,7 +31,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
     AuctionCancel auctionCancel;
     AuctionInfo auctionInfo;
     AuctionIgnore auctionIgnore;
-
+    AuctionEnable auctionEnable;
     public AuctionCommandExecutor(Salesmania plugin) {
         this.plugin = plugin;
 
@@ -40,6 +42,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
         auctionBid = new AuctionBid(plugin);
         auctionInfo = new AuctionInfo(plugin);
         auctionIgnore = new AuctionIgnore(plugin);
+        auctionEnable = new AuctionEnable(plugin);
     }
 
     @Override
@@ -84,6 +87,14 @@ public class AuctionCommandExecutor implements CommandExecutor {
 
             case IGNORE:
                 auctionIgnore.execute(sender, command, label, args);
+                break;
+
+            case ENABLE:
+                auctionEnable.execute(sender, command, label, args);
+                break;
+
+            case DISABLE:
+                auctionEnable.execute(sender, command, label, args);
                 break;
 
             default:

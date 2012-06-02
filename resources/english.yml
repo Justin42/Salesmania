@@ -42,6 +42,12 @@ Auction:
   notRunning: "§cThere is no auction running"
   noBids: "§cAuction ended with no bids."
   
+  enabled: "§aThe auction has been enabled."
+  disabled: "§cThe auction has been disabled."
+  alreadyEnabled: "§cThe auction is already enabled."
+  alreadyDisabled: "§cThe auction is already disabled."
+  
+  
   startInfo:
   - "§3%owner%§f has put §a%quantity% %item%§f up for auction."
   - "§aDurability: §6%durability%"

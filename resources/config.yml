@@ -4,6 +4,7 @@ Main:
   - english
   
 Auction:
+  enabled: true
   allowCreative: false
   cooldown: 300
   maxTime: 300
