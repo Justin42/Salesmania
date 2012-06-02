@@ -46,6 +46,12 @@ public class AuctionCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
         AuctionCommand auctionCommand = null;
+
+        // Syntax
+        if(args.length < 1) {
+            sender.sendMessage(locale.getMessageList("Syntax.Auction.auction").toArray(new String[0]));
+            return false;
+        }
         try {
             auctionCommand = AuctionCommand.valueOf(args[0].toUpperCase());
         } catch (IllegalArgumentException ex) {
