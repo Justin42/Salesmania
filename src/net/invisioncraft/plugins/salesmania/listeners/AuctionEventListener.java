@@ -6,6 +6,7 @@ import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.IgnoreAuction;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,11 +57,20 @@ public class AuctionEventListener implements Listener {
     }
 
     private void onAuctionStartEvent() {
+        // Logging
+        Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
+        List<String> infoList = locale.getMessageList("Auction.startInfo");
+        infoList = auction.infoReplace(infoList);
+        infoList = auction.enchantReplace(infoList,
+                locale.getMessage("Auction.enchant"),
+                locale.getMessage("Auction.enchantInfo"), locale);
+        plugin.getLogger().info(ChatColor.stripColor(infoList.toString()));
+
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
-            Locale locale = plugin.getLocaleHandler().getLocale(player);
-            List<String> infoList = locale.getMessageList("Auction.startInfo");
+            locale = plugin.getLocaleHandler().getLocale(player);
+            infoList = locale.getMessageList("Auction.startInfo");
             infoList = auction.infoReplace(infoList);
             infoList = auction.enchantReplace(infoList,
                     locale.getMessage("Auction.enchant"),
@@ -76,10 +86,15 @@ public class AuctionEventListener implements Listener {
             auction.setTimeRemaining(auction.getTimeRemaining() + auctionSettings.getSnipeValue());
         }
 
+        // Logging
+        Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
+        plugin.getLogger().info(ChatColor.stripColor(String.format(locale.getMessage("Auction.bidRaised"),
+                auction.getCurrentBid(), auction.getWinner().getName())));
+
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
-            Locale locale = plugin.getLocaleHandler().getLocale(player);
+            locale = plugin.getLocaleHandler().getLocale(player);
             String message = locale.getMessage("Auction.tag");
             message += String.format(locale.getMessage("Auction.bidRaised"),
                     auction.getCurrentBid(), auction.getWinner().getName());
@@ -88,24 +103,39 @@ public class AuctionEventListener implements Listener {
     }
 
     public void onAuctionEndEvent() {
+        Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
         // Broadcast
         if(plugin.getAuction().getWinner() == plugin.getAuction().getOwner()) {
+            // Logging
+            locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
+            plugin.getLogger().info(ChatColor.stripColor(locale.getMessage("Auction.noBids")));
+
             for(Player player : plugin.getServer().getOnlinePlayers()) {
                 if(ignoreAuction.isIgnored(player)) continue;
-                Locale locale = plugin.getLocaleHandler().getLocale(player);
+                locale = plugin.getLocaleHandler().getLocale(player);
                 player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.noBids"));
             }
         }
-        else for(Player player : plugin.getServer().getOnlinePlayers()) {
-            if(ignoreAuction.isIgnored(player)) continue;
-            Locale locale = plugin.getLocaleHandler().getLocale(player);
+        else  {
+            // Logging
             List<String> infoList = locale.getMessageList("Auction.endInfo");
             infoList = auction.infoReplace(infoList);
             infoList = auction.enchantReplace(infoList,
                     locale.getMessage("Auction.enchant"),
                     locale.getMessage("Auction.enchantInfo"), locale);
-            infoList = auction.addTag(infoList, locale.getMessage("Auction.tag"));
-            player.sendMessage(infoList.toArray(new String[0]));
+            plugin.getLogger().info(ChatColor.stripColor(infoList.toString()));
+
+            for(Player player : plugin.getServer().getOnlinePlayers()) {
+                if(ignoreAuction.isIgnored(player)) continue;
+                locale = plugin.getLocaleHandler().getLocale(player);
+                infoList = locale.getMessageList("Auction.endInfo");
+                infoList = auction.infoReplace(infoList);
+                infoList = auction.enchantReplace(infoList,
+                        locale.getMessage("Auction.enchant"),
+                        locale.getMessage("Auction.enchantInfo"), locale);
+                infoList = auction.addTag(infoList, locale.getMessage("Auction.tag"));
+                player.sendMessage(infoList.toArray(new String[0]));
+            }
         }
     }
 
