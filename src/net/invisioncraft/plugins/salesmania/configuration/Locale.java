@@ -5,7 +5,7 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
 import java.util.List;
 
 /**
- * Owner: Justin
+ * Owner: Byte 2 O Software LLC
  * Date: 5/16/12
  * Time: 7:29 PM
  */

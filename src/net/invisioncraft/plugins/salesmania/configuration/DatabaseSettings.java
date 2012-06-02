@@ -3,7 +3,7 @@ package net.invisioncraft.plugins.salesmania.configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
- * Owner: Justin
+ * Owner: Byte 2 O Software LLC
  * Date: 5/29/12
  * Time: 9:37 PM
  */

@@ -3,7 +3,7 @@ package net.invisioncraft.plugins.salesmania.configuration;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 
 /**
- * Owner: Justin
+ * Owner: Byte 2 O Software LLC
  * Date: 5/16/12
  * Time: 7:20 PM
  */

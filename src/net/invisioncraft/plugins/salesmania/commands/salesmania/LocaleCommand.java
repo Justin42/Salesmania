@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 /**
- * Owner: Justin
+ * Owner: Byte 2 O Software LLC
  * Date: 5/23/12
  * Time: 8:01 PM
  */

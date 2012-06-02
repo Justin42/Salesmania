@@ -7,7 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.HashMap;
 
 /**
- * Owner: Justin
+ * Owner: Byte 2 O Software LLC
  * Date: 5/22/12
  * Time: 5:51 AM
  */

@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 /**
- * Owner: Justin
+ * Owner: Byte 2 O Software LLC
  * Date: 5/16/12
  * Time: 10:00 PM
  */

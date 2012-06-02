@@ -12,6 +12,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashSet;
 import java.util.logging.Logger;
 
+/**
+ * Owner: Byte 2 O Software LLC
+ * Date: 5/16/12
+ */
+
 public class Salesmania extends JavaPlugin {
     private Logger consoleLogger;
     private Economy economy;

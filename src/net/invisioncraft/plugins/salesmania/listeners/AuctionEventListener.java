@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import java.util.List;
 
 /**
- * Owner: Justin
+ * Owner: Byte 2 O Software LLC
  * Date: 5/25/12
  * Time: 5:08 AM
  */
