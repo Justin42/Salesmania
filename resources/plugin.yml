@@ -32,4 +32,6 @@ commands:
       default: op
       children:
         salesmania.admin.reload: true
+        salesmania.auction.cancel: true
+        salesmania.auction.end: true
     

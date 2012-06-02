@@ -20,12 +20,16 @@ public class AuctionCancel extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
+        boolean hasPermission = false;
         if((sender instanceof Player)) {
-            if(!sender.hasPermission("salesmania.auction.cancel") | (Player)sender != plugin.getAuction().getOwner()) {
-                sender.sendMessage(
-                        locale.getMessage("Permission.noPermission") +
-                        locale.getMessage("Permission.Auction.cancel"));
+            if(sender == plugin.getAuction().getOwner() | sender.hasPermission("salesmania.auction.cancel")) {
+                hasPermission = true;
             }
+        }
+        if(!hasPermission) {
+            sender.sendMessage(
+                    locale.getMessage("Permission.noPermission") +
+                    locale.getMessage("Permission.Auction.cancel"));
             return false;
         }
 
