@@ -1,6 +1,7 @@
 package net.invisioncraft.plugins.salesmania.commands.salesmania;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +28,21 @@ public class SalesmaniaCommandExecutor implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        SalesmaniaCommand salesmaniaCommand = SalesmaniaCommand.valueOf(args[0].toUpperCase());
+        Locale locale = plugin.getLocaleHandler().getLocale(sender);
+        SalesmaniaCommand salesmaniaCommand;
+
+        // Syntax
+        if(args.length < 1) {
+            sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+            return false;
+        }
+        try {
+            salesmaniaCommand = SalesmaniaCommand.valueOf(args[0].toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+            return false;
+        }
+
         switch(salesmaniaCommand) {
             case LOCALE:
                 localeCommand.execute(sender, command, label, args);

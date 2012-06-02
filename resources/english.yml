@@ -26,6 +26,11 @@ Syntax:
     - "/auction info"
     auctionStart: "/auction start <startbid>"
     auctionBid: "/auction bid <bid>"
+  
+  Salesmania:
+    salesmania:
+    - "/salesmania locale set <locale>"
+    - "/salesmania reload"
     
 Auction:
   tag: "§2[Auction] §f"
