@@ -37,6 +37,7 @@ public class AuctionEventListener implements Listener {
             case TIMER: onAuctionTimerEvent(); break;
             case CANCEL: onAuctionCancelEvent(); break;
             case ENABLE: onAuctionEnableEvent(); break;
+            case DISABLE: onAuctionDisableEvent(); break;
         }
     }
 
@@ -124,7 +125,7 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    public void onAuctionDisabled() {
+    public void onAuctionDisableEvent() {
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
             Locale locale = plugin.getLocaleHandler().getLocale(player);
