@@ -1,6 +1,8 @@
 package net.invisioncraft.plugins.salesmania.configuration;
 
+import net.milkbowl.vault.item.Items;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -79,6 +81,16 @@ public class AuctionSettings implements ConfigurationHandler {
 
     public List<String> getBlacklist() {
         return config.getStringList("Auction.Blacklist");
+    }
+
+    public boolean isBlacklisted(ItemStack itemStack) {
+        List<String> blacklist = getBlacklist();
+        if(blacklist.contains(String.valueOf(itemStack.getTypeId()))) return true;
+        if(blacklist.contains(itemStack.getType().name())) return true;
+        if(settings.getPlugin().usingVault()) {
+            if(blacklist.contains(Items.itemById(itemStack.getTypeId()).getName())) return true;
+        }
+        return false;
     }
 
     public boolean getEnabled() {

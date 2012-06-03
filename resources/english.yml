@@ -47,6 +47,7 @@ Auction:
   notRunning: "§cThere is no auction running"
   noBids: "§cAuction ended with no bids."
   notEnough: "§cYou don't have enough of that item."
+  itemBlacklisted: "§cYou can't auction that item."
   
   enabled: "§aThe auction has been enabled."
   disabled: "§cThe auction has been disabled."

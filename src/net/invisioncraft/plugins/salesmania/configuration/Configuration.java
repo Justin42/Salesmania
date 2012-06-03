@@ -36,6 +36,7 @@ public class Configuration {
     private Salesmania plugin;
     private String filename;
     private HashSet<ConfigurationHandler> handlers;
+
     public Configuration(Salesmania plugin, String filename) {
         this.plugin = plugin;
         this.filename = filename;
@@ -84,6 +85,10 @@ public class Configuration {
 
     public void registerHandler(ConfigurationHandler handler) {
         handlers.add(handler);
+    }
+
+    public Salesmania getPlugin() {
+        return plugin;
     }
 
 }

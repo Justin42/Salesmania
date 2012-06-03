@@ -83,6 +83,12 @@ public class AuctionStart extends CommandHandler {
         Auction auction = plugin.getAuction();
         ItemStack itemStack = player.getItemInHand();
 
+        // Check blacklist
+        if(auctionSettings.isBlacklisted(itemStack)) {
+            player.sendMessage(locale.getMessage("Auction.itemBlacklisted"));
+            return false;
+        }
+
         // Quantity check
         if(quantity != 0) {
             itemStack.setAmount(quantity);
