@@ -4,6 +4,8 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Map;
+
 /**
  * Owner: Justin
  * Date: 6/3/12
@@ -18,9 +20,8 @@ public class ItemManager {
 
     public static int getQuantity(Player player, int itemID) {
         int quantity = 0;
-        for(ItemStack itemStack : player.getInventory().getContents()) {
-            if(itemStack == null) continue;
-            if(itemStack.getTypeId() == itemID) quantity += itemStack.getAmount();
+        for(Map.Entry<Integer, ? extends ItemStack> entry : player.getInventory().all(itemID).entrySet()) {
+            quantity += entry.getValue().getAmount();
         }
         return quantity;
     }
