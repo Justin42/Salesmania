@@ -22,9 +22,16 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-public class LogSettings {
+public class LogSettings implements ConfigurationHandler {
     private FileConfiguration config;
+    private Settings settings;
+
     protected LogSettings(Settings settings) {
+        this.settings = settings;
+    }
+
+    @Override
+    public void update() {
         config = settings.getConfig();
     }
 }

@@ -29,10 +29,16 @@ public class Settings extends Configuration {
     private LogSettings logSettings;
     public Settings(Salesmania plugin) {
         super(plugin, "config.yml");
+
         auctionSettings = new AuctionSettings(this);
         databaseSettings = new DatabaseSettings(this);
         localeSettings = new LocaleSettings(this);
         logSettings = new LogSettings(this);
+
+        registerHandler(auctionSettings);
+        registerHandler(databaseSettings);
+        registerHandler(localeSettings);
+        registerHandler(logSettings);
     }
 
     public AuctionSettings getAuctionSettings() {

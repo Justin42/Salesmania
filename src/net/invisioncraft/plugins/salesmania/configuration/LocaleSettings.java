@@ -24,10 +24,12 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-public class LocaleSettings {
+public class LocaleSettings implements ConfigurationHandler {
     private FileConfiguration config;
+    private Settings settings;
     protected LocaleSettings(Settings settings) {
-        config = settings.getConfig();
+        this.settings = settings;
+        update();
     }
 
     public String getDefaultLocale() {
@@ -36,5 +38,10 @@ public class LocaleSettings {
 
     public List<String> getLocales() {
         return config.getStringList("Main.availableLocale");
+    }
+
+    @Override
+    public void update() {
+        config = settings.getConfig();
     }
 }

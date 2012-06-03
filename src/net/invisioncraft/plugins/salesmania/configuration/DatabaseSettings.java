@@ -22,10 +22,12 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-public class DatabaseSettings {
+public class DatabaseSettings implements ConfigurationHandler {
     private FileConfiguration config;
-    public DatabaseSettings(Settings settings) {
-        config = settings.getConfig();
+    private Settings settings;
+    protected DatabaseSettings(Settings settings) {
+        this.settings = settings;
+        update();
     }
 
     public String getMysqlHost() {
@@ -52,4 +54,8 @@ public class DatabaseSettings {
         return config.getString("Auction.Logging.mysqlTable");
     }
 
+    @Override
+    public void update() {
+        config = settings.getConfig();
+    }
 }

@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.logging.Level;
 
 /**
@@ -34,10 +35,11 @@ public class Configuration {
     private File customConfigFile;
     private Salesmania plugin;
     private String filename;
-
+    private HashSet<ConfigurationHandler> handlers;
     public Configuration(Salesmania plugin, String filename) {
         this.plugin = plugin;
         this.filename = filename;
+        handlers = new HashSet<ConfigurationHandler>();
         plugin.registerConfig(this);
         reload();
         save();
@@ -59,6 +61,9 @@ public class Configuration {
             customConfig.setDefaults(defaultConfig);
             customConfig.options().copyDefaults(true);
         }
+        for(ConfigurationHandler handler : handlers) {
+            handler.update();
+        }
     }
 
     public FileConfiguration getConfig() {
@@ -75,6 +80,10 @@ public class Configuration {
         } catch (IOException ex) {
             plugin.getLogger().log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);
         }
+    }
+
+    public void registerHandler(ConfigurationHandler handler) {
+        handlers.add(handler);
     }
 
 }

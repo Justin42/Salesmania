@@ -24,10 +24,12 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-public class AuctionSettings {
+public class AuctionSettings implements ConfigurationHandler {
     private FileConfiguration config;
+    private Settings settings;
     protected AuctionSettings(Settings settings) {
-        config = settings.getConfig();
+        this.settings = settings;
+        update();
     }
 
     public boolean getAllowCreative() {
@@ -87,4 +89,8 @@ public class AuctionSettings {
         config.set("Auction.enabled", enabled);
     }
 
+    @Override
+    public void update() {
+        config = settings.getConfig();
+    }
 }
