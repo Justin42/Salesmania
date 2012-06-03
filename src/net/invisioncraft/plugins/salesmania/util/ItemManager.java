@@ -19,6 +19,7 @@ public class ItemManager {
     public static int getQuantity(Player player, int itemID) {
         int quantity = 0;
         for(ItemStack itemStack : player.getInventory().getContents()) {
+            if(itemStack == null) continue;
             if(itemStack.getTypeId() == itemID) quantity += itemStack.getAmount();
         }
         return quantity;
