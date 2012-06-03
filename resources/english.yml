@@ -19,7 +19,7 @@ Locale:
 Syntax:
   Auction:
     auction:
-    - "/auction start <startbid>"
+    - "/auction start <startbid> [quantity]"
     - "/auction bid <bid>"
     - "/auction cancel"
     - "/auction end"
@@ -46,6 +46,7 @@ Auction:
   timeRemaining: "%d seconds remaining."
   notRunning: "§cThere is no auction running"
   noBids: "§cAuction ended with no bids."
+  notEnough: "§cYou don't have enough of that item."
   
   enabled: "§aThe auction has been enabled."
   disabled: "§cThe auction has been disabled."

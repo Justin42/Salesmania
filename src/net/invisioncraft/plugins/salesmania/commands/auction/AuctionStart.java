@@ -50,12 +50,14 @@ public class AuctionStart extends CommandHandler {
 
         // Syntax check
         float startingBid;
+        int quantity = 0;
         if(args.length < 2) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
         }
         try {
             startingBid = Float.valueOf(args[1]);
+            if(args.length == 3) quantity = Integer.valueOf(args[2]);
         } catch (NumberFormatException ex) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
@@ -78,6 +80,20 @@ public class AuctionStart extends CommandHandler {
         Player player = (Player) sender;
         Auction auction = plugin.getAuction();
         ItemStack itemStack = player.getItemInHand();
+
+        // Check for available quantity
+        if(quantity != 0) {
+            itemStack.setAmount(quantity);
+            int availableQuantity = 0;
+            for(ItemStack stack : player.getInventory().getContents()) {
+                if(stack.getType() == itemStack.getType()) availableQuantity += stack.getAmount();
+            }
+            if(availableQuantity > quantity) {
+                player.sendMessage(locale.getMessage("Auction.notEnough"));
+                return false;
+            }
+            else itemStack.setAmount(quantity);
+        }
 
         switch(auction.start(player, itemStack, startingBid)) {
             case RUNNING:
