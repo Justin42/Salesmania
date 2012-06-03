@@ -81,7 +81,7 @@ public class AuctionStart extends CommandHandler {
 
         Player player = (Player) sender;
         Auction auction = plugin.getAuction();
-        ItemStack itemStack = player.getItemInHand();
+        ItemStack itemStack = player.getItemInHand().clone();
 
         // Check blacklist
         if(auctionSettings.isBlacklisted(itemStack)) {
