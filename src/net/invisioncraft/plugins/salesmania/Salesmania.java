@@ -4,6 +4,7 @@ import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecu
 import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
+import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -39,6 +40,7 @@ public class Salesmania extends JavaPlugin {
     private Auction currentAuction;
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
+    private ItemManager itemManager;
 
     private boolean usingVault = false;
 
@@ -49,6 +51,7 @@ public class Salesmania extends JavaPlugin {
         consoleLogger = this.getLogger();
         localeHandler = new LocaleHandler(this);
         ignoreAuction = new IgnoreAuction(this);
+        itemManager = new ItemManager(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
@@ -117,5 +120,9 @@ public class Salesmania extends JavaPlugin {
 
     public IgnoreAuction getIgnoreAuction() {
         return ignoreAuction;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
     }
 }
