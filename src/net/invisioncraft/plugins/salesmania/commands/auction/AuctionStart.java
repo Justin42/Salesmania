@@ -5,6 +5,7 @@ import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -42,9 +43,16 @@ public class AuctionStart extends CommandHandler {
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
 
+        // Console check
         if(!(sender instanceof Player)) {
             sender.sendMessage(localeHandler.getDefaultLocale().
                     getMessage("Console.cantStartAuction"));
+            return false;
+        }
+
+        // Disable check
+        if(!auctionSettings.getEnabled()) {
+            sender.sendMessage(locale.getMessage("Auction.disabled"));
             return false;
         }
 
@@ -63,12 +71,6 @@ public class AuctionStart extends CommandHandler {
             return false;
         }
 
-        // Disable check
-        if(!auctionSettings.getEnabled()) {
-            sender.sendMessage(locale.getMessage("Auction.disabled"));
-            return false;
-        }
-
         // Permission check
         if(!sender.hasPermission("salesmania.auction.start")) {
             sender.sendMessage(String.format(
@@ -81,14 +83,10 @@ public class AuctionStart extends CommandHandler {
         Auction auction = plugin.getAuction();
         ItemStack itemStack = player.getItemInHand();
 
-        // Check for available quantity
+        // Quantity check
         if(quantity != 0) {
             itemStack.setAmount(quantity);
-            int availableQuantity = 0;
-            for(ItemStack stack : player.getInventory().getContents()) {
-                if(stack.getType() == itemStack.getType()) availableQuantity += stack.getAmount();
-            }
-            if(availableQuantity > quantity) {
+            if(ItemManager.getQuantity(player, itemStack) > quantity) {
                 player.sendMessage(locale.getMessage("Auction.notEnough"));
                 return false;
             }
