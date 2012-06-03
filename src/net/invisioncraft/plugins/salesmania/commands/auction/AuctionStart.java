@@ -91,8 +91,7 @@ public class AuctionStart extends CommandHandler {
 
         // Quantity check
         if(quantity != 0) {
-            itemStack.setAmount(quantity);
-            if(ItemManager.getQuantity(player, itemStack) > quantity) {
+            if(quantity > ItemManager.getQuantity(player, itemStack)) {
                 player.sendMessage(locale.getMessage("Auction.notEnough"));
                 return false;
             }
