@@ -1,6 +1,7 @@
 package net.invisioncraft.plugins.salesmania.configuration;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import org.bukkit.ChatColor;
 
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class Locale extends Configuration {
     }
 
     public String getMessage(String path) {
-        if(getConfig().contains(path)) return getConfig().getString(path);
+        if(getConfig().contains(path)) return getConfig().getString(path).
+                replace("&", String.valueOf(ChatColor.COLOR_CHAR));
         else return "Locale message not found.";
     }
 

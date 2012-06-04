@@ -1,5 +1,5 @@
 ﻿Permission:
-  noPermission: "§cYou don't have permission to %s"
+  noPermission: "&cYou don't have permission to %s"
   
   Auction:
     start: "start an auction"
@@ -13,8 +13,8 @@ Misc:
 
 Locale:
   available: "Available locales: %s"
-  changed: "§aYour locale has been changed to %s"
-  notFound: "§cNo locale '%s' available"
+  changed: "&aYour locale has been changed to %s"
+  notFound: "&cNo locale '%s' available"
 
 Syntax:
   Auction:
@@ -33,55 +33,56 @@ Syntax:
     - "/salesmania reload"
     
 Auction:
-  tag: "§2[Auction] §f"
-  ignoring: "§cYou are now ignoring all auction messages."
-  notIgnoring: "§aYou are no longer ignoring auction messages."
-  alreadyStarted: "§cThere is already an auction running."
-  cooldown: "§cAuction is in a cooldown period."
-  time: "§c%d seconds remaining in auction."
-  bidRaised: "§aBid raised to §2$%,.2f§a by §3%s"
-  canceled: "§cAuction canceled."
-  startOverMax: "§cThe starting bid can't be over $%,.2f"
-  startUnderMin: "§cThe starting bid must be atleast $%,.2f"
+  tag: "&2[Auction] &f"
+  ignoring: "&cYou are now ignoring all auction messages."
+  notIgnoring: "&aYou are no longer ignoring auction messages."
+  alreadyStarted: "&cThere is already an auction running."
+  cooldown: "&cAuction is in a cooldown period."
+  time: "&c%d seconds remaining in auction."
+  bidRaised: "&aBid raised to &2$%,.2f&a by &3%s"
+  canceled: "&cAuction canceled."
+  startOverMax: "&cThe starting bid can't be over $%,.2f"
+  startUnderMin: "&cThe starting bid must be atleast $%,.2f"
   timeRemaining: "%d seconds remaining."
-  notRunning: "§cThere is no auction running"
-  noBids: "§cAuction ended with no bids."
-  notEnough: "§cYou don't have enough of that item."
-  itemBlacklisted: "§cYou can't auction that item."
+  notRunning: "&cThere is no auction running"
+  noBids: "&cAuction ended with no bids."
+  notEnough: "&cYou don't have enough of that item."
+  itemBlacklisted: "&cYou can't auction that item."
+  noCreative: "&cYou can't use the auction in creative mode."
   
-  enabled: "§aThe auction has been enabled."
-  disabled: "§cThe auction has been disabled."
-  alreadyEnabled: "§cThe auction is already enabled."
-  alreadyDisabled: "§cThe auction is already disabled."
+  enabled: "&aThe auction has been enabled."
+  disabled: "&cThe auction has been disabled."
+  alreadyEnabled: "&cThe auction is already enabled."
+  alreadyDisabled: "&cThe auction is already disabled."
   
   
   startInfo:
-  - "§3%owner%§f has put §a%quantity% %item%§f up for auction."
-  - "§aDurability: §6%durability%"
+  - "&3%owner%&f has put &a%quantity% %item%&f up for auction."
+  - "&aDurability: &6%durability%"
   - "%enchantinfo%"
-  - "§aStarting Bid: §2$%bid%"
+  - "&aStarting Bid: &2$%bid%"
   
-  enchant: "§aEnchant: §f"
-  enchantInfo: "§e%enchant%§f(§6%enchantlvl%§f) "
+  enchant: "&aEnchant: &f"
+  enchantInfo: "&e%enchant%&f(&6%enchantlvl%&f) "
   
   info:
-  - "§aItem: %quantity% %item%"
-  - "§aDurability: §6%durability%"
+  - "&aItem: %quantity% %item%"
+  - "&aDurability: &6%durability%"
   - "%enchantinfo%"
-  - "§aOwner: §3%owner%"
-  - "§aWinner: §3%winner% §fat §2$%bid%"
+  - "&aOwner: &3%owner%"
+  - "&aWinner: &3%winner% &fat &2$%bid%"
   
   endInfo:
-  - "§aAuction Ended: %quantity% %item% sold for §2$%bid%"
+  - "&aAuction Ended: %quantity% %item% sold for &2$%bid%"
   
   Bidding:
-    bidSuccess: "§aYou've bid §2$%,.2f§a on %s"
-    bidFailure: "§cSomething went wrong while bidding."
-    overMax:  "§cYou can't bid over $%,.2f at this time"
-    underMin: "§cYou must bid at least $%,.2f"
-    outBid: "§cYou've been outbid by %s!"
-    playerWinning: "§cYou are already winning this auction."
-    playerOwner: "§cYou can't bid on your own auction."
+    bidSuccess: "&aYou've bid &2$%,.2f&a on %s"
+    bidFailure: "&cSomething went wrong while bidding."
+    overMax:  "&cYou can't bid over $%,.2f at this time"
+    underMin: "&cYou must bid at least $%,.2f"
+    outBid: "&cYou've been outbid by %s!"
+    playerWinning: "&cYou are already winning this auction."
+    playerOwner: "&cYou can't bid on your own auction."
   
   Console:
     cantStartAuction: "Sorry, only players can start an auction."
