@@ -99,6 +99,7 @@ public class AuctionSettings implements ConfigurationHandler {
 
     public void setEnabled(boolean enabled) {
         config.set("Auction.enabled", enabled);
+        settings.save();
     }
 
     @Override
