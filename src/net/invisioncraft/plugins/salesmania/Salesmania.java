@@ -70,7 +70,7 @@ public class Salesmania extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        saveConfig();
+        //saveConfig();
     }
 
     public Settings getSettings() {
