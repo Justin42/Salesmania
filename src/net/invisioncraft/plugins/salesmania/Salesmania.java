@@ -33,7 +33,7 @@ Copyright 2012 Byte 2 O Software LLC
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 public class Salesmania extends JavaPlugin {
-    private Logger consoleLogger;
+    public static Logger consoleLogger;
     private Economy economy;
     private Settings settings;
     private IgnoreAuction ignoreAuction;
