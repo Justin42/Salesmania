@@ -6,6 +6,7 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -50,9 +51,19 @@ public class AuctionStart extends CommandHandler {
             return false;
         }
 
+        Player player = (Player) sender;
+        Auction auction = plugin.getAuction();
+        ItemStack itemStack = player.getItemInHand().clone();
+
         // Disable check
         if(!auctionSettings.getEnabled()) {
             sender.sendMessage(locale.getMessage("Auction.disabled"));
+            return false;
+        }
+
+        // Creative check
+        if(!auctionSettings.getAllowCreative() && player.getGameMode() == GameMode.CREATIVE) {
+            sender.sendMessage(locale.getMessage("Auction.noCreative"));
             return false;
         }
 
@@ -79,11 +90,7 @@ public class AuctionStart extends CommandHandler {
             return false;
         }
 
-        Player player = (Player) sender;
-        Auction auction = plugin.getAuction();
-        ItemStack itemStack = player.getItemInHand().clone();
-
-        // Check blacklist
+        // Blacklist check
         if(auctionSettings.isBlacklisted(itemStack)) {
             player.sendMessage(locale.getMessage("Auction.itemBlacklisted"));
             return false;
