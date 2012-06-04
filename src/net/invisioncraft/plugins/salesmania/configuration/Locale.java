@@ -3,6 +3,7 @@ package net.invisioncraft.plugins.salesmania.configuration;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +41,11 @@ public class Locale extends Configuration {
     }
 
     public List<String> getMessageList(String path) {
-        return getConfig().getStringList(path);
+        List<String> messageList = new ArrayList<String>();
+        for(String message : getConfig().getStringList(path)) {
+            messageList.add(message.replace("&", String.valueOf(ChatColor.COLOR_CHAR)));
+        }
+        return messageList;
     }
 
     public String getName() {
