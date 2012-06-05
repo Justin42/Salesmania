@@ -1,11 +1,11 @@
 name: Salesmania
-version: 0.1a
+version: 1.0b1
 description: Plugin for handling player auctions.
 author: Justin
 authors: [Khaos_Fury]
 website: http://invisioncraft.net
 main: net.invisioncraft.plugins.salesmania.Salesmania
-softdepend: [Vault]
+depend: [Vault]
 
 commands:
   auction:
