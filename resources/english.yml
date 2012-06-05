@@ -24,7 +24,7 @@ Syntax:
     - "/auction cancel"
     - "/auction end"
     - "/auction info"
-    auctionStart: "/auction start <startbid>"
+    auctionStart: "/auction start <startbid> [quantity]"
     auctionBid: "/auction bid <bid>"
   
   Salesmania:
