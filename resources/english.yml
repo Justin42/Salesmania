@@ -55,6 +55,8 @@ Auction:
   alreadyEnabled: "&cThe auction is already enabled."
   alreadyDisabled: "&cThe auction is already disabled."
   
+  winnerOffline: "&cWinner is not online."
+  
   inventoryFull: "&cYour inventory was full, the items have dropped to the ground."
   
   startInfo:

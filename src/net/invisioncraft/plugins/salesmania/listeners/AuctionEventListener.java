@@ -163,6 +163,11 @@ public class AuctionEventListener implements Listener {
         else  {
             // Check if winner logged off
             if(!auction.getWinner().isOnline()) {
+                for(Player player : plugin.getServer().getOnlinePlayers()) {
+                    if(ignoreAuction.isIgnored(player)) continue;
+                    locale = plugin.getLocaleHandler().getLocale(player);
+                    player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.winnerOffline"));
+                }
                 auction.cancel();
                 return;
             }
