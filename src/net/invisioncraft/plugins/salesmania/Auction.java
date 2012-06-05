@@ -43,9 +43,9 @@ public class Auction {
     private boolean inCooldown = false;
 
     private Player owner;
-    private Player currentWinner;
+    private Player winner;
     private Player lastWinner;
-    private double currentBid;
+    private double bid;
     private double lastBid;
 
     private ItemStack itemStack;
@@ -102,23 +102,23 @@ public class Auction {
     }
 
     public Player getWinner() {
-        return currentWinner;
+        return winner;
     }
 
     public Player getOwner() {
         return owner;
     }
 
-    public double getCurrentBid() {
-        return currentBid;
+    public double getBid() {
+        return bid;
     }
 
     public double getMaxBid() {
-        return currentBid + auctionSettings.getMaxIncrement();
+        return bid + auctionSettings.getMaxIncrement();
     }
 
     public double getMinBid() {
-        return currentBid + auctionSettings.getMinIncrement();
+        return bid + auctionSettings.getMinIncrement();
     }
 
     public ItemStack getItemStack() {
@@ -131,10 +131,10 @@ public class Auction {
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
         if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
-        currentBid = startBid;
+        bid = startBid;
         this.itemStack = itemStack;
         owner = player;
-        currentWinner = owner;
+        winner = owner;
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
         plugin.getIgnoreAuction().setIgnore(player, false);
@@ -150,15 +150,15 @@ public class Auction {
     public AuctionStatus bid(Player player, double bid) {
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
         if(player == owner) return AuctionStatus.OWNER;
-        if(currentWinner != null && currentWinner == player) return AuctionStatus.WINNING;
+        if(winner != null && winner == player) return AuctionStatus.WINNING;
         if(bid > getMaxBid()) return AuctionStatus.OVER_MAX;
         if(bid < getMinBid()) return AuctionStatus.UNDER_MIN;
 
-        lastWinner = currentWinner;
-        lastBid = currentBid;
+        lastWinner = winner;
+        lastBid = bid;
 
-        currentWinner = player;
-        currentBid = bid;
+        winner = player;
+        this.bid = bid;
         plugin.getIgnoreAuction().setIgnore(player, false);
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.BID));
         return AuctionStatus.SUCCESS;
@@ -206,10 +206,10 @@ public class Auction {
 
             info = info.replace("%item%", Items.itemById(itemStack.getTypeId()).getName());
 
-            info = info.replace("%bid%", String.format("%,.2f", currentBid));
+            info = info.replace("%bid%", String.format("%,.2f", bid));
 
-            if(currentWinner == owner) info = info.replace("%winner%", "None");
-            else info = info.replace("%winner%", currentWinner.getName());
+            if(winner == owner) info = info.replace("%winner%", "None");
+            else info = info.replace("%winner%", winner.getName());
 
             newInfoList.add(info);
         }

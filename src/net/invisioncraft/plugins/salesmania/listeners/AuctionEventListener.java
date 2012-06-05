@@ -104,7 +104,7 @@ public class AuctionEventListener implements Listener {
         // Logging
         Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
         plugin.getLogger().info(ChatColor.stripColor(String.format(locale.getMessage("Auction.bidRaised"),
-                auction.getCurrentBid(), auction.getWinner().getName())));
+                auction.getBid(), auction.getWinner().getName())));
 
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
@@ -112,7 +112,7 @@ public class AuctionEventListener implements Listener {
             locale = plugin.getLocaleHandler().getLocale(player);
             String message = locale.getMessage("Auction.tag");
             message += String.format(locale.getMessage("Auction.bidRaised"),
-                    auction.getCurrentBid(), auction.getWinner().getName());
+                    auction.getBid(), auction.getWinner().getName());
             player.sendMessage(message);
         }
     }
