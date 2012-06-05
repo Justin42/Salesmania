@@ -161,6 +161,12 @@ public class AuctionEventListener implements Listener {
 
         // BIDS
         else  {
+            // Check if winner logged off
+            if(!auction.getWinner().isOnline()) {
+                auction.cancel();
+                return;
+            }
+
             // Logging
             List<String> infoList = locale.getMessageList("Auction.endInfo");
             infoList = auction.infoReplace(infoList);
