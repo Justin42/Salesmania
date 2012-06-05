@@ -123,7 +123,7 @@ public class AuctionEventListener implements Listener {
             economy.depositPlayer(player.getName(), auction.getLastBid());
             locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(String.format(
-                    locale.getMessage("Auction.outbid"), auction.getWinner().getName()));
+                    locale.getMessage("Auction.Bidding.outBid"), auction.getWinner().getName()));
         }
 
         // Take new bid
