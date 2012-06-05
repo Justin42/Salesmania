@@ -144,7 +144,7 @@ public class AuctionEventListener implements Listener {
         Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
 
         // NO BIDS
-        if(plugin.getAuction().getWinner() == plugin.getAuction().getOwner()) {
+        if(plugin.getAuction().getWinner() == null) {
             // Logging
             locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
             plugin.getLogger().info(ChatColor.stripColor(locale.getMessage("Auction.noBids")));
@@ -184,6 +184,9 @@ public class AuctionEventListener implements Listener {
 
             // Give item to winner
             giveItem(auction.getWinner(), auction.getItemStack());
+
+            // Give money to owner
+            economy.depositPlayer(auction.getOwner().getName(), auction.getBid());
         }
     }
 
@@ -193,7 +196,9 @@ public class AuctionEventListener implements Listener {
         plugin.getLogger().info(locale.getMessage("Auction.canceled"));
 
         // Give back bid
-        economy.depositPlayer(auction.getWinner().getName(), auction.getBid());
+        if(auction.getWinner() != null) {
+            economy.depositPlayer(auction.getWinner().getName(), auction.getBid());
+        }
 
         // Give back item to owner
         giveItem(auction.getOwner(), auction.getItemStack());

@@ -134,7 +134,6 @@ public class Auction {
         bid = startBid;
         this.itemStack = itemStack;
         owner = player;
-        winner = owner;
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
         plugin.getIgnoreAuction().setIgnore(player, false);
@@ -208,8 +207,8 @@ public class Auction {
 
             info = info.replace("%bid%", String.format("%,.2f", bid));
 
-            if(winner == owner) info = info.replace("%winner%", "None");
-            else info = info.replace("%winner%", winner.getName());
+            if(winner != null) info = info.replace("%winner%", winner.getName());
+            else info = info.replace("%winner%", "None");
 
             newInfoList.add(info);
         }
