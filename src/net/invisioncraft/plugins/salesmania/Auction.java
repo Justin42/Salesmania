@@ -154,6 +154,7 @@ public class Auction {
 
         currentWinner = player;
         currentBid = bid;
+        plugin.getIgnoreAuction().setIgnore(player, false);
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.BID));
         return AuctionStatus.SUCCESS;
     }
