@@ -6,12 +6,17 @@ import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.IgnoreAuction;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import net.invisioncraft.plugins.salesmania.util.ItemManager;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Owner: Byte 2 O Software LLC
@@ -39,6 +44,7 @@ public class AuctionEventListener implements Listener {
     Auction auction;
     IgnoreAuction ignoreAuction;
     AuctionSettings auctionSettings;
+    Economy economy;
     @EventHandler
     public void onAuctionEvent(AuctionEvent auctionEvent) {
         this.auctionEvent = auctionEvent;
@@ -46,6 +52,8 @@ public class AuctionEventListener implements Listener {
         plugin = auction.getPlugin();
         auctionSettings = plugin.getSettings().getAuctionSettings();
         ignoreAuction = plugin.getIgnoreAuction();
+        economy = plugin.getEconomy();
+
         switch (auctionEvent.getEventType()) {
             case BID: onAuctionBidEvent(); break;
             case END: onAuctionEndEvent(); break;
@@ -81,6 +89,9 @@ public class AuctionEventListener implements Listener {
                 locale.getMessage("Auction.enchantInfo"), locale);
         plugin.getLogger().info(ChatColor.stripColor(infoList.toString()));
 
+        // Take item
+        ItemManager.takeItem(auction.getOwner(), auction.getItemStack());
+
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
@@ -106,6 +117,18 @@ public class AuctionEventListener implements Listener {
         plugin.getLogger().info(ChatColor.stripColor(String.format(locale.getMessage("Auction.bidRaised"),
                 auction.getBid(), auction.getWinner().getName())));
 
+        // Give back last bid
+        if(auction.getLastWinner() != null) {
+            Player player = auction.getLastWinner();
+            economy.depositPlayer(player.getName(), auction.getLastBid());
+            locale = plugin.getLocaleHandler().getLocale(player);
+            player.sendMessage(String.format(
+                    locale.getMessage("Auction.outbid"), auction.getWinner().getName()));
+        }
+
+        // Take new bid
+        economy.withdrawPlayer(auction.getWinner().getName(), auction.getBid());
+
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
@@ -119,18 +142,24 @@ public class AuctionEventListener implements Listener {
 
     public void onAuctionEndEvent() {
         Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
-        // Broadcast
+
+        // NO BIDS
         if(plugin.getAuction().getWinner() == plugin.getAuction().getOwner()) {
             // Logging
             locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
             plugin.getLogger().info(ChatColor.stripColor(locale.getMessage("Auction.noBids")));
 
+            // Broadcast
             for(Player player : plugin.getServer().getOnlinePlayers()) {
                 if(ignoreAuction.isIgnored(player)) continue;
                 locale = plugin.getLocaleHandler().getLocale(player);
                 player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.noBids"));
             }
+            // Give back item to owner
+            giveItem(auction.getOwner(), auction.getItemStack());
         }
+
+        // BIDS
         else  {
             // Logging
             List<String> infoList = locale.getMessageList("Auction.endInfo");
@@ -140,6 +169,7 @@ public class AuctionEventListener implements Listener {
                     locale.getMessage("Auction.enchantInfo"), locale);
             plugin.getLogger().info(ChatColor.stripColor(infoList.toString()));
 
+            // Broadcast
             for(Player player : plugin.getServer().getOnlinePlayers()) {
                 if(ignoreAuction.isIgnored(player)) continue;
                 locale = plugin.getLocaleHandler().getLocale(player);
@@ -151,6 +181,9 @@ public class AuctionEventListener implements Listener {
                 infoList = auction.addTag(infoList, locale.getMessage("Auction.tag"));
                 player.sendMessage(infoList.toArray(new String[0]));
             }
+
+            // Give item to winner
+            giveItem(auction.getWinner(), auction.getItemStack());
         }
     }
 
@@ -158,6 +191,12 @@ public class AuctionEventListener implements Listener {
         // Logging
         Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
         plugin.getLogger().info(locale.getMessage("Auction.canceled"));
+
+        // Give back bid
+        economy.depositPlayer(auction.getWinner().getName(), auction.getBid());
+
+        // Give back item to owner
+        giveItem(auction.getOwner(), auction.getItemStack());
 
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
@@ -185,11 +224,24 @@ public class AuctionEventListener implements Listener {
         Locale locale = plugin.getLocaleHandler().getLocale(plugin.getServer().getConsoleSender());
         plugin.getLogger().info(locale.getMessage("Auction.disabled"));
 
+        // Cancel current auction
+        auction.cancel();
+
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(ignoreAuction.isIgnored(player)) continue;
             locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.disabled"));
         }
+    }
+
+    private void giveItem(Player player, ItemStack itemStack) {
+        HashMap<Integer, ItemStack> remainingItems = player.getInventory().addItem(itemStack);
+        if(remainingItems.isEmpty()) return;
+        else for(Map.Entry<Integer, ItemStack> entry : remainingItems.entrySet()) {
+            player.getWorld().dropItem(player.getLocation(), entry.getValue());
+        }
+        Locale locale = plugin.getLocaleHandler().getLocale(player);
+        player.sendMessage(locale.getMessage("Auction.inventoryFull"));
     }
 }

@@ -38,10 +38,21 @@ public class AuctionBid extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
+
+        // Console check
         if(!(sender instanceof Player)) {
             sender.sendMessage(locale.getMessage("Console.cantBid"));
+            return false;
         }
         Player player = (Player) sender;
+
+        // Permission check
+        if(!sender.hasPermission("salesmania.auction.bid")) {
+            sender.sendMessage(String.format(
+                    locale.getMessage("Permission.noPermission"),
+                    locale.getMessage("Permisson.Auction.bid")));
+            return false;
+        }
 
         // Syntax check
         double bidAmount;
@@ -56,14 +67,13 @@ public class AuctionBid extends CommandHandler {
             return false;
         }
 
-        Auction auction = plugin.getAuction();
-
-        if(!player.hasPermission("salesmania.auction.bid")) {
-            player.sendMessage(String.format(
-                    locale.getMessage("Permission.noPermission"),
-                    locale.getMessage("Permisson.Auction.bid")));
+        // Funds check
+        if(!plugin.getEconomy().has(player.getName(), bidAmount)) {
+            player.sendMessage(locale.getMessage("Auction.Bidding.notEnoughMoney"));
             return false;
         }
+
+        Auction auction = plugin.getAuction();
         switch(auction.bid(player, bidAmount)) {
             case SUCCESS:
                 player.sendMessage(String.format(

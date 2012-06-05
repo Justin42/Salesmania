@@ -55,6 +55,7 @@ Auction:
   alreadyEnabled: "&cThe auction is already enabled."
   alreadyDisabled: "&cThe auction is already disabled."
   
+  inventoryFull: "&cYour inventory was full, the items have dropped to the ground."
   
   startInfo:
   - "&3%owner%&f has put &a%quantity% %item%&f up for auction."
@@ -80,9 +81,10 @@ Auction:
     bidFailure: "&cSomething went wrong while bidding."
     overMax:  "&cYou can't bid over $%,.2f at this time"
     underMin: "&cYou must bid at least $%,.2f"
-    outBid: "&cYou've been outbid by %s!"
+    outBid: "&cYou've been outbid by &3%s!"
     playerWinning: "&cYou are already winning this auction."
     playerOwner: "&cYou can't bid on your own auction."
+    notEnoughMoney: "&cYou don't have that much money."
   
   Console:
     cantStartAuction: "Sorry, only players can start an auction."
