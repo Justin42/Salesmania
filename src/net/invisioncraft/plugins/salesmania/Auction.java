@@ -133,6 +133,7 @@ public class Auction {
 
         bid = startBid;
         this.itemStack = itemStack;
+        winner = null;
         owner = player;
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
