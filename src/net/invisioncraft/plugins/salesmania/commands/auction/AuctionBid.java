@@ -44,13 +44,13 @@ public class AuctionBid extends CommandHandler {
         Player player = (Player) sender;
 
         // Syntax check
-        float bidAmount;
+        double bidAmount;
         if(args.length < 2) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionBid"));
             return false;
         }
         try {
-            bidAmount = Float.valueOf(args[1]);
+            bidAmount = Double.valueOf(args[1]);
         }   catch (NumberFormatException ex) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionBid"));
             return false;

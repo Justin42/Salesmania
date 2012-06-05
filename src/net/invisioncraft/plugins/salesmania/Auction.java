@@ -42,9 +42,9 @@ public class Auction {
     private boolean isRunning = false;
     private boolean inCooldown = false;
 
-    private Player currentWinner;
     private Player owner;
-    private float currentBid;
+    private Player currentWinner;
+    private double currentBid;
 
     private ItemStack itemStack;
 
@@ -107,15 +107,15 @@ public class Auction {
         return owner;
     }
 
-    public float getCurrentBid() {
+    public double getCurrentBid() {
         return currentBid;
     }
 
-    public float getMaxBid() {
+    public double getMaxBid() {
         return currentBid + auctionSettings.getMaxIncrement();
     }
 
-    public float getMinBid() {
+    public double getMinBid() {
         return currentBid + auctionSettings.getMinIncrement();
     }
 
@@ -123,7 +123,7 @@ public class Auction {
         return itemStack;
     }
 
-    public AuctionStatus start(Player player, ItemStack itemStack, float startBid)  {
+    public AuctionStatus start(Player player, ItemStack itemStack, double startBid)  {
         if(isRunning()) return AuctionStatus.RUNNING;
         if(isInCooldown()) return AuctionStatus.COOLDOWN;
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
@@ -145,6 +145,7 @@ public class Auction {
         return timerID;
     }
 
+    public AuctionStatus bid(Player player, double bid) {
     public AuctionStatus bid(Player player, float bid) {
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
         if(player == owner) return AuctionStatus.OWNER;
@@ -248,5 +249,13 @@ public class Auction {
 
     public Salesmania getPlugin() {
         return plugin;
+    }
+
+    public double getLastBid() {
+        return lastBid;
+    }
+
+    public Player getLastWinner() {
+        return lastWinner;
     }
 }

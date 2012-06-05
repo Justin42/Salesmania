@@ -43,20 +43,20 @@ public class AuctionSettings implements ConfigurationHandler {
         return config.getLong("Auction.cooldown");
     }
 
-    public float getMinStart() {
-        return config.getLong("Auction.minStart");
+    public double getMinStart() {
+        return config.getDouble("Auction.minStart");
     }
 
-    public float getMaxStart() {
-        return config.getLong("Auction.maxStart");
+    public double getMaxStart() {
+        return config.getDouble("Auction.maxStart");
     }
 
-    public float getMinIncrement() {
-        return config.getInt("Auction.Bidding.minIncrement");
+    public double getMinIncrement() {
+        return config.getDouble("Auction.Bidding.minIncrement");
     }
 
-    public float getMaxIncrement() {
-        return config.getInt("Auction.Bidding.maxIncrement");
+    public double getMaxIncrement() {
+        return config.getDouble("Auction.Bidding.maxIncrement");
     }
 
     public int getDefaultTime() {
