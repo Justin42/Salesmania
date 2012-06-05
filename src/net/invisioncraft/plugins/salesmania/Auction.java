@@ -155,7 +155,7 @@ public class Auction {
         if(bid < getMinBid()) return AuctionStatus.UNDER_MIN;
 
         lastWinner = winner;
-        lastBid = bid;
+        lastBid = this.bid;
 
         winner = player;
         this.bid = bid;
