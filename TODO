@@ -1,0 +1,4 @@
+Better logging
+Support for multiple auctions
+Better handling when winner has logged out
+Some refactoring with IgnoreAuction
