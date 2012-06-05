@@ -135,6 +135,7 @@ public class Auction {
         currentWinner = owner;
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
+        plugin.getIgnoreAuction().setIgnore(player, false);
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
         return AuctionStatus.SUCCESS;
