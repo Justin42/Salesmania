@@ -198,8 +198,7 @@ public class Auction {
             info = info.replace("%owner%", owner.getName());
             info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
 
-            if(plugin.usingVault()) info = info.replace("%item%", Items.itemById(itemStack.getTypeId()).getName());
-            else info = info.replace("%item%", itemStack.getType().name());
+            info = info.replace("%item%", Items.itemById(itemStack.getTypeId()).getName());
 
             info = info.replace("%bid%", String.format("%,.2f", currentBid));
 

@@ -6,6 +6,7 @@ import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,8 +43,6 @@ public class Salesmania extends JavaPlugin {
     private HashSet<Configuration> configSet;
     private ItemManager itemManager;
 
-    private boolean usingVault = false;
-
     @Override
     public void onEnable() {
         configSet = new HashSet<Configuration>();
@@ -61,8 +60,15 @@ public class Salesmania extends JavaPlugin {
         if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {
             RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
             if(economyProvider != null) economy = economyProvider.getProvider();
-            usingVault = true;
+            else {
+                consoleLogger.severe("No vault-supported economy plugin found.");
+                Bukkit.getServer().getPluginManager().disablePlugin(this);
+            }
             consoleLogger.info("Found Vault.");
+        }
+        else {
+            consoleLogger.severe("Vault not found.");
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
 
         consoleLogger.info("Salesmania Activated");
@@ -70,7 +76,7 @@ public class Salesmania extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        //saveConfig();
+        consoleLogger.info("Disabling...");
     }
 
     public Settings getSettings() {
@@ -112,10 +118,6 @@ public class Salesmania extends JavaPlugin {
             consoleLogger.info(String.format(
                     locale.getMessage("Misc.saveConfig"), config.getFilename()));
         }
-    }
-
-    public boolean usingVault() {
-        return usingVault;
     }
 
     public IgnoreAuction getIgnoreAuction() {

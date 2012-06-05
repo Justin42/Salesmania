@@ -87,9 +87,7 @@ public class AuctionSettings implements ConfigurationHandler {
         List<String> blacklist = getBlacklist();
         if(blacklist.contains(String.valueOf(itemStack.getTypeId()))) return true;
         if(blacklist.contains(itemStack.getType().name())) return true;
-        if(settings.getPlugin().usingVault()) {
-            if(blacklist.contains(Items.itemById(itemStack.getTypeId()).getName())) return true;
-        }
+        if(blacklist.contains(Items.itemById(itemStack.getTypeId()).getName())) return true;
         return false;
     }
 
