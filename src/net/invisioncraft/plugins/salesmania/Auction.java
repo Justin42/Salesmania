@@ -44,7 +44,9 @@ public class Auction {
 
     private Player owner;
     private Player currentWinner;
+    private Player lastWinner;
     private double currentBid;
+    private double lastBid;
 
     private ItemStack itemStack;
 
@@ -146,12 +148,14 @@ public class Auction {
     }
 
     public AuctionStatus bid(Player player, double bid) {
-    public AuctionStatus bid(Player player, float bid) {
         if(!isRunning) return AuctionStatus.NOT_RUNNING;
         if(player == owner) return AuctionStatus.OWNER;
         if(currentWinner != null && currentWinner == player) return AuctionStatus.WINNING;
         if(bid > getMaxBid()) return AuctionStatus.OVER_MAX;
         if(bid < getMinBid()) return AuctionStatus.UNDER_MIN;
+
+        lastWinner = currentWinner;
+        lastBid = currentBid;
 
         currentWinner = player;
         currentBid = bid;
