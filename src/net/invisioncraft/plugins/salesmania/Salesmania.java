@@ -58,25 +58,24 @@ public class Salesmania extends JavaPlugin {
 
         // Vault
         if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {
+            consoleLogger.info("Found Vault.");
             RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
             if(economyProvider != null) economy = economyProvider.getProvider();
             else {
                 consoleLogger.severe("No vault-supported economy plugin found.");
                 Bukkit.getServer().getPluginManager().disablePlugin(this);
             }
-            consoleLogger.info("Found Vault.");
         }
         else {
             consoleLogger.severe("Vault not found.");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
-
-        consoleLogger.info("Salesmania Activated");
+        if(isEnabled()) consoleLogger.info("Salesmania Activated");
     }
 
     @Override
     public void onDisable() {
-        consoleLogger.info("Disabling...");
+        consoleLogger.info("Disabled.");
     }
 
     public Settings getSettings() {
