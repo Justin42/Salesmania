@@ -4,8 +4,10 @@ import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.milkbowl.vault.item.Items;
+import net.minecraft.server.Block;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -204,7 +206,13 @@ public class Auction {
             info = info.replace("%owner%", owner.getName());
             info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
 
-            info = info.replace("%item%", Items.itemById(itemStack.getTypeId()).getName());
+            // Spawner names
+            if(itemStack.getTypeId() == Block.MOB_SPAWNER.id) {
+                info = info.replace("%item%",
+                        EntityType.fromId((int) itemStack.getData().getData()).getName() +
+                                " Spawner");
+            }
+            else info = info.replace("%item%", Items.itemByStack(itemStack).getName());
 
             info = info.replace("%bid%", String.format("%,.2f", bid));
 
