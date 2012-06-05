@@ -27,13 +27,3 @@ Auction:
     snipeTime: 10
     snipeValue: 10
     
-  Logging:
-    enabled: true
-    filename: log.yml
-    type: yaml
-    mysqlHost: localhost
-    mysqlPort: 3306
-    mysqlUsername: USERNAME
-    mysqlPassword: PASSWORD
-    mysqlDatabase: minecraft
-    mysqlTable: salesmania_log
