@@ -1,4 +1,12 @@
-Better logging
-Support for multiple auctions
+1.0b2 -
+Fix starting bid
+add mob spawners and potions
+remove unimplemented config options
+
+1.1 -
 Better handling when winner has logged out
 Some refactoring with IgnoreAuction
+Better logging
+
+2.0 -
+Support for multiple auctions
