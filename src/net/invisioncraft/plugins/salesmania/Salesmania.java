@@ -127,4 +127,8 @@ public class Salesmania extends JavaPlugin {
     public ItemManager getItemManager() {
         return itemManager;
     }
+
+    public Economy getEconomy() {
+        return economy;
+    }
 }
