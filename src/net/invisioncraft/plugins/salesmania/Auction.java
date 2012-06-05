@@ -120,7 +120,8 @@ public class Auction {
     }
 
     public double getMinBid() {
-        return bid + auctionSettings.getMinIncrement();
+        if(lastBid == 0) return bid;
+        else return bid + auctionSettings.getMinIncrement();
     }
 
     public ItemStack getItemStack() {
@@ -134,6 +135,7 @@ public class Auction {
         if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
         bid = startBid;
+        lastBid = 0;
         this.itemStack = itemStack;
         winner = null;
         owner = player;
