@@ -1,7 +1,4 @@
-1.0b2 -
-Fix starting bid
-add mob spawners and potions
-remove unimplemented config options
+1.0b3 -
 
 1.1 -
 Better handling when winner has logged out
