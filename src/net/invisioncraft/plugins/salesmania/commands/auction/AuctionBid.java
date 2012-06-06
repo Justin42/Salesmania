@@ -3,8 +3,10 @@ package net.invisioncraft.plugins.salesmania.commands.auction;
 import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.milkbowl.vault.item.Items;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,8 +33,10 @@ Copyright 2012 Byte 2 O Software LLC
 */
 
 public class AuctionBid extends CommandHandler {
+    AuctionSettings auctionSettings;
     public AuctionBid(Salesmania plugin) {
         super(plugin);
+        auctionSettings = settings.getAuctionSettings();
     }
 
     @Override
@@ -64,6 +68,12 @@ public class AuctionBid extends CommandHandler {
             bidAmount = Double.valueOf(args[1]);
         }   catch (NumberFormatException ex) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionBid"));
+            return false;
+        }
+
+        // Creative check
+        if(!auctionSettings.getAllowCreative() && player.getGameMode() == GameMode.CREATIVE) {
+            sender.sendMessage(locale.getMessage("Auction.noCreative"));
             return false;
         }
 
