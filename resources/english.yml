@@ -30,6 +30,7 @@ Syntax:
   Salesmania:
     salesmania:
     - "/salesmania locale set <locale>"
+    - "/salesmania locale list"
     - "/salesmania reload"
     
 Auction:

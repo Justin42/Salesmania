@@ -42,18 +42,30 @@ public class LocaleCommand extends CommandHandler {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-        LocaleCommands localeCommand = LocaleCommands.valueOf(args[1].toUpperCase());
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
+        LocaleCommands localeCommand;
+        // Syntax
+        try {
+            localeCommand = LocaleCommands.valueOf(args[1].toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+            return false;
+        }
         switch(localeCommand) {
             case LIST:
                 String localeList = "";
                 for (String localeName : localeSettings.getLocales()) {
-                    localeList.concat(locale + " ");
+                    localeList = localeList.concat(localeName + " ");
                 }
                 sender.sendMessage(String.format(
-                    locale.getMessage("Locale.list"),
+                    locale.getMessage("Locale.available"),
                     localeList));
+                break;
             case SET:
+                if(args.length < 3) {
+                    sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+                    return false;
+                }
                 if(plugin.getLocaleHandler().setLocale(sender, args[2])) {
                     locale = plugin.getLocaleHandler().getLocale(sender);
                     sender.sendMessage(String.format(
@@ -65,8 +77,10 @@ public class LocaleCommand extends CommandHandler {
                             locale.getMessage("Locale.notFound"),
                             args[2]));
                 }
+                break;
             default:
                 return false;
         }
+        return true;
     }
 }
