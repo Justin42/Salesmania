@@ -44,13 +44,19 @@ public class LocaleCommand extends CommandHandler {
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
         LocaleCommands localeCommand;
+
         // Syntax
+        if(args.length < 2) {
+            sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+            return false;
+        }
         try {
             localeCommand = LocaleCommands.valueOf(args[1].toUpperCase());
         } catch (IllegalArgumentException ex) {
             sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
             return false;
         }
+
         switch(localeCommand) {
             case LIST:
                 String localeList = "";
