@@ -94,7 +94,7 @@ public class AuctionBid extends CommandHandler {
                 player.sendMessage(String.format(
                         locale.getMessage("Auction.Bidding.overMax"),
                         auction.getMaxBid()));
-                return true;
+                return false;
             case UNDER_MIN:
                 player.sendMessage(String.format(
                         locale.getMessage("Auction.Bidding.underMin"),
