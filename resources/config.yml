@@ -7,7 +7,6 @@ Auction:
   enabled: true
   allowCreative: false
   cooldown: 300
-  maxTime: 300
   minStart: 100
   maxStart: 100000
   
