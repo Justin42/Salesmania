@@ -1,9 +1,10 @@
-1.0b3 -
+1.0b4 -
 
 1.1 -
 Better handling when winner has logged out
 Some refactoring with IgnoreAuction
 Better logging
+server tax
 
 2.0 -
 Support for multiple auctions
