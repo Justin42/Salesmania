@@ -104,7 +104,7 @@ Enchantment:
   DAMAGE_ANTHROPODS: "Bane of Anthropods"
   DAMAGE_UNDEAD: "Smite"
   DIG_SPEED: "Efficiency"
-  DURABILITY: "Durability"
+  DURABILITY: "Unbreaking"
   FIRE_ASPECT: "Fire Aspect"
   KNOCKBACK: "Knockback"
   LOOT_BONUS_BLOCKS: "Fortune"
