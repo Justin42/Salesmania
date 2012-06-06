@@ -2,10 +2,12 @@
   noPermission: "&cYou don't have permission to %s"
   
   Auction:
-    start: "start an auction"
-    bid: "bid on an auction"
-    cancel: "cancel an auction"
-    end: "end an auction"
+    start: "start an auction."
+    bid: "bid on an auction."
+    cancel: "cancel an auction."
+    end: "end an auction."
+    enable: "enable the auction."
+    disable: "disable the auction."
     
 Misc:
   reloadConfig: "Reloaded configuration file: %s"
@@ -14,7 +16,7 @@ Misc:
 Locale:
   available: "Available locales: %s"
   changed: "&aYour locale has been changed to %s"
-  notFound: "&cNo locale '%s' available"
+  notFound: "&cNo locale '%s' available."
 
 Syntax:
   Auction:

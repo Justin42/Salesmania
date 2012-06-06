@@ -39,7 +39,13 @@ public class AuctionEnable extends CommandHandler {
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = localeHandler.getLocale(sender);
 
-        if(args[0].equalsIgnoreCase("enable") && sender.hasPermission("salesmania.auction.enable")) {
+        if(args[0].equalsIgnoreCase("enable")) {
+            if(!sender.hasPermission("salesmania.auction.enable")) {
+                sender.sendMessage(String.format(
+                        locale.getMessage("Permission.noPermission"),
+                        locale.getMessage("Permission.Auction.enable")));
+                return false;
+            }
             if(auctionSettings.getEnabled()) {
                 sender.sendMessage(locale.getMessage("Auction.alreadyEnabled"));
             }
@@ -50,7 +56,13 @@ public class AuctionEnable extends CommandHandler {
             }
         }
 
-        else if(args[0].equalsIgnoreCase("disable") && sender.hasPermission("salesmania.auction.disable")) {
+        else if(args[0].equalsIgnoreCase("disable")) {
+            if(!sender.hasPermission("salesmania.auction.disable")) {
+                sender.sendMessage(String.format(
+                        locale.getMessage("Permission.noPermission"),
+                        locale.getMessage("Permission.Auction.disable")));
+                return false;
+            }
             if(!auctionSettings.getEnabled()) {
                 sender.sendMessage(locale.getMessage("Auction.alreadyDisabled"));
             }
