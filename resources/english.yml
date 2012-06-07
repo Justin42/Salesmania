@@ -26,6 +26,7 @@ Syntax:
     - "/auction cancel"
     - "/auction end"
     - "/auction info"
+    - "/auction ignore"
     auctionStart: "/auction start <startbid> [quantity]"
     auctionBid: "/auction bid <bid>"
   
