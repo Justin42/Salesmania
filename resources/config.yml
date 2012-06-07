@@ -18,6 +18,7 @@ Auction:
   Blacklist:
   - Bedrock
   - Dirt
+  - Cobblestone
   
   Bidding:
     minIncrement: 100
