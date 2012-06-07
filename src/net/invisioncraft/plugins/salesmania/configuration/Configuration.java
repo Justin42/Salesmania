@@ -31,7 +31,7 @@ Copyright 2012 Byte 2 O Software LLC
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 public class Configuration {
-    private FileConfiguration customConfig;
+    protected FileConfiguration config;
     private File customConfigFile;
     private Salesmania plugin;
     private String filename;
@@ -54,13 +54,13 @@ public class Configuration {
         if(customConfigFile == null) {
             customConfigFile = new File(plugin.getDataFolder(), filename);
         }
-        customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
+        config = YamlConfiguration.loadConfiguration(customConfigFile);
 
         InputStream defaultConfigStream = plugin.getResource(filename);
         if(defaultConfigStream != null) {
             YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultConfigStream);
-            customConfig.setDefaults(defaultConfig);
-            customConfig.options().copyDefaults(true);
+            config.setDefaults(defaultConfig);
+            config.options().copyDefaults(true);
         }
         for(ConfigurationHandler handler : handlers) {
             handler.update();
@@ -68,16 +68,16 @@ public class Configuration {
     }
 
     public FileConfiguration getConfig() {
-        if(customConfig == null) reload();
-        return customConfig;
+        if(config == null) reload();
+        return config;
     }
 
     public void save() {
-        if (customConfig == null || customConfigFile == null) {
+        if (config == null || customConfigFile == null) {
             return;
         }
         try {
-            customConfig.save(customConfigFile);
+            config.save(customConfigFile);
         } catch (IOException ex) {
             plugin.getLogger().log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);
         }
