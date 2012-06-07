@@ -1,10 +1,11 @@
-1.0b4 -
-
 1.1 -
 Better handling when winner has logged out
 Some refactoring with IgnoreAuction
+Better handling of locale-specific broadcasts
 Better logging
+Channel support
 server tax
+selling
 
 2.0 -
 Support for multiple auctions
