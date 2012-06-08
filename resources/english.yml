@@ -42,7 +42,6 @@ Auction:
   notIgnoring: "&aYou are no longer ignoring auction messages."
   alreadyStarted: "&cThere is already an auction running."
   cooldown: "&cAuction is in a cooldown period."
-  time: "&c%d seconds remaining in auction."
   bidRaised: "&aBid raised to &2$%,.2f&a by &3%s"
   canceled: "&cAuction canceled."
   startOverMax: "&cThe starting bid can't be over $%,.2f"
