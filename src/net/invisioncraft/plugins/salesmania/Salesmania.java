@@ -4,6 +4,7 @@ import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecu
 import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
+import net.invisioncraft.plugins.salesmania.listeners.LoginListener;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -37,7 +38,7 @@ public class Salesmania extends JavaPlugin {
     public static Logger consoleLogger;
     private Economy economy;
     private Settings settings;
-    private IgnoreAuction ignoreAuction;
+    private AuctionIgnoreList auctionIgnoreList;
     private Auction currentAuction;
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
@@ -49,15 +50,16 @@ public class Salesmania extends JavaPlugin {
         settings = new Settings(this);
         consoleLogger = this.getLogger();
         localeHandler = new LocaleHandler(this);
-        ignoreAuction = new IgnoreAuction(this);
+        auctionIgnoreList = new AuctionIgnoreList(this);
         itemManager = new ItemManager(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getCommand("bid").setExecutor(getCommand("auction").getExecutor());
 
         getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
-        getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
 
+        getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
+        getServer().getPluginManager().registerEvents(new LoginListener(this), this);
         // Vault
         if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {
             consoleLogger.info("Found Vault.");
@@ -121,8 +123,8 @@ public class Salesmania extends JavaPlugin {
         }
     }
 
-    public IgnoreAuction getIgnoreAuction() {
-        return ignoreAuction;
+    public AuctionIgnoreList getAuctionIgnoreList() {
+        return auctionIgnoreList;
     }
 
     public ItemManager getItemManager() {

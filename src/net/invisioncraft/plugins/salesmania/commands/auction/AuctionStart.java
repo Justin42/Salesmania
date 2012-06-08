@@ -46,8 +46,7 @@ public class AuctionStart extends CommandHandler {
 
         // Console check
         if(!(sender instanceof Player)) {
-            sender.sendMessage(localeHandler.getDefaultLocale().
-                    getMessage("Console.cantStartAuction"));
+            sender.sendMessage(locale.getMessage("Console.cantStartAuction"));
             return false;
         }
 

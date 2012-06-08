@@ -2,6 +2,8 @@ package net.invisioncraft.plugins.salesmania.configuration;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +30,10 @@ Copyright 2012 Byte 2 O Software LLC
 */
 public class Locale extends Configuration {
     private String localeName;
-    public Locale(Salesmania plugin, String locale) {
+    private ArrayList<CommandSender> userCache;
+    protected Locale(Salesmania plugin, String locale) {
         super(plugin, locale + ".yml");
         localeName = locale;
-        plugin.getLogger().info(String.format("Loaded locale messages for %s", locale));
     }
 
     public String getMessage(String path) {
@@ -50,5 +52,30 @@ public class Locale extends Configuration {
 
     public String getName() {
         return localeName;
+    }
+
+    public void addUser(CommandSender user) {
+        userCache.add(user);
+    }
+
+    public void removeUser(CommandSender user) {
+        userCache.remove(user);
+    }
+
+    public CommandSender[] getUsers() {
+        return userCache.toArray(new Player[0]);
+    }
+
+    public void broadcastMessage(ArrayList<String> message) {
+        for(CommandSender user : userCache) {
+            user.sendMessage(message.toArray(new String[0]));
+        }
+    }
+
+    public void broadcastMessage(ArrayList<String> message, IgnoreList ignoreList) {
+        for(CommandSender user : userCache) {
+            if(ignoreList.isIgnored(user)) continue;
+            user.sendMessage(message.toArray(new String[0]));
+        }
     }
 }

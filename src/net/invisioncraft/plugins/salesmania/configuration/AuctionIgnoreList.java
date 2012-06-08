@@ -25,8 +25,8 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-public class IgnoreAuction extends Configuration {
-    public IgnoreAuction(Salesmania plugin) {
+public class AuctionIgnoreList extends Configuration implements IgnoreList {
+    public AuctionIgnoreList(Salesmania plugin) {
         super(plugin, "auctionIgnore.yml");
     }
 

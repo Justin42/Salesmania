@@ -42,7 +42,8 @@ public class LocaleCommand extends CommandHandler {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-        Locale locale = plugin.getLocaleHandler().getLocale(sender);
+        Locale locale = localeHandler.getLocale(sender);
+
         LocaleCommands localeCommand;
 
         // Syntax
@@ -72,7 +73,7 @@ public class LocaleCommand extends CommandHandler {
                     sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
                     return false;
                 }
-                if(plugin.getLocaleHandler().setLocale(sender, args[2])) {
+                if(localeHandler.setLocale(sender, args[2])) {
                     locale = plugin.getLocaleHandler().getLocale(sender);
                     sender.sendMessage(String.format(
                             locale.getMessage("Locale.changed"),

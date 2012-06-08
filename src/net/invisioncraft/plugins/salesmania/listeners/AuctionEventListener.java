@@ -3,8 +3,9 @@ package net.invisioncraft.plugins.salesmania.listeners;
 import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.configuration.IgnoreAuction;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.milkbowl.vault.economy.Economy;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,17 +44,19 @@ public class AuctionEventListener implements Listener {
     AuctionEvent auctionEvent;
     Salesmania plugin;
     Auction auction;
-    IgnoreAuction ignoreAuction;
+    AuctionIgnoreList auctionIgnoreList;
     AuctionSettings auctionSettings;
     Economy economy;
+    LocaleHandler localeHandler;
     @EventHandler
     public void onAuctionEvent(AuctionEvent auctionEvent) {
         this.auctionEvent = auctionEvent;
         auction = auctionEvent.getAuction();
         plugin = auction.getPlugin();
         auctionSettings = plugin.getSettings().getAuctionSettings();
-        ignoreAuction = plugin.getIgnoreAuction();
+        auctionIgnoreList = plugin.getAuctionIgnoreList();
         economy = plugin.getEconomy();
+        localeHandler = plugin.getLocaleHandler();
 
         switch (auctionEvent.getEventType()) {
             case BID: onAuctionBidEvent(); break;
@@ -69,13 +73,26 @@ public class AuctionEventListener implements Listener {
         long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
         List<Long> notifyTimes = auctionSettings.getNofityTime();
         if(notifyTimes.contains(timeRemaining)) {
+
+            for(Locale locale : localeHandler.getLocales()) {
+                ArrayList<String> message = new ArrayList<String>();
+                message.add(
+                        locale.getMessage("Auction.tag") +
+                        String.format(locale.getMessage("Auction.timeRemaining"),
+                                timeRemaining)
+                );
+                locale.broadcastMessage(message);
+            }
+
+
             for(Player player : plugin.getServer().getOnlinePlayers()) {
-                if(ignoreAuction.isIgnored(player)) continue;
+                if(auctionIgnoreList.isIgnored(player)) continue;
                 Locale locale = plugin.getLocaleHandler().getLocale(player);
                 player.sendMessage(String.format(
                         locale.getMessage("Auction.tag") + locale.getMessage("Auction.timeRemaining"),
                         timeRemaining));
             }
+
         }
     }
 
@@ -94,7 +111,7 @@ public class AuctionEventListener implements Listener {
 
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
-            if(ignoreAuction.isIgnored(player)) continue;
+            if(auctionIgnoreList.isIgnored(player)) continue;
             locale = plugin.getLocaleHandler().getLocale(player);
             infoList = locale.getMessageList("Auction.startInfo");
             infoList = auction.infoReplace(infoList);
@@ -131,7 +148,7 @@ public class AuctionEventListener implements Listener {
 
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
-            if(ignoreAuction.isIgnored(player)) continue;
+            if(auctionIgnoreList.isIgnored(player)) continue;
             locale = plugin.getLocaleHandler().getLocale(player);
             String message = locale.getMessage("Auction.tag");
             message += String.format(locale.getMessage("Auction.bidRaised"),
@@ -151,7 +168,7 @@ public class AuctionEventListener implements Listener {
 
             // Broadcast
             for(Player player : plugin.getServer().getOnlinePlayers()) {
-                if(ignoreAuction.isIgnored(player)) continue;
+                if(auctionIgnoreList.isIgnored(player)) continue;
                 locale = plugin.getLocaleHandler().getLocale(player);
                 player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.noBids"));
             }
@@ -164,7 +181,7 @@ public class AuctionEventListener implements Listener {
             // Check if winner logged off
             if(!auction.getWinner().isOnline()) {
                 for(Player player : plugin.getServer().getOnlinePlayers()) {
-                    if(ignoreAuction.isIgnored(player)) continue;
+                    if(auctionIgnoreList.isIgnored(player)) continue;
                     locale = plugin.getLocaleHandler().getLocale(player);
                     player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.winnerOffline"));
                 }
@@ -182,7 +199,7 @@ public class AuctionEventListener implements Listener {
 
             // Broadcast
             for(Player player : plugin.getServer().getOnlinePlayers()) {
-                if(ignoreAuction.isIgnored(player)) continue;
+                if(auctionIgnoreList.isIgnored(player)) continue;
                 locale = plugin.getLocaleHandler().getLocale(player);
                 infoList = locale.getMessageList("Auction.endInfo");
                 infoList = auction.infoReplace(infoList);
@@ -216,7 +233,7 @@ public class AuctionEventListener implements Listener {
 
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
-            if(ignoreAuction.isIgnored(player)) continue;
+            if(auctionIgnoreList.isIgnored(player)) continue;
             locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.canceled"));
         }
@@ -229,7 +246,7 @@ public class AuctionEventListener implements Listener {
 
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
-            if(ignoreAuction.isIgnored(player)) continue;
+            if(auctionIgnoreList.isIgnored(player)) continue;
             locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.enabled"));
         }
@@ -245,7 +262,7 @@ public class AuctionEventListener implements Listener {
 
         // Broadcast
         for(Player player : plugin.getServer().getOnlinePlayers()) {
-            if(ignoreAuction.isIgnored(player)) continue;
+            if(auctionIgnoreList.isIgnored(player)) continue;
             locale = plugin.getLocaleHandler().getLocale(player);
             player.sendMessage(locale.getMessage("Auction.tag") + locale.getMessage("Auction.disabled"));
         }

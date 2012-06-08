@@ -35,7 +35,7 @@ public class AuctionIgnore extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = localeHandler.getLocale(sender);
-        if(plugin.getIgnoreAuction().toggleIgnore(sender)) {
+        if(plugin.getAuctionIgnoreList().toggleIgnore(sender)) {
             sender.sendMessage(locale.getMessage("Auction.ignoring"));
         }
         else {

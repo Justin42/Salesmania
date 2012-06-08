@@ -141,7 +141,7 @@ public class Auction {
         owner = player;
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
-        plugin.getIgnoreAuction().setIgnore(player, false);
+        plugin.getAuctionIgnoreList().setIgnore(player, false);
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
         return AuctionStatus.SUCCESS;
@@ -163,7 +163,7 @@ public class Auction {
 
         winner = player;
         this.bid = bid;
-        plugin.getIgnoreAuction().setIgnore(player, false);
+        plugin.getAuctionIgnoreList().setIgnore(player, false);
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.BID));
         return AuctionStatus.SUCCESS;
     }
