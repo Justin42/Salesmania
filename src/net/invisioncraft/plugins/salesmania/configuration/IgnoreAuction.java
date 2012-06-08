@@ -39,7 +39,8 @@ public class IgnoreAuction extends Configuration {
     public void setIgnore(CommandSender sender, boolean ignored) {
         List<String> ignoreList = getConfig().getStringList("Ignore");
         ignoreList.remove(sender.getName());
-        getConfig().set("Ignore", ignoreList);
+        config.set("Ignore", ignoreList);
+        save();
     }
 
     public boolean toggleIgnore(CommandSender sender) {
@@ -53,7 +54,8 @@ public class IgnoreAuction extends Configuration {
             ignoreList.add(sender.getName());
             hasIgnored = true;
         }
-        getConfig().set("Ignore", ignoreList);
+        config.set("Ignore", ignoreList);
+        save();
         return hasIgnored;
     }
 }
