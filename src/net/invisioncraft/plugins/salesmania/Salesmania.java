@@ -53,6 +53,8 @@ public class Salesmania extends JavaPlugin {
         itemManager = new ItemManager(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
+        getCommand("bid").setExecutor(getCommand("auction").getExecutor());
+
         getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
         getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
 
