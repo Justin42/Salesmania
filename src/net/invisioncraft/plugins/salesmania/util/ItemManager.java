@@ -60,4 +60,17 @@ public class ItemManager {
         if(stack1.getDurability() != stack2.getDurability()) return false;
         return true;
     }
+
+    public static String getName(ItemStack itemStack) {
+        // Spawner names
+        String itemName;
+        if(itemStack.getTypeId() == Block.MOB_SPAWNER.id) {
+            itemName = EntityType.fromId((int) itemStack.getData().getData()).getName()
+                    + " Spawner";
+        }
+        else try {
+            itemName = Items.itemByStack(itemStack).getName();
+        } catch (NullPointerException ex) {
+            itemName = itemStack.getType().name();
+        }
 }

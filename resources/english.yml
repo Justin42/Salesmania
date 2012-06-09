@@ -51,7 +51,7 @@ Auction:
   notRunning: "&cThere is no auction running"
   noBids: "&cAuction ended with no bids."
   notEnough: "&cYou don't have enough of that item."
-  itemBlacklisted: "&cYou can't auction that item."
+  itemBlacklisted: "&cYou can't auction %s"
   noCreative: "&cYou can't use the auction in creative mode."
   
   enabled: "&aThe auction has been enabled."
