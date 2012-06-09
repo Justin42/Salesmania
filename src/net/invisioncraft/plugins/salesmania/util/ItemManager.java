@@ -1,6 +1,9 @@
 package net.invisioncraft.plugins.salesmania.util;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.milkbowl.vault.item.Items;
+import net.minecraft.server.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -59,5 +62,16 @@ public class ItemManager {
         if(!stack1.getData().equals(stack2.getData())) return false;
         if(stack1.getDurability() != stack2.getDurability()) return false;
         return true;
+    }
+
+    public static String getName(ItemStack itemStack) {
+        // Spawner names
+        String itemName;
+        if(itemStack.getTypeId() == Block.MOB_SPAWNER.id) {
+            itemName = EntityType.fromId((int) itemStack.getData().getData()).getName()
+                    + " Spawner";
+        }
+        else itemName = Items.itemByStack(itemStack).getName();
+        return itemName;
     }
 }
