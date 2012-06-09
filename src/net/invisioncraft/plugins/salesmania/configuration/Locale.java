@@ -33,6 +33,7 @@ public class Locale extends Configuration {
     protected Locale(Salesmania plugin, String locale) {
         super(plugin, locale + ".yml");
         localeName = locale;
+        userCache = new ArrayList<CommandSender>();
     }
 
     public String getMessage(String path) {

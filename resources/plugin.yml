@@ -12,6 +12,8 @@ commands:
     description: Salesmania auction
   salesmania:
     description: Salesmania
+  bid:
+    description: Bid on an auction
     
 permissions:
   salesmania.*:
