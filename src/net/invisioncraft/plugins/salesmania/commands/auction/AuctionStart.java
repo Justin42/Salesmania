@@ -91,7 +91,8 @@ public class AuctionStart extends CommandHandler {
 
         // Blacklist check
         if(auctionSettings.isBlacklisted(itemStack)) {
-            player.sendMessage(locale.getMessage("Auction.itemBlacklisted"));
+            player.sendMessage(String.format(
+                    locale.getMessage("Auction.itemBlacklisted"), ItemManager.getName(itemStack)));
             return false;
         }
 

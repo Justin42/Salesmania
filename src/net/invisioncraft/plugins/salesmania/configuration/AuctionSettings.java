@@ -87,7 +87,11 @@ public class AuctionSettings implements ConfigurationHandler {
         List<String> blacklist = getBlacklist();
         if(blacklist.contains(String.valueOf(itemStack.getTypeId()))) return true;
         if(blacklist.contains(itemStack.getType().name())) return true;
-        if(blacklist.contains(Items.itemById(itemStack.getTypeId()).getName())) return true;
+        try {
+            if(blacklist.contains(Items.itemByStack(itemStack).getName())) return true;
+        } catch (NullPointerException ex) {
+            return true;
+        }
         return false;
     }
 

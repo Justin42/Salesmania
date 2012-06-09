@@ -71,7 +71,11 @@ public class ItemManager {
             itemName = EntityType.fromId((int) itemStack.getData().getData()).getName()
                     + " Spawner";
         }
-        else itemName = Items.itemByStack(itemStack).getName();
+        else try {
+            itemName = Items.itemByStack(itemStack).getName();
+        } catch (NullPointerException ex) {
+            itemName = itemStack.getType().name();
+        }
         return itemName;
     }
 }
