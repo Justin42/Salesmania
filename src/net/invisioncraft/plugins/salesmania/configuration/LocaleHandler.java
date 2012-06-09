@@ -39,6 +39,7 @@ public class LocaleHandler implements ConfigurationHandler {
         localeSettings = plugin.getSettings().getLocaleSettings();
         localeMap = new HashMap<String, Locale>();
         config = new Configuration(plugin, "playerLocale.yml");
+        plugin.registerConfig(config);
         config.registerHandler(this);
         update();
         loadLocales();
@@ -49,6 +50,8 @@ public class LocaleHandler implements ConfigurationHandler {
             Locale locale = new Locale(plugin, localeName);
             registerLocale(locale);
         }
+        localeMap.get(localeSettings.getDefaultLocale()).
+                addUser(plugin.getServer().getConsoleSender());
     }
 
     public void registerLocale(Locale locale) {
@@ -69,7 +72,7 @@ public class LocaleHandler implements ConfigurationHandler {
     }
 
     public boolean setLocale(CommandSender user, String localeName) {
-        if(localeMap.containsKey(localeName)) return false;
+        if(!localeMap.containsKey(localeName)) return false;
         for(Locale locale : getLocales()) locale.removeUser(user);
         localeMap.get(localeName).addUser(user);
         fileConfig.set(user.getName(), localeName);

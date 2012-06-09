@@ -6,7 +6,7 @@ import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Owner: Byte 2 O Software LLC
@@ -40,7 +40,7 @@ public class AuctionInfo extends CommandHandler {
             sender.sendMessage(locale.getMessage("Auction.notRunning"));
             return false;
         }
-        List<String> infoList = locale.getMessageList("Auction.info");
+        ArrayList<String> infoList = locale.getMessageList("Auction.info");
         infoList = plugin.getAuction().infoReplace(infoList);
         infoList = plugin.getAuction().enchantReplace(infoList,
                 locale.getMessage("Auction.enchant"),
