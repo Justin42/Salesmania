@@ -3,18 +3,17 @@ package net.invisioncraft.plugins.salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
-import net.milkbowl.vault.item.Items;
-import net.minecraft.server.Block;
+import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Owner: Byte 2 O Software LLC
@@ -90,9 +89,23 @@ public class Auction {
         OWNER
     }
 
+    private HashMap<String, String> tokenMap = new HashMap<String, String>();
+    private static Pattern tokenPattern;
+    private static String[] tokens = new String[] {
+            "%owner%", "%quantity%", "%item%", "%durability%",
+            "%bid%", "%winner%", "%enchantinfo%"
+    };
+
     public Auction(Salesmania plugin) {
         this.plugin = plugin;
         auctionSettings = plugin.getSettings().getAuctionSettings();
+
+        String patternString = "(";
+        for(String token : tokens) {
+            patternString += token + "|";
+        }
+        patternString += ")";
+        tokenPattern = Pattern.compile(patternString);
     }
 
     public boolean isRunning() {
@@ -193,40 +206,19 @@ public class Auction {
         return dur * 100;
     }
 
-    public List<String> infoReplace(List<String> infoList) {
-        List<String> newInfoList = new ArrayList<String>();
-
-        Iterator<String> infoIterator = infoList.iterator();
-        while(infoIterator.hasNext()) {
-            String info = infoIterator.next();
-
-            if(info.contains("%durability%")) {
-                if(itemStack.getType().getMaxDurability() == 0) continue;
-                info = info.replace("%durability%", String.format("%.2f", getDurability()) + "%");
-            }
-
-            info = info.replace("%owner%", owner.getName());
-            info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
-
-            // Spawner names
-            if(itemStack.getTypeId() == Block.MOB_SPAWNER.id) {
-                info = info.replace("%item%",
-                        EntityType.fromId((int) itemStack.getData().getData()).getName() +
-                                " Spawner");
-            }
-            else info = info.replace("%item%", Items.itemByStack(itemStack).getName());
-
-            info = info.replace("%bid%", String.format("%,.2f", bid));
-
-            if(winner != null) info = info.replace("%winner%", winner.getName());
-            else info = info.replace("%winner%", "None");
-
-            newInfoList.add(info);
+    public ArrayList<String> infoReplace(ArrayList<String> infoList) {
+        ArrayList<String> newInfoList = new ArrayList<String>();
+        for(String string : infoList) {
+            StringBuffer buffer = new StringBuffer();
+            Matcher matcher = tokenPattern.matcher(string);
+            while(matcher.find()) matcher.appendReplacement(buffer, tokenMap.get(matcher.group(1)));
+            matcher.appendTail(buffer);
+            newInfoList.add(buffer.toString());
         }
         return newInfoList;
     }
 
-    public List<String> enchantReplace(List<String> infoList, String enchant, String enchantInfo, Locale locale) {
+    public ArrayList<String> enchantReplace(ArrayList<String> infoList, String enchant, String enchantInfo, Locale locale) {
         if(itemStack.getEnchantments().isEmpty()) {
             infoList.remove("%enchantinfo%");
             return infoList;
@@ -241,12 +233,14 @@ public class Auction {
         return infoList;
     }
 
-    public List<String> addTag(List<String> messages, String tag) {
-        List<String> messageList = new ArrayList<String>();
-        for(String message : messages) {
-            messageList.add(tag + message);
-        }
-        return messageList;
+    private void updateInfoTokens() {
+        tokenMap.put("%owner%", owner.getName());
+        tokenMap.put("%quantity%", String.valueOf(itemStack.getAmount()));
+        tokenMap.put("%item%", ItemManager.getName(itemStack));
+        tokenMap.put("%durability%", String.valueOf(getDurability()));
+        tokenMap.put("%bid%", String.valueOf(bid));
+        if(winner != null) tokenMap.put("%winner%", winner.getName());
+        else tokenMap.put("%winner%", "None");
     }
 
     public long getTimeRemaining() {
