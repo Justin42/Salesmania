@@ -1,6 +1,9 @@
 package net.invisioncraft.plugins.salesmania.util;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.milkbowl.vault.item.Items;
+import net.minecraft.server.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -73,4 +76,6 @@ public class ItemManager {
         } catch (NullPointerException ex) {
             itemName = itemStack.getType().name();
         }
+        return itemName;
+    }
 }
