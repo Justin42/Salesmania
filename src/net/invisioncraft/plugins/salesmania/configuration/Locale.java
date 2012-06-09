@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Owner: Byte 2 O Software LLC
@@ -42,8 +41,8 @@ public class Locale extends Configuration {
         else return "Locale message not found.";
     }
 
-    public List<String> getMessageList(String path) {
-        List<String> messageList = new ArrayList<String>();
+    public ArrayList<String> getMessageList(String path) {
+        ArrayList<String> messageList = new ArrayList<String>();
         for(String message : getConfig().getStringList(path)) {
             messageList.add(message.replace("&", String.valueOf(ChatColor.COLOR_CHAR)));
         }
@@ -66,16 +65,31 @@ public class Locale extends Configuration {
         return userCache.toArray(new Player[0]);
     }
 
-    public void broadcastMessage(ArrayList<String> message) {
+    public void broadcastMessage(String message) {
         for(CommandSender user : userCache) {
-            user.sendMessage(message.toArray(new String[0]));
+            user.sendMessage(message);
+        }
+    }
+
+    public void broadcastMessage(String message, IgnoreList ignoreList) {
+        for(CommandSender user : userCache) {
+            if(ignoreList.isIgnored(user)) continue;
+            user.sendMessage(message);
         }
     }
 
     public void broadcastMessage(ArrayList<String> message, IgnoreList ignoreList) {
+        String[] messageArray = message.toArray(new String[0]);
         for(CommandSender user : userCache) {
             if(ignoreList.isIgnored(user)) continue;
-            user.sendMessage(message.toArray(new String[0]));
+            user.sendMessage(messageArray);
+        }
+    }
+
+    public void broadcastMessage(ArrayList<String> message) {
+        String[] messageArray = message.toArray(new String[0]);
+        for(CommandSender user : userCache) {
+            user.sendMessage(messageArray);
         }
     }
 }
