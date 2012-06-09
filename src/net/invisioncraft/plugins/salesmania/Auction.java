@@ -157,6 +157,7 @@ public class Auction {
         plugin.getAuctionIgnoreList().setIgnore(player, false);
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
+        updateInfoTokens();
         return AuctionStatus.SUCCESS;
     }
 
