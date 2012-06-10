@@ -81,6 +81,9 @@ Auction:
   endInfo:
   - "&aAuction Ended: %quantity% %item% sold for &2$%bid%"
   
+  tax: "&cThere was a $%,.2d fee for this auction."
+  cantAffordTax: "&cYou can't afford the fee of $%,.2d for this auction."
+  
   Bidding:
     bidSuccess: "&aYou've bid &2$%,.2f&a on %s"
     bidFailure: "&cSomething went wrong while bidding."
