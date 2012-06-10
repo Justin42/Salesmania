@@ -115,6 +115,9 @@ public class AuctionStart extends CommandHandler {
                 player.sendMessage(String.format(locale.getMessage("Auction.startOverMax"),
                         auctionSettings.getMaxStart()));
                 return false;
+            case CANT_AFFORD_TAX:
+                player.sendMessage(String.format(locale.getMessage("Auction.cantAffordTax"),
+                        plugin.getAuction().getStartTax()));
             case SUCCESS:
                 return true;
         }

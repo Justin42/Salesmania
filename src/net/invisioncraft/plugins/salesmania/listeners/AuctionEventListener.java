@@ -55,6 +55,7 @@ public class AuctionEventListener implements Listener {
         auctionIgnoreList = plugin.getAuctionIgnoreList();
         economy = plugin.getEconomy();
         localeHandler = plugin.getLocaleHandler();
+
         switch (auctionEvent.getEventType()) {
             case BID: onAuctionBidEvent(); break;
             case END: onAuctionEndEvent(); break;
@@ -63,6 +64,29 @@ public class AuctionEventListener implements Listener {
             case CANCEL: onAuctionCancelEvent(); break;
             case ENABLE: onAuctionEnableEvent(); break;
             case DISABLE: onAuctionDisableEvent(); break;
+        }
+    }
+
+    private void processTax() {
+        Player owner = auction.getOwner();
+        Locale locale = localeHandler.getLocale(owner);
+        double taxAmount = 0;
+        switch(auctionEvent.getEventType()) {
+            case START:
+                taxAmount = auction.getStartTax();
+                break;
+            case END:
+                taxAmount = auction.getEndTax();
+                break;
+            default: return;
+        }
+        if(taxAmount != 0) {
+            economy.withdrawPlayer(owner.getName(), taxAmount);
+            if(auctionSettings.useTaxAccount()) {
+                economy.depositPlayer(auctionSettings.getTaxAccount(), taxAmount);
+            }
+            owner.sendMessage(String.format(locale.getMessage("Auction.tax"),
+                    taxAmount));
         }
     }
 
@@ -81,7 +105,6 @@ public class AuctionEventListener implements Listener {
     }
 
     private void onAuctionStartEvent() {
-
         // Take item
         ItemManager.takeItem(auction.getOwner(), auction.getItemStack());
 
@@ -95,6 +118,9 @@ public class AuctionEventListener implements Listener {
             infoList = MsgUtil.addPrefix(infoList, locale.getMessage("Auction.tag"));
             locale.broadcastMessage(infoList, auctionIgnoreList);
         }
+
+        // Tax
+        processTax();
     }
 
     public void onAuctionBidEvent() {
@@ -136,6 +162,11 @@ public class AuctionEventListener implements Listener {
             }
             // Give back item to owner
             giveItem(auction.getOwner(), auction.getItemStack());
+
+            // Tax
+            if(auctionSettings.taxIfNoBids()) {
+                processTax();
+            }
         }
 
         // BIDS
@@ -167,6 +198,9 @@ public class AuctionEventListener implements Listener {
 
             // Give money to owner
             economy.depositPlayer(auction.getOwner().getName(), auction.getBid());
+
+            // Tax
+            processTax();
         }
     }
 

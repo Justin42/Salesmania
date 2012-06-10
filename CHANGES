@@ -13,3 +13,8 @@
 - No longer shows enchantment for spawners
 - /bid can now be used instead of /auction bid
 - Better logging
+
+1.1a2 -
+- Locale now saves as expected
+- Added french locale
+- Server tax

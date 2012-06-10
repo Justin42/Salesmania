@@ -20,6 +20,7 @@ import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -35,6 +36,7 @@ import java.util.regex.Pattern;
 public class Auction {
     private static long TICKS_PER_SECOND = 20;
     Salesmania plugin;
+    Economy economy;
     AuctionSettings auctionSettings;
 
     private boolean isRunning = false;
@@ -45,6 +47,9 @@ public class Auction {
     private Player lastWinner;
     private double bid;
     private double lastBid;
+
+    private double startTax = 0;
+    private double endTax = 0;
 
     private ItemStack itemStack;
 
@@ -83,7 +88,8 @@ public class Auction {
         WINNING,
         NOT_RUNNING,
         CANCELED,
-        OWNER
+        OWNER,
+        CANT_AFFORD_TAX
     }
 
     private HashMap<String, String> tokenMap;
@@ -104,6 +110,7 @@ public class Auction {
         patternString += ")";
         tokenPattern = Pattern.compile(patternString);
         tokenMap = new HashMap<String, String>();
+        economy = plugin.getEconomy();
     }
 
     public boolean isRunning() {
@@ -145,6 +152,15 @@ public class Auction {
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
         if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
+        // Tax
+        if(auctionSettings.getStartTax() != 0) {
+            startTax = auctionSettings.getStartTax();
+            if(auctionSettings.isStartTaxPercent()) {
+                startTax = (startTax / 100) * getBid();
+            }
+            if(!economy.has(player.getName(), startBid)) return AuctionStatus.CANT_AFFORD_TAX;
+        }
+
         bid = startBid;
         lastBid = 0;
         this.itemStack = itemStack;
@@ -153,6 +169,7 @@ public class Auction {
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
         plugin.getAuctionIgnoreList().setIgnore(player, false);
+
         updateInfoTokens();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
@@ -280,5 +297,13 @@ public class Auction {
 
     public Player getLastWinner() {
         return lastWinner;
+    }
+
+    public double getStartTax() {
+        return startTax;
+    }
+
+    public double getEndTax() {
+        return endTax;
     }
 }
