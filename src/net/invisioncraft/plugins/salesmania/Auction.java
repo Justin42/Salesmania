@@ -200,6 +200,14 @@ public class Auction {
 
     public void end() {
         if(isRunning()) {
+            // Tax
+            if(auctionSettings.getEndTax() != 0) {
+                endTax = auctionSettings.getEndTax();
+                if(auctionSettings.isEndTaxPercent()) {
+                    endTax = (endTax / 100) * getBid();
+                }
+            }
+
             Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.END));
             isRunning = false;
             inCooldown = true;
