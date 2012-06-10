@@ -39,6 +39,7 @@ public class LocaleHandler implements ConfigurationHandler {
         config.registerHandler(this);
         update();
         loadLocales();
+        updateLocales();
     }
 
     private void loadLocales() {
@@ -79,6 +80,12 @@ public class LocaleHandler implements ConfigurationHandler {
         Locale locale = getLocale(player);
         if(player.isOnline()) locale.addUser(player);
         else locale.removeUser(player);
+    }
+
+    public void updateLocales() {
+        for(Player player : plugin.getServer().getOnlinePlayers()) {
+            updateLocale(player);
+        }
     }
 
     @Override
