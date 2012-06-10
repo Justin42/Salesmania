@@ -73,6 +73,7 @@ public class LocaleHandler implements ConfigurationHandler {
         for(Locale locale : getLocales()) locale.removeUser(user);
         localeMap.get(localeName).addUser(user);
         fileConfig.set(user.getName(), localeName);
+        config.save();
         return true;
     }
 
