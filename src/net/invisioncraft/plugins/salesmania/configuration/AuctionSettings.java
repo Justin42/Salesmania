@@ -103,8 +103,12 @@ public class AuctionSettings implements ConfigurationHandler {
         return config.getDouble("Auction.endTax");
     }
 
-    public boolean taxIsPercent() {
-        return config.getBoolean("Auction.taxIsPercent");
+    public boolean isStartTaxPercent() {
+        return config.getBoolean("Auction.startTaxIsPercent");
+    }
+
+    public boolean isEndTaxPercent() {
+        return config.getBoolean("Auction.endTaxIsPercent");
     }
 
     public boolean taxIfNoBids() {
