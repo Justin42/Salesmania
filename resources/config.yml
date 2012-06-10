@@ -28,6 +28,7 @@ Auction:
   - Bedrock
   - Dirt
   - Cobblestone
+  - Ender Pearl
   
   Bidding:
     minIncrement: 100
