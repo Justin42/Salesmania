@@ -158,7 +158,7 @@ public class Auction {
             if(auctionSettings.isStartTaxPercent()) {
                 startTax = (startTax / 100) * startBid;
             }
-            if(!economy.has(player.getName(), startBid)) return AuctionStatus.CANT_AFFORD_TAX;
+            if(!economy.has(player.getName(), startTax)) return AuctionStatus.CANT_AFFORD_TAX;
         }
 
         bid = startBid;
