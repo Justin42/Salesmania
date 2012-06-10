@@ -21,7 +21,6 @@ import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaComman
 import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.invisioncraft.plugins.salesmania.listeners.LoginListener;
-import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -39,7 +38,6 @@ public class Salesmania extends JavaPlugin {
     private Auction currentAuction;
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
-    private ItemManager itemManager;
 
     @Override
     public void onEnable() {
@@ -48,7 +46,6 @@ public class Salesmania extends JavaPlugin {
         consoleLogger = this.getLogger();
         localeHandler = new LocaleHandler(this);
         auctionIgnoreList = new AuctionIgnoreList(this);
-        itemManager = new ItemManager(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getCommand("bid").setExecutor(getCommand("auction").getExecutor());
@@ -122,10 +119,6 @@ public class Salesmania extends JavaPlugin {
 
     public AuctionIgnoreList getAuctionIgnoreList() {
         return auctionIgnoreList;
-    }
-
-    public ItemManager getItemManager() {
-        return itemManager;
     }
 
     public Economy getEconomy() {

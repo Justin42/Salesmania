@@ -27,11 +27,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class ItemManager {
-    private Salesmania plugin;
     private static Logger consoleLogger = Salesmania.consoleLogger;
-    public ItemManager(Salesmania plugin) {
-        this.plugin = plugin;
-    }
 
     public static int getQuantity(Player player, ItemStack itemStack) {
         int quantity = 0;
