@@ -5,6 +5,7 @@ import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -89,7 +90,7 @@ public class Auction {
         OWNER
     }
 
-    private HashMap<String, String> tokenMap = new HashMap<String, String>();
+    private HashMap<String, String> tokenMap;
     private static Pattern tokenPattern;
     private static String[] tokens = new String[] {
             "%owner%", "%quantity%", "%item%", "%durability%",
@@ -106,6 +107,7 @@ public class Auction {
         }
         patternString += ")";
         tokenPattern = Pattern.compile(patternString);
+        tokenMap = new HashMap<String, String>();
     }
 
     public boolean isRunning() {
@@ -155,9 +157,9 @@ public class Auction {
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
         plugin.getAuctionIgnoreList().setIgnore(player, false);
+        updateInfoTokens();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
-        updateInfoTokens();
         return AuctionStatus.SUCCESS;
     }
 
@@ -209,12 +211,27 @@ public class Auction {
 
     public ArrayList<String> infoReplace(ArrayList<String> infoList) {
         ArrayList<String> newInfoList = new ArrayList<String>();
+
         for(String string : infoList) {
+            // Remove unused lines
+            if(itemStack.getEnchantments().isEmpty() && string.contains("%enchant%")) continue;
+            if(itemStack.getType().getMaxDurability() == 0 && string.contains("%durability%")) continue;
+
+            // Remove enchant display from spawner
+            if(itemStack.getType() == Material.MOB_SPAWNER && string.contains("%enchantinfo%")) continue;
+
+
+            // Replace tokens
             StringBuffer buffer = new StringBuffer();
             Matcher matcher = tokenPattern.matcher(string);
-            while(matcher.find()) matcher.appendReplacement(buffer, tokenMap.get(matcher.group(1)));
+            String value;
+            while(matcher.find()) {
+                value = tokenMap.get(matcher.group());
+                if(value != null) matcher.appendReplacement(buffer, value);
+            }
             matcher.appendTail(buffer);
             newInfoList.add(buffer.toString());
+
         }
         return newInfoList;
     }
