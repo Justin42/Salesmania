@@ -1,20 +1,3 @@
-package net.invisioncraft.plugins.salesmania.configuration;
-
-import net.invisioncraft.plugins.salesmania.Salesmania;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashSet;
-import java.util.logging.Level;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/16/12
- * Time: 10:00 PM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -30,6 +13,19 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+package net.invisioncraft.plugins.salesmania.configuration;
+
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.logging.Level;
+
 public class Configuration {
     protected FileConfiguration config;
     private File customConfigFile;

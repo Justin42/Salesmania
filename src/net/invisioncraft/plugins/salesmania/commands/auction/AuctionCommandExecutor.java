@@ -1,18 +1,3 @@
-package net.invisioncraft.plugins.salesmania.commands.auction;
-
-import net.invisioncraft.plugins.salesmania.Salesmania;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-
-import java.util.ArrayList;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/17/12
- * Time: 9:49 AM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -28,6 +13,16 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+package net.invisioncraft.plugins.salesmania.commands.auction;
+
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
 
 public class AuctionCommandExecutor implements CommandExecutor {
     protected Salesmania plugin;

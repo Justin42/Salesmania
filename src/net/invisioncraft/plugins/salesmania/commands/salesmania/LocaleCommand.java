@@ -1,17 +1,3 @@
-package net.invisioncraft.plugins.salesmania.commands.salesmania;
-
-import net.invisioncraft.plugins.salesmania.CommandHandler;
-import net.invisioncraft.plugins.salesmania.Salesmania;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.configuration.LocaleSettings;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/23/12
- * Time: 8:01 PM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -27,6 +13,15 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+package net.invisioncraft.plugins.salesmania.commands.salesmania;
+
+import net.invisioncraft.plugins.salesmania.CommandHandler;
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.configuration.LocaleSettings;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 
 public class LocaleCommand extends CommandHandler {
     LocaleSettings localeSettings;
