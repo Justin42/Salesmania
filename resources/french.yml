@@ -82,6 +82,9 @@ Auction:
   endInfo:
   - "&aVente aux enchères a pris fin: %quantity% %item% vendu pour &2$%bid%"
   
+  tax: "&cIl y avait un $%,.2d des frais pour cette vente aux enchères."
+  cantAffordTax: "&cvous ne pouvez pas se permettre le prix de $%,.2d pour cette vente aux enchères."
+  
   Bidding:
     bidSuccess: "&aTu as enchère &2$%,.2f&a sur %s"
     bidFailure: "&cDésolé, quelque chose a mal tourné."
