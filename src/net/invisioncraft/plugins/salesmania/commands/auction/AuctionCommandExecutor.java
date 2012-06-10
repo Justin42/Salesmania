@@ -1,16 +1,3 @@
-package net.invisioncraft.plugins.salesmania.commands.auction;
-
-import net.invisioncraft.plugins.salesmania.Salesmania;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/17/12
- * Time: 9:49 AM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -26,6 +13,16 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+package net.invisioncraft.plugins.salesmania.commands.auction;
+
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
 
 public class AuctionCommandExecutor implements CommandExecutor {
     protected Salesmania plugin;
@@ -64,19 +61,22 @@ public class AuctionCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
-        AuctionCommand auctionCommand = null;
+        AuctionCommand auctionCommand;
 
         // Syntax
         if(args.length < 1) {
             sender.sendMessage(locale.getMessageList("Syntax.Auction.auction").toArray(new String[0]));
             return false;
         }
-        try {
+
+        if(label.equalsIgnoreCase("bid")) auctionCommand = AuctionCommand.BID;
+        else try {
             auctionCommand = AuctionCommand.valueOf(args[0].toUpperCase());
         } catch (IllegalArgumentException ex) {
             sender.sendMessage(locale.getMessageList("Syntax.Auction.auction").toArray(new String[0]));
             return false;
         }
+
         switch(auctionCommand) {
 
             case START:
@@ -86,6 +86,13 @@ public class AuctionCommandExecutor implements CommandExecutor {
 
             case BID:
             case B:
+                if(label.equalsIgnoreCase("bid")) {
+                    // We need to set "bid"' as the first argument
+                    ArrayList<String> newArgs = new ArrayList<String>(args.length+1);
+                    newArgs.add("bid");
+                    for(String arg : args) newArgs.add(arg);
+                    args = newArgs.toArray(new String[0]);
+                }
                 auctionBid.execute(sender, command, label, args);
                 break;
 

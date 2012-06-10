@@ -1,0 +1,124 @@
+Permission:
+  noPermission: "&cVous n'avez pas la permission de %s"
+  
+  Auction:
+    start: "commencer une vente aux enchères."
+    bid: "offre sur une vente aux enchères."
+    cancel: "annuler une vente aux enchères."
+    end: "mettre fin à une vente aux enchères."
+    enable: "permettre à une vente aux enchères."
+    disable: "désactiver la vente aux enchères."
+    
+Misc:
+  reloadConfig: "Le fichier de configuration a été rechargées: %s"
+  saveConfig: "Le fichier de configuration a été enregistré: %s"
+
+Locale:
+  available: "les locales disponibles: %s"
+  changed: "&aVos paramètres régionaux a été modifié pour%s"
+  notFound: "&cPas de paramètres régionaux '%s' disponible."
+
+Syntax:
+  Auction:
+    auction:
+    - "/auction start <startbid> [quantity]"
+    - "/auction bid <bid>"
+    - "/auction cancel"
+    - "/auction end"
+    - "/auction info"
+    - "/auction ignore"
+    auctionStart: "/auction start <startbid> [quantity]"
+    auctionBid: "/auction bid <bid>"
+  
+  Salesmania:
+    salesmania:
+    - "/salesmania locale set <locale>"
+    - "/salesmania locale list"
+    - "/salesmania reload"
+    
+Auction:
+  tag: "&2[Enchères] &f"
+  ignoring: "&cVous êtes maintenant en ignorant tous les messages provenant vente aux enchères."
+  notIgnoring: "&aVous n'avez plus ignorer les messages partir aux enchères."
+  alreadyStarted: "&cIl ya déjà une vente aux enchères en cours d'exécution."
+  cooldown: "&cVente aux enchères est dans une période de refroidissement qui."
+  time: "&c%d secondes restantes dans la vente aux enchères."
+  bidRaised: "&al'offre a été élevé au &2$%,.2f&a par &3%s"
+  canceled: "&cLa vente aux enchères a été annulée en."
+  startOverMax: "&cLe prix de départ ne peut pas être plus que $%,.2f"
+  startUnderMin: "&cLe prix de départ doit être au moins $%,.2f"
+  timeRemaining: "%d secondes restantes."
+  notRunning: "&cIl n'ya pas de vente aux enchères en cours d'exécution"
+  noBids: "&cFin des enchères sans aucune des soumissions."
+  notEnough: "&cVous n'avez pas assez de ce poste."
+  itemBlacklisted: "&cVous ne pouvez pas d'enchères cet article."
+  noCreative: "&cVous ne pouvez pas utiliser d'enchères dans le mode créative."
+  
+  enabled: "&ala vente aux enchères a été activé."
+  disabled: "&cLa vente aux enchères a été désactivé."
+  alreadyEnabled: "&cLa vente aux enchères est déjà activé."
+  alreadyDisabled: "&cLa vente aux enchères est déjà désactivé."
+  
+  winnerOffline: "&cLe gagnant n'est pas en ligne."
+  
+  inventoryFull: "&cVotre inventaire est plein, les articles ont chuté au sol."
+  
+  startInfo:
+  - "&3%owner%&f a mis &a%quantity% %item%&f jusqu'à pour aux enchères."
+  - "&aDurabilité: &6%durability%"
+  - "%enchantinfo%"
+  - "&aEnchère de départ: &2$%bid%"
+  
+  enchant: "&aEnchanter: &f"
+  enchantInfo: "&e%enchant%&f(&6%enchantlvl%&f) "
+  
+  info:
+  - "&aPoint: %quantity% %item%"
+  - "&aDurabilité: &6%durability%"
+  - "%enchantinfo%"
+  - "&aPropriétaire: &3%owner%"
+  - "&aGagnant: &3%winner% &fat &2$%bid%"
+  
+  endInfo:
+  - "&aVente aux enchères a pris fin: %quantity% %item% vendu pour &2$%bid%"
+  
+  tax: "&cIl y avait un $%,.2f des frais pour cette vente aux enchères."
+  cantAffordTax: "&cvous ne pouvez pas se permettre le prix de $%,.2f pour cette vente aux enchères."
+  
+  Bidding:
+    bidSuccess: "&aTu as enchère &2$%,.2f&a sur %s"
+    bidFailure: "&cDésolé, quelque chose a mal tourné."
+    overMax:  "&cVous ne pouvez pas enchérir dessus $%,.2f en ce moment"
+    underMin: "&cVous devez enchérir au moins $%,.2f"
+    outBid: "&cVous avez été surenchéri par &3%s!"
+    playerWinning: "&cVous êtes actuellement gagnant cette enchère."
+    playerOwner: "&cVous ne pouvez pas enchérir sur votre propre enchère."
+    notEnoughMoney: "&cVous n'avez pas beaucoup d'argent."
+  
+  Console:
+    cantStartAuction: "Désolé, seuls les joueurs peuvent commencer à une vente aux enchères."
+    cantBid: "Désolé, seuls les joueurs peuvent enchérir sur des articles."
+    
+Enchantment:
+  ARROW_DAMAGE: "Puissance"
+  ARROW_FIRE: "Flamme"
+  ARROW_INFINITE: "L'infini"
+  ARROW_KNOCKBACK: "Pousser"
+  DAMAGE_ALL: "Tranchant"
+  DAMAGE_ANTHROPODS: "Fléau des arthropodes"
+  DAMAGE_UNDEAD: "Châtiment"
+  DIG_SPEED: "Efficacité"
+  DURABILITY: "Solidité"
+  FIRE_ASPECT: "Aspect le feu"
+  KNOCKBACK: "Pousser"
+  LOOT_BONUS_BLOCKS: "Fortune"
+  LOOT_BONUS_MOBS: "Pillage"
+  OXYGEN: "Respiration aquatique"
+  PROTECTION_ENVIRONMENTAL: "Protection"
+  PROTECTION_EXPLOSIONS: "Protection contre les explosions"
+  PROTECTION_FALL: "Plume qui tombe"
+  PROTECTION_FIRE: "Protection contre l'incendie"
+  PROTECTION_PROJECTILE: "Protection de projectile"
+  SILK_TOUCH: "Toucher de soie"
+  WATER_WORKER: "Aqua affinité"
+  

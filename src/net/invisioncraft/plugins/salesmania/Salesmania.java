@@ -1,23 +1,3 @@
-package net.invisioncraft.plugins.salesmania;
-
-import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
-import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaCommandExecutor;
-import net.invisioncraft.plugins.salesmania.configuration.*;
-import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
-import net.invisioncraft.plugins.salesmania.util.ItemManager;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashSet;
-import java.util.logging.Logger;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/16/12
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -33,15 +13,31 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+package net.invisioncraft.plugins.salesmania;
+
+import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
+import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaCommandExecutor;
+import net.invisioncraft.plugins.salesmania.configuration.*;
+import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
+import net.invisioncraft.plugins.salesmania.listeners.LoginListener;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashSet;
+import java.util.logging.Logger;
+
 public class Salesmania extends JavaPlugin {
     public static Logger consoleLogger;
     private Economy economy;
     private Settings settings;
-    private IgnoreAuction ignoreAuction;
+    private AuctionIgnoreList auctionIgnoreList;
     private Auction currentAuction;
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
-    private ItemManager itemManager;
 
     @Override
     public void onEnable() {
@@ -49,13 +45,15 @@ public class Salesmania extends JavaPlugin {
         settings = new Settings(this);
         consoleLogger = this.getLogger();
         localeHandler = new LocaleHandler(this);
-        ignoreAuction = new IgnoreAuction(this);
-        itemManager = new ItemManager(this);
+        auctionIgnoreList = new AuctionIgnoreList(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
-        getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
-        getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
+        getCommand("bid").setExecutor(getCommand("auction").getExecutor());
 
+        getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
+
+        getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
+        getServer().getPluginManager().registerEvents(new LoginListener(this), this);
         // Vault
         if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {
             consoleLogger.info("Found Vault.");
@@ -119,12 +117,8 @@ public class Salesmania extends JavaPlugin {
         }
     }
 
-    public IgnoreAuction getIgnoreAuction() {
-        return ignoreAuction;
-    }
-
-    public ItemManager getItemManager() {
-        return itemManager;
+    public AuctionIgnoreList getAuctionIgnoreList() {
+        return auctionIgnoreList;
     }
 
     public Economy getEconomy() {

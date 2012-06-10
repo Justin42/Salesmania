@@ -1,12 +1,7 @@
 1.1 -
 Better handling when winner has logged out
 auction queues
-/bid
-Some refactoring with IgnoreAuction
-Better handling of locale-specific broadcasts
-Better logging
 Channel support
-server tax
 selling
 
 2.0 -

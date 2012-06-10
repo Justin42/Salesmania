@@ -1,18 +1,3 @@
-package net.invisioncraft.plugins.salesmania.commands.auction;
-
-import net.invisioncraft.plugins.salesmania.CommandHandler;
-import net.invisioncraft.plugins.salesmania.Salesmania;
-import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 6/1/12
- * Time: 11:28 PM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -28,6 +13,17 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+package net.invisioncraft.plugins.salesmania.commands.auction;
+
+import net.invisioncraft.plugins.salesmania.CommandHandler;
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+
 public class AuctionEnable extends CommandHandler {
     AuctionSettings auctionSettings;
     public AuctionEnable(Salesmania plugin) {

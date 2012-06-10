@@ -1,18 +1,3 @@
-package net.invisioncraft.plugins.salesmania.commands.auction;
-
-import net.invisioncraft.plugins.salesmania.CommandHandler;
-import net.invisioncraft.plugins.salesmania.Salesmania;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
-import java.util.List;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/24/12
- * Time: 7:21 AM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -29,6 +14,16 @@ Copyright 2012 Byte 2 O Software LLC
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+package net.invisioncraft.plugins.salesmania.commands.auction;
+
+import net.invisioncraft.plugins.salesmania.CommandHandler;
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
+
 public class AuctionInfo extends CommandHandler {
     public AuctionInfo(Salesmania plugin) {
         super(plugin);
@@ -40,7 +35,7 @@ public class AuctionInfo extends CommandHandler {
             sender.sendMessage(locale.getMessage("Auction.notRunning"));
             return false;
         }
-        List<String> infoList = locale.getMessageList("Auction.info");
+        ArrayList<String> infoList = locale.getMessageList("Auction.info");
         infoList = plugin.getAuction().infoReplace(infoList);
         infoList = plugin.getAuction().enchantReplace(infoList,
                 locale.getMessage("Auction.enchant"),

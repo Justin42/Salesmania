@@ -2,6 +2,7 @@ Main:
   defaultLocale: english
   availableLocale:
   - english
+  - french
   
 Auction:
   enabled: true
@@ -9,6 +10,14 @@ Auction:
   cooldown: 300
   minStart: 100
   maxStart: 100000
+  
+  taxAccount: None
+  useTaxAccount: false
+  startTax: 0
+  endTax: 0
+  startTaxIsPercent: false
+  endTaxIsPercent: true
+  taxIfNoBids: false
   
   notifyTime:
   - 30
@@ -19,6 +28,7 @@ Auction:
   - Bedrock
   - Dirt
   - Cobblestone
+  - Ender Pearl
   
   Bidding:
     minIncrement: 100

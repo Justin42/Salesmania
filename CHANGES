@@ -1,0 +1,20 @@
+1.0b9 (RC1):
+- Fixed error when auctioning with no item in hand
+- /auction ignore now saves config as expected
+- Added /auction ignore to syntax list
+- Fixed permissions
+- Added permission message for enabling/disabling auction
+- Fixed typo in locale file
+- Syntax fix for /salesmania locale command
+- Creative check for bidding
+
+1.1a1 -
+- Locale related optimizations
+- No longer shows enchantment for spawners
+- /bid can now be used instead of /auction bid
+- Better logging
+
+1.1a2 -
+- Locale now saves as expected
+- Added french locale
+- Server tax

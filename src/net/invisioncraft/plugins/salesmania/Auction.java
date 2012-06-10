@@ -1,26 +1,3 @@
-package net.invisioncraft.plugins.salesmania;
-
-import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
-import net.milkbowl.vault.item.Items;
-import net.minecraft.server.Block;
-import org.bukkit.Bukkit;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/17/12
- * Time: 3:59 PM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -36,9 +13,30 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+package net.invisioncraft.plugins.salesmania;
+
+import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import net.invisioncraft.plugins.salesmania.util.ItemManager;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Auction {
     private static long TICKS_PER_SECOND = 20;
     Salesmania plugin;
+    Economy economy;
     AuctionSettings auctionSettings;
 
     private boolean isRunning = false;
@@ -49,6 +47,9 @@ public class Auction {
     private Player lastWinner;
     private double bid;
     private double lastBid;
+
+    private double startTax = 0;
+    private double endTax = 0;
 
     private ItemStack itemStack;
 
@@ -87,12 +88,29 @@ public class Auction {
         WINNING,
         NOT_RUNNING,
         CANCELED,
-        OWNER
+        OWNER,
+        CANT_AFFORD_TAX
     }
+
+    private HashMap<String, String> tokenMap;
+    private static Pattern tokenPattern;
+    private static String[] tokens = new String[] {
+            "%owner%", "%quantity%", "%item%", "%durability%",
+            "%bid%", "%winner%", "%enchantinfo%"
+    };
 
     public Auction(Salesmania plugin) {
         this.plugin = plugin;
         auctionSettings = plugin.getSettings().getAuctionSettings();
+
+        String patternString = "(";
+        for(String token : tokens) {
+            patternString += token + "|";
+        }
+        patternString += ")";
+        tokenPattern = Pattern.compile(patternString);
+        tokenMap = new HashMap<String, String>();
+        economy = plugin.getEconomy();
     }
 
     public boolean isRunning() {
@@ -134,6 +152,15 @@ public class Auction {
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
         if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
+        // Tax
+        if(auctionSettings.getStartTax() != 0) {
+            startTax = auctionSettings.getStartTax();
+            if(auctionSettings.isStartTaxPercent()) {
+                startTax = (startTax / 100) * startBid;
+            }
+            if(!economy.has(player.getName(), startTax)) return AuctionStatus.CANT_AFFORD_TAX;
+        }
+
         bid = startBid;
         lastBid = 0;
         this.itemStack = itemStack;
@@ -141,7 +168,9 @@ public class Auction {
         owner = player;
         isRunning = true;
         timeRemaining = auctionSettings.getDefaultTime();
-        plugin.getIgnoreAuction().setIgnore(player, false);
+        plugin.getAuctionIgnoreList().setIgnore(player, false);
+
+        updateInfoTokens();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
         return AuctionStatus.SUCCESS;
@@ -163,13 +192,22 @@ public class Auction {
 
         winner = player;
         this.bid = bid;
-        plugin.getIgnoreAuction().setIgnore(player, false);
+        plugin.getAuctionIgnoreList().setIgnore(player, false);
+        updateInfoTokens();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.BID));
         return AuctionStatus.SUCCESS;
     }
 
     public void end() {
         if(isRunning()) {
+            // Tax
+            if(auctionSettings.getEndTax() != 0) {
+                endTax = auctionSettings.getEndTax();
+                if(auctionSettings.isEndTaxPercent()) {
+                    endTax = (endTax / 100) * getBid();
+                }
+            }
+
             Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.END));
             isRunning = false;
             inCooldown = true;
@@ -193,40 +231,34 @@ public class Auction {
         return dur * 100;
     }
 
-    public List<String> infoReplace(List<String> infoList) {
-        List<String> newInfoList = new ArrayList<String>();
+    public ArrayList<String> infoReplace(ArrayList<String> infoList) {
+        ArrayList<String> newInfoList = new ArrayList<String>();
 
-        Iterator<String> infoIterator = infoList.iterator();
-        while(infoIterator.hasNext()) {
-            String info = infoIterator.next();
+        for(String string : infoList) {
+            // Remove unused lines
+            if(itemStack.getEnchantments().isEmpty() && string.contains("%enchant%")) continue;
+            if(itemStack.getType().getMaxDurability() == 0 && string.contains("%durability%")) continue;
 
-            if(info.contains("%durability%")) {
-                if(itemStack.getType().getMaxDurability() == 0) continue;
-                info = info.replace("%durability%", String.format("%.2f", getDurability()) + "%");
+            // Remove enchant display from spawner
+            if(itemStack.getType() == Material.MOB_SPAWNER && string.contains("%enchantinfo%")) continue;
+
+
+            // Replace tokens
+            StringBuffer buffer = new StringBuffer();
+            Matcher matcher = tokenPattern.matcher(string);
+            String value;
+            while(matcher.find()) {
+                value = tokenMap.get(matcher.group());
+                if(value != null) matcher.appendReplacement(buffer, value);
             }
+            matcher.appendTail(buffer);
+            newInfoList.add(buffer.toString());
 
-            info = info.replace("%owner%", owner.getName());
-            info = info.replace("%quantity%", String.valueOf(itemStack.getAmount()));
-
-            // Spawner names
-            if(itemStack.getTypeId() == Block.MOB_SPAWNER.id) {
-                info = info.replace("%item%",
-                        EntityType.fromId((int) itemStack.getData().getData()).getName() +
-                                " Spawner");
-            }
-            else info = info.replace("%item%", Items.itemByStack(itemStack).getName());
-
-            info = info.replace("%bid%", String.format("%,.2f", bid));
-
-            if(winner != null) info = info.replace("%winner%", winner.getName());
-            else info = info.replace("%winner%", "None");
-
-            newInfoList.add(info);
         }
         return newInfoList;
     }
 
-    public List<String> enchantReplace(List<String> infoList, String enchant, String enchantInfo, Locale locale) {
+    public ArrayList<String> enchantReplace(ArrayList<String> infoList, String enchant, String enchantInfo, Locale locale) {
         if(itemStack.getEnchantments().isEmpty()) {
             infoList.remove("%enchantinfo%");
             return infoList;
@@ -241,12 +273,14 @@ public class Auction {
         return infoList;
     }
 
-    public List<String> addTag(List<String> messages, String tag) {
-        List<String> messageList = new ArrayList<String>();
-        for(String message : messages) {
-            messageList.add(tag + message);
-        }
-        return messageList;
+    private void updateInfoTokens() {
+        tokenMap.put("%owner%", owner.getName());
+        tokenMap.put("%quantity%", String.valueOf(itemStack.getAmount()));
+        tokenMap.put("%item%", ItemManager.getName(itemStack));
+        tokenMap.put("%durability%", String.valueOf(getDurability()));
+        tokenMap.put("%bid%", String.format("%,.2f", bid));
+        if(winner != null) tokenMap.put("%winner%", winner.getName());
+        else tokenMap.put("%winner%", "None");
     }
 
     public long getTimeRemaining() {
@@ -271,5 +305,13 @@ public class Auction {
 
     public Player getLastWinner() {
         return lastWinner;
+    }
+
+    public double getStartTax() {
+        return startTax;
+    }
+
+    public double getEndTax() {
+        return endTax;
     }
 }

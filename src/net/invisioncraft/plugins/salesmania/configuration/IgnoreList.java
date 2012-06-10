@@ -13,24 +13,12 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+package net.invisioncraft.plugins.salesmania.configuration;
 
-package net.invisioncraft.plugins.salesmania;
-
-import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
-import net.invisioncraft.plugins.salesmania.configuration.Settings;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public abstract class CommandHandler {
-    protected Salesmania plugin;
-    protected LocaleHandler localeHandler;
-    protected Settings settings;
-
-    public CommandHandler(Salesmania plugin) {
-        this.plugin = plugin;
-        localeHandler = plugin.getLocaleHandler();
-        settings = plugin.getSettings();
-    }
-
-    public abstract boolean execute(CommandSender sender, Command command, String label, String[] args);
+public interface IgnoreList {
+    public boolean isIgnored(CommandSender sender);
+    public void setIgnore(CommandSender sender, boolean ignored);
+    public boolean toggleIgnore(CommandSender sender);
 }

@@ -14,23 +14,30 @@ Copyright 2012 Byte 2 O Software LLC
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package net.invisioncraft.plugins.salesmania;
+package net.invisioncraft.plugins.salesmania.listeners;
 
+import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
-import net.invisioncraft.plugins.salesmania.configuration.Settings;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
-public abstract class CommandHandler {
-    protected Salesmania plugin;
-    protected LocaleHandler localeHandler;
-    protected Settings settings;
-
-    public CommandHandler(Salesmania plugin) {
+public class LoginListener implements Listener {
+    private Salesmania plugin;
+    private LocaleHandler localeHandler;
+    public LoginListener(Salesmania plugin) {
         this.plugin = plugin;
         localeHandler = plugin.getLocaleHandler();
-        settings = plugin.getSettings();
     }
 
-    public abstract boolean execute(CommandSender sender, Command command, String label, String[] args);
+    @EventHandler
+    public void onPlayerLoginEvent(PlayerJoinEvent event) {
+        localeHandler.updateLocale(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        localeHandler.updateLocale(event.getPlayer());
+    }
 }

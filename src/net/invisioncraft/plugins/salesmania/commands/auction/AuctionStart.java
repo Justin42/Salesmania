@@ -1,22 +1,3 @@
-package net.invisioncraft.plugins.salesmania.commands.auction;
-
-import net.invisioncraft.plugins.salesmania.Auction;
-import net.invisioncraft.plugins.salesmania.CommandHandler;
-import net.invisioncraft.plugins.salesmania.Salesmania;
-import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.util.ItemManager;
-import org.bukkit.GameMode;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/17/12
- * Time: 10:25 AM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -33,6 +14,20 @@ Copyright 2012 Byte 2 O Software LLC
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+package net.invisioncraft.plugins.salesmania.commands.auction;
+
+import net.invisioncraft.plugins.salesmania.Auction;
+import net.invisioncraft.plugins.salesmania.CommandHandler;
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.util.ItemManager;
+import org.bukkit.GameMode;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 public class AuctionStart extends CommandHandler {
     AuctionSettings auctionSettings;
     public AuctionStart(Salesmania plugin) {
@@ -46,8 +41,7 @@ public class AuctionStart extends CommandHandler {
 
         // Console check
         if(!(sender instanceof Player)) {
-            sender.sendMessage(localeHandler.getDefaultLocale().
-                    getMessage("Console.cantStartAuction"));
+            sender.sendMessage(locale.getMessage("Console.cantStartAuction"));
             return false;
         }
 
@@ -121,6 +115,9 @@ public class AuctionStart extends CommandHandler {
                 player.sendMessage(String.format(locale.getMessage("Auction.startOverMax"),
                         auctionSettings.getMaxStart()));
                 return false;
+            case CANT_AFFORD_TAX:
+                player.sendMessage(String.format(locale.getMessage("Auction.cantAffordTax"),
+                        plugin.getAuction().getStartTax()));
             case SUCCESS:
                 return true;
         }

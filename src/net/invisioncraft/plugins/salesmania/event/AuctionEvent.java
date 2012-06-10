@@ -1,14 +1,3 @@
-package net.invisioncraft.plugins.salesmania.event;
-
-import net.invisioncraft.plugins.salesmania.Auction;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
-
-/**
- * Owner: Byte 2 O Software LLC
- * Date: 5/25/12
- * Time: 4:46 AM
- */
 /*
 Copyright 2012 Byte 2 O Software LLC
     This program is free software: you can redistribute it and/or modify
@@ -24,6 +13,13 @@ Copyright 2012 Byte 2 O Software LLC
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+package net.invisioncraft.plugins.salesmania.event;
+
+import net.invisioncraft.plugins.salesmania.Auction;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+
 public class AuctionEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 

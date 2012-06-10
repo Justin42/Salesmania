@@ -14,23 +14,17 @@ Copyright 2012 Byte 2 O Software LLC
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package net.invisioncraft.plugins.salesmania;
+package net.invisioncraft.plugins.salesmania.util;
 
-import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
-import net.invisioncraft.plugins.salesmania.configuration.Settings;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import java.util.ArrayList;
 
-public abstract class CommandHandler {
-    protected Salesmania plugin;
-    protected LocaleHandler localeHandler;
-    protected Settings settings;
-
-    public CommandHandler(Salesmania plugin) {
-        this.plugin = plugin;
-        localeHandler = plugin.getLocaleHandler();
-        settings = plugin.getSettings();
+public class MsgUtil {
+    public static ArrayList<String> addPrefix(ArrayList<String> stringList, String tag) {
+        ArrayList<String> newStringList = new ArrayList<String>();
+        for(String string : stringList) {
+            string = tag + string;
+            newStringList.add(string);
+        }
+        return newStringList;
     }
-
-    public abstract boolean execute(CommandSender sender, Command command, String label, String[] args);
 }
