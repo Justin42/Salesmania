@@ -10,6 +10,13 @@ Auction:
   minStart: 100
   maxStart: 100000
   
+  taxAccount: None
+  startTax: 0
+  endTax: 0
+  taxIsPercent: false
+  taxIfNoBids: true
+  useTaxAccount: false
+  
   notifyTime:
   - 30
   - 10

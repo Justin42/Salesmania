@@ -91,6 +91,30 @@ public class AuctionSettings implements ConfigurationHandler {
         return false;
     }
 
+    public String getTaxAccount() {
+        return config.getString("Auction.taxAccount");
+    }
+
+    public double getStartTax() {
+        return config.getDouble("Auction.startTax");
+    }
+
+    public double getEndTax() {
+        return config.getDouble("Auction.endTax");
+    }
+
+    public boolean taxIsPercent() {
+        return config.getBoolean("Auction.taxIsPercent");
+    }
+
+    public boolean taxIfNoBids() {
+        return config.getBoolean("Auction.taxIfNoBids");
+    }
+
+    public boolean useTaxAccount() {
+        return config.getBoolean("Auction.useTaxAccount");
+    }
+
     public boolean getEnabled() {
         return config.getBoolean("Auction.enabled");
     }
