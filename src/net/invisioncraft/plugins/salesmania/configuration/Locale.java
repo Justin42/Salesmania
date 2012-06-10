@@ -58,8 +58,8 @@ public class Locale extends Configuration {
         userCache.remove(user);
     }
 
-    public CommandSender[] getUsers() {
-        return userCache.toArray(new Player[0]);
+    public ArrayList<CommandSender> getUsers() {
+        return userCache;
     }
 
     public void broadcastMessage(String message) {
