@@ -16,8 +16,8 @@ Auction:
   startTax: 0
   endTax: 0
   startTaxIsPercent: false
-  endTaxIsPercent: false
-  taxIfNoBids: true
+  endTaxIsPercent: true
+  taxIfNoBids: false
   
   notifyTime:
   - 30
