@@ -156,7 +156,7 @@ public class Auction {
         if(auctionSettings.getStartTax() != 0) {
             startTax = auctionSettings.getStartTax();
             if(auctionSettings.isStartTaxPercent()) {
-                startTax = (startTax / 100) * getBid();
+                startTax = (startTax / 100) * startBid;
             }
             if(!economy.has(player.getName(), startBid)) return AuctionStatus.CANT_AFFORD_TAX;
         }
@@ -270,7 +270,7 @@ public class Auction {
         tokenMap.put("%quantity%", String.valueOf(itemStack.getAmount()));
         tokenMap.put("%item%", ItemManager.getName(itemStack));
         tokenMap.put("%durability%", String.valueOf(getDurability()));
-        tokenMap.put("%bid%", String.valueOf(bid));
+        tokenMap.put("%bid%", String.format("%,.2f", bid));
         if(winner != null) tokenMap.put("%winner%", winner.getName());
         else tokenMap.put("%winner%", "None");
     }
