@@ -2,6 +2,7 @@ Main:
   defaultLocale: english
   availableLocale:
   - english
+  - french
   
 Auction:
   enabled: true
