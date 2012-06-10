@@ -20,7 +20,7 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class LoginListener implements Listener {
@@ -32,7 +32,7 @@ public class LoginListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerLoginEvent(PlayerLoginEvent event) {
+    public void onPlayerLoginEvent(PlayerJoinEvent event) {
         localeHandler.updateLocale(event.getPlayer());
     }
 
