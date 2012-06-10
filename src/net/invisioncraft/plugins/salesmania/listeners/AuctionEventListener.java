@@ -77,7 +77,7 @@ public class AuctionEventListener implements Listener {
             for(Locale locale : localeHandler.getLocales()) {
                 String message =
                         locale.getMessage("Auction.tag") +
-                        String.format("Auction.timeRemaining", timeRemaining);
+                        String.format(locale.getMessage("Auction.timeRemaining"), timeRemaining);
                 locale.broadcastMessage(message, auctionIgnoreList);
             }
 
