@@ -180,6 +180,7 @@ public class Auction {
         winner = player;
         this.bid = bid;
         plugin.getAuctionIgnoreList().setIgnore(player, false);
+        updateInfoTokens();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.BID));
         return AuctionStatus.SUCCESS;
     }
