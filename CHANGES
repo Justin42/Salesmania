@@ -21,3 +21,5 @@
 
 1.1a3 -
 - Fixed not being able to auction items not in Vault
+- Added the item stash
+- Fixed french locale encoding

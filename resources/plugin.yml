@@ -1,5 +1,5 @@
 name: Salesmania
-version: 1.1a2
+version: 1.1a3
 description: Plugin for handling player auctions.
 author: Justin
 authors: [Khaos_Fury]
@@ -14,6 +14,8 @@ commands:
     description: Salesmania
   bid:
     description: Bid on an auction
+  collect:
+    description: Collect items from stash
     
 permissions:
   salesmania.*:

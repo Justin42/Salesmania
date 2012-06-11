@@ -39,8 +39,8 @@ Syntax:
 Stash:
   itemsWaiting: "&cYou have items waiting in your stash. Type /collect to retrieve them"
   noItems: "&cThere are no items in your stash."
-  inventoryFull: "&cYour inventory was full, the items have dropped to the ground."
-  gotItems: "&2You've collected your items."
+  inventoryFull: "&cThere are more items in your stash, make inventory space and use /collect again."
+  gotItems: "&2You've collected all your items."
     
 Auction:
   tag: "&2[Auction] &f"
@@ -66,7 +66,7 @@ Auction:
   
   winnerOffline: "&cWinner is not online."
   
-  inventoryFull: "&cYour inventory was full, the items have dropped to the ground."
+  inventoryFull: "&cYour inventory was full, the items have been added to your stash. Type /collect to retrieve them."
   
   startInfo:
   - "&3%owner%&f has put &a%quantity% %item%&f up for auction."

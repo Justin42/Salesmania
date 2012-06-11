@@ -18,6 +18,7 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
 import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaCommandExecutor;
+import net.invisioncraft.plugins.salesmania.commands.stash.StashCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.invisioncraft.plugins.salesmania.listeners.LoginListener;
@@ -50,7 +51,7 @@ public class Salesmania extends JavaPlugin {
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getCommand("bid").setExecutor(getCommand("auction").getExecutor());
-
+        getCommand("collect").setExecutor(new StashCommandExecutor(this));
         getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
 
         getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);

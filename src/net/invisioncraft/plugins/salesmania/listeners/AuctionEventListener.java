@@ -34,7 +34,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AuctionEventListener implements Listener {
 
@@ -160,27 +159,18 @@ public class AuctionEventListener implements Listener {
                         locale.getMessage("Auction.noBids");
                 locale.broadcastMessage(message, auctionIgnoreList);
             }
-            // Give back item to owner
-            giveItem(auction.getOwner(), auction.getItemStack());
 
             // Tax
             if(auctionSettings.taxIfNoBids()) {
                 processTax();
             }
+
+            // Give back item to owner
+            giveItem(auction.getOwner(), auction.getItemStack());
         }
 
         // BIDS
         else  {
-            // Check if winner logged off
-            if(!auction.getWinner().isOnline()) {
-                for(Locale locale : localeHandler.getLocales()) {
-                    String message = locale.getMessage("Auction.tag") +
-                            locale.getMessage("Auction.winnerOffline");
-                    locale.broadcastMessage(message, auctionIgnoreList);
-                }
-                auction.cancel();
-                return;
-            }
 
             // Broadcast
             for(Locale locale : localeHandler.getLocales()) {
@@ -193,18 +183,25 @@ public class AuctionEventListener implements Listener {
                 locale.broadcastMessage(infoList, auctionIgnoreList);
             }
 
-            // Give item to winner
-            giveItem(auction.getWinner(), auction.getItemStack());
-
             // Give money to owner
             economy.depositPlayer(auction.getOwner().getName(), auction.getBid());
 
             // Tax
             processTax();
+
+            // Give item to winner
+            giveItem(auction.getWinner(), auction.getItemStack());
         }
     }
 
     public void onAuctionCancelEvent() {
+        // Broadcast
+        for(Locale locale : localeHandler.getLocales()) {
+            String message = locale.getMessage("Auction.tag") +
+                    locale.getMessage("Auction.canceled");
+            locale.broadcastMessage(message, auctionIgnoreList);
+        }
+
         // Give back bid
         if(auction.getWinner() != null) {
             economy.depositPlayer(auction.getWinner().getName(), auction.getBid());
@@ -212,13 +209,6 @@ public class AuctionEventListener implements Listener {
 
         // Give back item to owner
         giveItem(auction.getOwner(), auction.getItemStack());
-
-        // Broadcast
-        for(Locale locale : localeHandler.getLocales()) {
-            String message = locale.getMessage("Auction.tag") +
-                    locale.getMessage("Auction.canceled");
-            locale.broadcastMessage(message, auctionIgnoreList);
-        }
     }
 
     public void onAuctionEnableEvent() {
@@ -243,12 +233,15 @@ public class AuctionEventListener implements Listener {
     }
 
     private void giveItem(Player player, ItemStack itemStack) {
-        HashMap<Integer, ItemStack> remainingItems = player.getInventory().addItem(itemStack);
-        if(remainingItems.isEmpty()) return;
-        else for(Map.Entry<Integer, ItemStack> entry : remainingItems.entrySet()) {
-            player.getWorld().dropItem(player.getLocation(), entry.getValue());
-        }
         Locale locale = plugin.getLocaleHandler().getLocale(player);
-        player.sendMessage(locale.getMessage("Auction.inventoryFull"));
+        if(player.isOnline()) {
+            HashMap<Integer, ItemStack> remainingItems = player.getInventory().addItem(itemStack);
+            if(remainingItems.isEmpty()) return;
+            else {
+                plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()));
+            }
+            player.sendMessage(locale.getMessage("Stash.itemsWaiting"));
+        }
+        else plugin.getItemStash().store(player, itemStack);
     }
 }

@@ -21,27 +21,75 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ItemStash extends Configuration {
+    private Logger logger = Logger.getLogger(ItemStash.class.getName());
     public ItemStash(Salesmania plugin) {
         super(plugin, "itemStash.yml");
     }
 
+    @SuppressWarnings("unchecked")
     public void store(Player player, ItemStack itemStack) {
-        ArrayList<ItemStack> stackList = (ArrayList<ItemStack>) config.get(player.getName());
-        stackList.add(itemStack);
+        logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString());
+        ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
+        if(hasItems(player)) {
+            try { stackList = (ArrayList<ItemStack>) config.get(player.getName()); }
+            catch (ClassCastException ex) {
+                corruptionWarning(player);
+                return;
+            }
+        }
+        stackList.add(itemStack.clone());
         config.set(player.getName(), stackList);
         save();
     }
 
+    private void corruptionWarning(Player player) {
+        Logger.getLogger(ItemStash.class.getName())
+                .severe("Stash seems corrupted. Couldn't retrieve stash for player: " + player.getName());
+    }
+
+    @SuppressWarnings("unchecked")
+    public void store(Player player, ArrayList<ItemStack> itemStacks) {
+        for(ItemStack itemStack : itemStacks) {
+            logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString());
+        }
+        if(hasItems(player)) {
+            try {
+                ArrayList<ItemStack> stackList = (ArrayList<ItemStack>) config.get(player.getName());
+                stackList.addAll(itemStacks);
+                config.set(player.getName(), stackList);
+            }
+            catch (ClassCastException ex) {
+                corruptionWarning(player);
+                return;
+            }
+        }
+        else {
+            config.set(player.getName(), itemStacks);
+        }
+        save();
+    }
+
+    @SuppressWarnings("unchecked")
     public ArrayList<ItemStack> collect(Player player) {
-        ArrayList<ItemStack> stackList = (ArrayList<ItemStack>) config.get(player.getName());
-        config.set(player.getName(), null);
+        ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
+        if(hasItems(player)) {
+            try {
+                stackList = (ArrayList<ItemStack>) config.get(player.getName());
+                config.set(player.getName(), null);
+                save();
+            }
+            catch (ClassCastException ex) {
+                corruptionWarning(player);
+                return null;
+            }
+        }
         return stackList;
     }
 
     public boolean hasItems(Player player) {
-        if(config.contains(player.getName())) return true;
-        else return false;
+        return config.contains(player.getName());
     }
 }
