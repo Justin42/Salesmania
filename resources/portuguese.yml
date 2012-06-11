@@ -1,22 +1,22 @@
-Permission:
-  noPermission: "N„o tem permiss„o para %s"
+ÔªøPermission:
+  noPermission: "N√£o tem permiss√£o para %s"
   
   Auction:
-    start: "comeÁar um leil„o."
-    bid: "licitar num leil„o."
-    cancel: "cancelar um leil„o."
-    end: "terminar um leil„o."
-    enable: "activar os leilıes."
-    disable: "desactivar os leilıes."
+    start: "come√ßar um leil√£o."
+    bid: "licitar num leil√£o."
+    cancel: "cancelar um leil√£o."
+    end: "terminar um leil√£o."
+    enable: "activar os leil√µes."
+    disable: "desactivar os leil√µes."
     
 Misc:
-  reloadConfig: "Recarregado o ficheiro de configuraÁ„o: %s"
-  saveConfig: "Guardado o ficheiro de configuraÁ„o: %s"
+  reloadConfig: "Recarregado o ficheiro de configura√ß√£o: %s"
+  saveConfig: "Guardado o ficheiro de configura√ß√£o: %s"
 
 Locale:
-  available: "LÌnguas disponÌveis: %s"
-  changed: "&aA lÌngua foi alterada para: %s"
-  notFound: "&cAlÌngua'%s' n„o est· disponÌvel."
+  available: "L√≠nguas dispon√≠veis: %s"
+  changed: "&aA l√≠ngua foi alterada para: %s"
+  notFound: "&cAl√≠ngua'%s' n√£o est√° dispon√≠vel."
 
 Syntax:
   Auction:
@@ -37,42 +37,42 @@ Syntax:
     - "/salesmania reload"
     
 Stash:
-  itemsWaiting: "&cTem objectos ‡ sua espera. Utilize /collect para os receber."
-  noItems: "&cN„o possui objectos em espera."
-  inventoryFull: "&cAinda existem objectos em espera, crie espaÁo no invent·rio e utilize /collect de novo."
+  itemsWaiting: "&cTem objectos √† sua espera. Utilize /collect para os receber."
+  noItems: "&cN√£o possui objectos em espera."
+  inventoryFull: "&cAinda existem objectos em espera, crie espa√ßo no invent√°rio e utilize /collect de novo."
   gotItems: "&2Recebeu todos os objectos com sucesso."
 
 Auction:
   tag: "&2[Auction] &f"
-  ignoring: "&cEst· agora a ignorar as mensagens dos leilıes."
-  notIgnoring: "&aJ· n„o est· a ignorar as mensagens dos leilıes."
-  alreadyStarted: "&cJ· est· um leil„o a decorrer."
-  cooldown: "&cO leil„o est· em cooldown."
-  bidRaised: "&aNova licitaÁ„o: &2$%,.2f&a por &3%s"
-  canceled: "&cLeil„o cancelado."
-  startOverMax: "&cO preÁo inicial n„o pode ser superior a $%,.2f"
-  startUnderMin: "&cO preÁo inicial deve ser superior a $%,.2f"
+  ignoring: "&cEst√° agora a ignorar as mensagens dos leil√µes."
+  notIgnoring: "&aJ√° n√£o est√° a ignorar as mensagens dos leil√µes."
+  alreadyStarted: "&cJ√° est√° um leil√£o a decorrer."
+  cooldown: "&cO leil√£o est√° em cooldown."
+  bidRaised: "&aNova licita√ß√£o: &2$%,.2f&a por &3%s"
+  canceled: "&cLeil√£o cancelado."
+  startOverMax: "&cO pre√ßo inicial n√£o pode ser superior a $%,.2f"
+  startUnderMin: "&cO pre√ßo inicial deve ser superior a $%,.2f"
   timeRemaining: "%d segundos restantes."
-  notRunning: "&cN„o est· a decorrer nenhum leil„o."
-  noBids: "&cO leil„o terminou sem licitaÁıes."
-  notEnough: "&cN„o tens o suficiente desse objeto."
-  itemBlacklisted: "&cN„o podes leiloar esse objeto."
-  noCreative: "&cN„o podes leiloar em modo creativo."
+  notRunning: "&cN√£o est√° a decorrer nenhum leil√£o."
+  noBids: "&cO leil√£o terminou sem licita√ß√µes."
+  notEnough: "&cN√£o tens o suficiente desse objeto."
+  itemBlacklisted: "&cN√£o podes leiloar esse objeto."
+  noCreative: "&cN√£o podes leiloar em modo creativo."
   
-  enabled: "&aOs leilıes foram activados."
-  disabled: "&cOs leilıes foram desactivados."
-  alreadyEnabled: "&cOs leilıes j· est„o activados."
-  alreadyDisabled: "&cOs leilıes j· est„o desactivados."
+  enabled: "&aOs leil√µes foram activados."
+  disabled: "&cOs leil√µes foram desactivados."
+  alreadyEnabled: "&cOs leil√µes j√° est√£o activados."
+  alreadyDisabled: "&cOs leil√µes j√° est√£o desactivados."
   
-  winnerOffline: "&cO vencedor n„o est· online."
+  winnerOffline: "&cO vencedor n√£o est√° online."
   
-  inventoryFull: "&cO inventÛrio est· cheio, os objectos foram colocados no ch„o."
+  inventoryFull: "&cO invent√≥rio est√° cheio, os objectos foram colocados no ch√£o."
   
   startInfo:
-  - "&3%owner%&f colocou &a%quantity% %item%&f ‡ venda em leil„o."
+  - "&3%owner%&f colocou &a%quantity% %item%&f √† venda em leil√£o."
   - "&aDurabilidade: &6%durability%"
   - "%enchantinfo%"
-  - "&aPreÁo inicial: &2$%bid%"
+  - "&aPre√ßo inicial: &2$%bid%"
   
   enchant: "&aEncantamento: &f"
   enchantInfo: "&e%enchant%&f(&6%enchantlvl%&f) "
@@ -85,23 +85,23 @@ Auction:
   - "&aVencedor: &3%winner% &fpor &2$%bid%"
   
   endInfo:
-  - "&aLeil„o terminado: %quantity% %item% vendido por &2$%bid%"
+  - "&aLeil√£o terminado: %quantity% %item% vendido por &2$%bid%"
   
-  tax: "&cFoi cobrada uma taxa de $%,.2d fee por este leil„o."
-  cantAffordTax: "&cN„o consegue pagar a taxa de $%,.2d por este leil„o."
+  tax: "&cFoi cobrada uma taxa de $%,.2d fee por este leil√£o."
+  cantAffordTax: "&cN√£o consegue pagar a taxa de $%,.2d por este leil√£o."
   
   Bidding:
     bidSuccess: "&aOfereceu &2$%,.2f&a por %s"
-    bidFailure: "&cAlgo correu mal com a licitaÁ„o."
-    overMax:  "&cN„o pode licitar mais que $%,.2f neste momento."
-    underMin: "&cTem que licitar no mÌnimo $%,.2f"
+    bidFailure: "&cAlgo correu mal com a licita√ß√£o."
+    overMax:  "&cN√£o pode licitar mais que $%,.2f neste momento."
+    underMin: "&cTem que licitar no m√≠nimo $%,.2f"
     outBid: "&cO jogador &3%s &cofereceu mais!"
-    playerWinning: "&cJ· È o jogador com a oferta mais alta."
-    playerOwner: "&cN„o pode licitar no seu prÛprio leil„o."
-    notEnoughMoney: "&cN„o possui fundos suficientes."
+    playerWinning: "&cJ√° √© o jogador com a oferta mais alta."
+    playerOwner: "&cN√£o pode licitar no seu pr√≥prio leil√£o."
+    notEnoughMoney: "&cN√£o possui fundos suficientes."
   
   Console:
-    cantStartAuction: "Desculpe, apenas jogadores podem comeÁar leilıes."
+    cantStartAuction: "Desculpe, apenas jogadores podem come√ßar leil√µes."
     cantBid: "Desculpe, apenas jogadores podem licitar por objetos."
     
 Enchantment:

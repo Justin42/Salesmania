@@ -1,22 +1,22 @@
-Permission:
+ï»¿Permission:
   noPermission: "&cVous n'avez pas la permission de %s"
   
   Auction:
-    start: "commencer une vente aux enchères."
-    bid: "offre sur une vente aux enchères."
-    cancel: "annuler une vente aux enchères."
-    end: "mettre fin à une vente aux enchères."
-    enable: "permettre à une vente aux enchères."
-    disable: "désactiver la vente aux enchères."
+    start: "commencer une vente aux enchÃ¨res."
+    bid: "offre sur une vente aux enchÃ¨res."
+    cancel: "annuler une vente aux enchÃ¨res."
+    end: "mettre fin Ã  une vente aux enchÃ¨res."
+    enable: "permettre Ã  une vente aux enchÃ¨res."
+    disable: "dÃ©sactiver la vente aux enchÃ¨res."
     
 Misc:
-  reloadConfig: "Le fichier de configuration a été rechargées: %s"
-  saveConfig: "Le fichier de configuration a été enregistré: %s"
+  reloadConfig: "Le fichier de configuration a Ã©tÃ© rechargÃ©es: %s"
+  saveConfig: "Le fichier de configuration a Ã©tÃ© enregistrÃ©: %s"
 
 Locale:
   available: "les locales disponibles: %s"
-  changed: "&aVos paramètres régionaux a été modifié pour%s"
-  notFound: "&cPas de paramètres régionaux '%s' disponible."
+  changed: "&aVos paramÃ¨tres rÃ©gionaux a Ã©tÃ© modifiÃ© pour%s"
+  notFound: "&cPas de paramÃ¨tres rÃ©gionaux '%s' disponible."
 
 Syntax:
   Auction:
@@ -39,71 +39,71 @@ Syntax:
 Stash:
   itemsWaiting: "&cVous avez des articles en attente dans votre cachette. Tapez /collect pour les collecter."
   noItems: "&cIl n'y a aucun article dans votre cachette."
-  inventoryFull: "&cIl ya plus d'articles dans votre cachette, faire de la place des stocks et utilisez /collect à nouveau."
-  gotItems: "&2Vous avez rassemblé tous vos articles."
+  inventoryFull: "&cIl ya plus d'articles dans votre cachette, faire de la place des stocks et utilisez /collect Ã  nouveau."
+  gotItems: "&2Vous avez rassemblÃ© tous vos articles."
     
 Auction:
-  tag: "&2[Enchères] &f"
-  ignoring: "&cVous êtes maintenant en ignorant tous les messages provenant vente aux enchères."
-  notIgnoring: "&aVous n'avez plus ignorer les messages partir aux enchères."
-  alreadyStarted: "&cIl ya déjà une vente aux enchères en cours d'exécution."
-  cooldown: "&cVente aux enchères est dans une période de refroidissement qui."
-  time: "&c%d secondes restantes dans la vente aux enchères."
-  bidRaised: "&al'offre a été élevé au &2$%,.2f&a par &3%s"
-  canceled: "&cLa vente aux enchères a été annulée en."
-  startOverMax: "&cLe prix de départ ne peut pas être plus que $%,.2f"
-  startUnderMin: "&cLe prix de départ doit être au moins $%,.2f"
+  tag: "&2[EnchÃ¨res] &f"
+  ignoring: "&cVous Ãªtes maintenant en ignorant tous les messages provenant vente aux enchÃ¨res."
+  notIgnoring: "&aVous n'avez plus ignorer les messages partir aux enchÃ¨res."
+  alreadyStarted: "&cIl ya dÃ©jÃ  une vente aux enchÃ¨res en cours d'exÃ©cution."
+  cooldown: "&cVente aux enchÃ¨res est dans une pÃ©riode de refroidissement qui."
+  time: "&c%d secondes restantes dans la vente aux enchÃ¨res."
+  bidRaised: "&al'offre a Ã©tÃ© Ã©levÃ© au &2$%,.2f&a par &3%s"
+  canceled: "&cLa vente aux enchÃ¨res a Ã©tÃ© annulÃ©e en."
+  startOverMax: "&cLe prix de dÃ©part ne peut pas Ãªtre plus que $%,.2f"
+  startUnderMin: "&cLe prix de dÃ©part doit Ãªtre au moins $%,.2f"
   timeRemaining: "%d secondes restantes."
-  notRunning: "&cIl n'ya pas de vente aux enchères en cours d'exécution"
-  noBids: "&cFin des enchères sans aucune des soumissions."
+  notRunning: "&cIl n'ya pas de vente aux enchÃ¨res en cours d'exÃ©cution"
+  noBids: "&cFin des enchÃ¨res sans aucune des soumissions."
   notEnough: "&cVous n'avez pas assez de ce poste."
-  itemBlacklisted: "&cVous ne pouvez pas d'enchères cet article."
-  noCreative: "&cVous ne pouvez pas utiliser d'enchères dans le mode créative."
+  itemBlacklisted: "&cVous ne pouvez pas d'enchÃ¨res cet article."
+  noCreative: "&cVous ne pouvez pas utiliser d'enchÃ¨res dans le mode crÃ©ative."
   
-  enabled: "&ala vente aux enchères a été activé."
-  disabled: "&cLa vente aux enchères a été désactivé."
-  alreadyEnabled: "&cLa vente aux enchères est déjà activé."
-  alreadyDisabled: "&cLa vente aux enchères est déjà désactivé."
+  enabled: "&ala vente aux enchÃ¨res a Ã©tÃ© activÃ©."
+  disabled: "&cLa vente aux enchÃ¨res a Ã©tÃ© dÃ©sactivÃ©."
+  alreadyEnabled: "&cLa vente aux enchÃ¨res est dÃ©jÃ  activÃ©."
+  alreadyDisabled: "&cLa vente aux enchÃ¨res est dÃ©jÃ  dÃ©sactivÃ©."
   
   winnerOffline: "&cLe gagnant n'est pas en ligne."
   
-  inventoryFull: "&cVotre inventaire est plein, les articles ont chuté au sol."
+  inventoryFull: "&cVotre inventaire est plein, les articles ont chutÃ© au sol."
   
   startInfo:
-  - "&3%owner%&f a mis &a%quantity% %item%&f jusqu'à pour aux enchères."
-  - "&aDurabilité: &6%durability%"
+  - "&3%owner%&f a mis &a%quantity% %item%&f jusqu'Ã  pour aux enchÃ¨res."
+  - "&aDurabilitÃ©: &6%durability%"
   - "%enchantinfo%"
-  - "&aEnchère de départ: &2$%bid%"
+  - "&aEnchÃ¨re de dÃ©part: &2$%bid%"
   
   enchant: "&aEnchanter: &f"
   enchantInfo: "&e%enchant%&f(&6%enchantlvl%&f) "
   
   info:
   - "&aPoint: %quantity% %item%"
-  - "&aDurabilité: &6%durability%"
+  - "&aDurabilitÃ©: &6%durability%"
   - "%enchantinfo%"
-  - "&aPropriétaire: &3%owner%"
+  - "&aPropriÃ©taire: &3%owner%"
   - "&aGagnant: &3%winner% &fat &2$%bid%"
   
   endInfo:
-  - "&aVente aux enchères a pris fin: %quantity% %item% vendu pour &2$%bid%"
+  - "&aVente aux enchÃ¨res a pris fin: %quantity% %item% vendu pour &2$%bid%"
   
-  tax: "&cIl y avait un $%,.2f des frais pour cette vente aux enchères."
-  cantAffordTax: "&cvous ne pouvez pas se permettre le prix de $%,.2f pour cette vente aux enchères."
+  tax: "&cIl y avait un $%,.2f des frais pour cette vente aux enchÃ¨res."
+  cantAffordTax: "&cvous ne pouvez pas se permettre le prix de $%,.2f pour cette vente aux enchÃ¨res."
   
   Bidding:
-    bidSuccess: "&aTu as enchère &2$%,.2f&a sur %s"
-    bidFailure: "&cDésolé, quelque chose a mal tourné."
-    overMax:  "&cVous ne pouvez pas enchérir dessus $%,.2f en ce moment"
-    underMin: "&cVous devez enchérir au moins $%,.2f"
-    outBid: "&cVous avez été surenchéri par &3%s!"
-    playerWinning: "&cVous êtes actuellement gagnant cette enchère."
-    playerOwner: "&cVous ne pouvez pas enchérir sur votre propre enchère."
+    bidSuccess: "&aTu as enchÃ¨re &2$%,.2f&a sur %s"
+    bidFailure: "&cDÃ©solÃ©, quelque chose a mal tournÃ©."
+    overMax:  "&cVous ne pouvez pas enchÃ©rir dessus $%,.2f en ce moment"
+    underMin: "&cVous devez enchÃ©rir au moins $%,.2f"
+    outBid: "&cVous avez Ã©tÃ© surenchÃ©ri par &3%s!"
+    playerWinning: "&cVous Ãªtes actuellement gagnant cette enchÃ¨re."
+    playerOwner: "&cVous ne pouvez pas enchÃ©rir sur votre propre enchÃ¨re."
     notEnoughMoney: "&cVous n'avez pas beaucoup d'argent."
   
   Console:
-    cantStartAuction: "Désolé, seuls les joueurs peuvent commencer à une vente aux enchères."
-    cantBid: "Désolé, seuls les joueurs peuvent enchérir sur des articles."
+    cantStartAuction: "DÃ©solÃ©, seuls les joueurs peuvent commencer Ã  une vente aux enchÃ¨res."
+    cantBid: "DÃ©solÃ©, seuls les joueurs peuvent enchÃ©rir sur des articles."
     
 Enchantment:
   ARROW_DAMAGE: "Puissance"
@@ -111,10 +111,10 @@ Enchantment:
   ARROW_INFINITE: "L'infini"
   ARROW_KNOCKBACK: "Pousser"
   DAMAGE_ALL: "Tranchant"
-  DAMAGE_ANTHROPODS: "Fléau des arthropodes"
-  DAMAGE_UNDEAD: "Châtiment"
-  DIG_SPEED: "Efficacité"
-  DURABILITY: "Solidité"
+  DAMAGE_ANTHROPODS: "FlÃ©au des arthropodes"
+  DAMAGE_UNDEAD: "ChÃ¢timent"
+  DIG_SPEED: "EfficacitÃ©"
+  DURABILITY: "SoliditÃ©"
   FIRE_ASPECT: "Aspect le feu"
   KNOCKBACK: "Pousser"
   LOOT_BONUS_BLOCKS: "Fortune"
@@ -126,5 +126,5 @@ Enchantment:
   PROTECTION_FIRE: "Protection contre l'incendie"
   PROTECTION_PROJECTILE: "Protection de projectile"
   SILK_TOUCH: "Toucher de soie"
-  WATER_WORKER: "Aqua affinité"
+  WATER_WORKER: "Aqua affinitÃ©"
   
