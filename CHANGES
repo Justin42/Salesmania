@@ -20,6 +20,7 @@
 - Server tax
 
 1.1a3 -
+- Added portuguese locale
 - Fixed not being able to auction items not in Vault
 - Added the item stash
 - Fixed french locale encoding
