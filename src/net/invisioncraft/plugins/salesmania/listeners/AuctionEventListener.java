@@ -239,8 +239,8 @@ public class AuctionEventListener implements Listener {
             if(remainingItems.isEmpty()) return;
             else {
                 plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()));
+                player.sendMessage(locale.getMessage("Stash.itemsWaiting"));
             }
-            player.sendMessage(locale.getMessage("Stash.itemsWaiting"));
         }
         else plugin.getItemStash().store(player, itemStack);
     }
