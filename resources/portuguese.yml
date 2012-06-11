@@ -1,0 +1,129 @@
+Permission:
+  noPermission: "Não tem permissão para %s"
+  
+  Auction:
+    start: "começar um leilão."
+    bid: "licitar num leilão."
+    cancel: "cancelar um leilão."
+    end: "terminar um leilão."
+    enable: "activar os leilões."
+    disable: "desactivar os leilões."
+    
+Misc:
+  reloadConfig: "Recarregado o ficheiro de configuração: %s"
+  saveConfig: "Guardado o ficheiro de configuração: %s"
+
+Locale:
+  available: "Línguas disponíveis: %s"
+  changed: "&aA língua foi alterada para: %s"
+  notFound: "&cAlíngua'%s' não está disponível."
+
+Syntax:
+  Auction:
+    auction:
+    - "/auction start <startbid> [quantity]"
+    - "/auction bid <bid>"
+    - "/auction cancel"
+    - "/auction end"
+    - "/auction info"
+    - "/auction ignore"
+    auctionStart: "/auction start <startbid> [quantity]"
+    auctionBid: "/auction bid <bid>"
+  
+  Salesmania:
+    salesmania:
+    - "/salesmania locale set <locale>"
+    - "/salesmania locale list"
+    - "/salesmania reload"
+    
+Stash:
+  itemsWaiting: "&cTem objectos à sua espera. Utilize /collect para os receber."
+  noItems: "&cNão possui objectos em espera."
+  inventoryFull: "&cAinda existem objectos em espera, crie espaço no inventário e utilize /collect de novo."
+  gotItems: "&2Recebeu todos os objectos com sucesso."
+
+Auction:
+  tag: "&2[Auction] &f"
+  ignoring: "&cEstá agora a ignorar as mensagens dos leilões."
+  notIgnoring: "&aJá não está a ignorar as mensagens dos leilões."
+  alreadyStarted: "&cJá está um leilão a decorrer."
+  cooldown: "&cO leilão está em cooldown."
+  bidRaised: "&aNova licitação: &2$%,.2f&a por &3%s"
+  canceled: "&cLeilão cancelado."
+  startOverMax: "&cO preço inicial não pode ser superior a $%,.2f"
+  startUnderMin: "&cO preço inicial deve ser superior a $%,.2f"
+  timeRemaining: "%d segundos restantes."
+  notRunning: "&cNão está a decorrer nenhum leilão."
+  noBids: "&cO leilão terminou sem licitações."
+  notEnough: "&cNão tens o suficiente desse objeto."
+  itemBlacklisted: "&cNão podes leiloar esse objeto."
+  noCreative: "&cNão podes leiloar em modo creativo."
+  
+  enabled: "&aOs leilões foram activados."
+  disabled: "&cOs leilões foram desactivados."
+  alreadyEnabled: "&cOs leilões já estão activados."
+  alreadyDisabled: "&cOs leilões já estão desactivados."
+  
+  winnerOffline: "&cO vencedor não está online."
+  
+  inventoryFull: "&cO inventório está cheio, os objectos foram colocados no chão."
+  
+  startInfo:
+  - "&3%owner%&f colocou &a%quantity% %item%&f à venda em leilão."
+  - "&aDurabilidade: &6%durability%"
+  - "%enchantinfo%"
+  - "&aPreço inicial: &2$%bid%"
+  
+  enchant: "&aEncantamento: &f"
+  enchantInfo: "&e%enchant%&f(&6%enchantlvl%&f) "
+  
+  info:
+  - "&aObjecto: %quantity% %item%"
+  - "&aDurabilidade: &6%durability%"
+  - "%enchantinfo%"
+  - "&aDono: &3%owner%"
+  - "&aVencedor: &3%winner% &fpor &2$%bid%"
+  
+  endInfo:
+  - "&aLeilão terminado: %quantity% %item% vendido por &2$%bid%"
+  
+  tax: "&cFoi cobrada uma taxa de $%,.2d fee por este leilão."
+  cantAffordTax: "&cNão consegue pagar a taxa de $%,.2d por este leilão."
+  
+  Bidding:
+    bidSuccess: "&aOfereceu &2$%,.2f&a por %s"
+    bidFailure: "&cAlgo correu mal com a licitação."
+    overMax:  "&cNão pode licitar mais que $%,.2f neste momento."
+    underMin: "&cTem que licitar no mínimo $%,.2f"
+    outBid: "&cO jogador &3%s &cofereceu mais!"
+    playerWinning: "&cJá é o jogador com a oferta mais alta."
+    playerOwner: "&cNão pode licitar no seu próprio leilão."
+    notEnoughMoney: "&cNão possui fundos suficientes."
+  
+  Console:
+    cantStartAuction: "Desculpe, apenas jogadores podem começar leilões."
+    cantBid: "Desculpe, apenas jogadores podem licitar por objetos."
+    
+Enchantment:
+  ARROW_DAMAGE: "Power"
+  ARROW_FIRE: "Flame"
+  ARROW_INFINITE: "Infinity"
+  ARROW_KNOCKBACK: "Knockback"
+  DAMAGE_ALL: "Sharpness"
+  DAMAGE_ANTHROPODS: "Bane of Anthropods"
+  DAMAGE_UNDEAD: "Smite"
+  DIG_SPEED: "Efficiency"
+  DURABILITY: "Unbreaking"
+  FIRE_ASPECT: "Fire Aspect"
+  KNOCKBACK: "Knockback"
+  LOOT_BONUS_BLOCKS: "Fortune"
+  LOOT_BONUS_MOBS: "Looting"
+  OXYGEN: "Water Breathing"
+  PROTECTION_ENVIRONMENTAL: "Protection"
+  PROTECTION_EXPLOSIONS: "Blast Protection"
+  PROTECTION_FALL: "Feather Falling"
+  PROTECTION_FIRE: "Fire Protection"
+  PROTECTION_PROJECTILE: "Projectile Protection"
+  SILK_TOUCH: "Silk Touch"
+  WATER_WORKER: "Aqua Affinity"
+  

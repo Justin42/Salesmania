@@ -3,6 +3,7 @@ Main:
   availableLocale:
   - english
   - french
+  - portuguese
   
 Auction:
   enabled: true
