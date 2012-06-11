@@ -83,7 +83,7 @@ Auction:
   - "&aVente aux enchères a pris fin: %quantity% %item% vendu pour &2$%bid%"
   
   tax: "&cIl y avait un $%,.2f des frais pour cette vente aux enchères."
-  cantAffordTax: "&cvous ne pouvez pas se permettre le prix de $%,.2f pour cette vente aux enchères."
+  cantAffordTax: "&cvous ne pouvez pas se permettre le prix de $%,.2f pour cette vente aux enchères."
   
   Bidding:
     bidSuccess: "&aTu as enchère &2$%,.2f&a sur %s"
