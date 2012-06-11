@@ -18,3 +18,6 @@
 - Locale now saves as expected
 - Added french locale
 - Server tax
+
+1.1a3 -
+- Fixed not being able to auction items not in Vault
