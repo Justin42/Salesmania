@@ -35,6 +35,12 @@ Syntax:
     - "/salesmania locale set <locale>"
     - "/salesmania locale list"
     - "/salesmania reload"
+
+Stash:
+  itemsWaiting: "&cYou have items waiting in your stash. Type /collect to retrieve them"
+  noItems: "&cThere are no items in your stash."
+  inventoryFull: "&cYour inventory was full, the items have dropped to the ground."
+  gotItems: "&2You've collected your items."
     
 Auction:
   tag: "&2[Auction] &f"

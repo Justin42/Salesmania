@@ -17,7 +17,9 @@ Copyright 2012 Byte 2 O Software LLC
 package net.invisioncraft.plugins.salesmania.listeners;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -33,7 +35,12 @@ public class LoginListener implements Listener {
 
     @EventHandler
     public void onPlayerLoginEvent(PlayerJoinEvent event) {
-        localeHandler.updateLocale(event.getPlayer());
+        Player player = event.getPlayer();
+        localeHandler.updateLocale(player);
+        Locale locale = localeHandler.getLocale(player);
+        if(plugin.getItemStash().hasItems(player)) {
+            player.sendMessage(locale.getMessage("Stash.itemsWaiting"));
+        }
     }
 
     @EventHandler

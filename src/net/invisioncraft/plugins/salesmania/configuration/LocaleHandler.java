@@ -70,7 +70,7 @@ public class LocaleHandler implements ConfigurationHandler {
 
     public boolean setLocale(CommandSender user, String localeName) {
         if(!localeMap.containsKey(localeName)) return false;
-        for(Locale locale : getLocales()) locale.removeUser(user);
+        getLocale(user).removeUser(user);
         localeMap.get(localeName).addUser(user);
         fileConfig.set(user.getName(), localeName);
         config.save();
