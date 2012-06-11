@@ -277,7 +277,7 @@ public class Auction {
         tokenMap.put("%owner%", owner.getName());
         tokenMap.put("%quantity%", String.valueOf(itemStack.getAmount()));
         tokenMap.put("%item%", ItemManager.getName(itemStack));
-        tokenMap.put("%durability%", String.valueOf(getDurability()));
+        tokenMap.put("%durability%", String.format("%.2f%", getDurability()));
         tokenMap.put("%bid%", String.format("%,.2f", bid));
         if(winner != null) tokenMap.put("%winner%", winner.getName());
         else tokenMap.put("%winner%", "None");
