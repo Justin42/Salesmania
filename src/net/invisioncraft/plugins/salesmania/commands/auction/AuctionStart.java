@@ -69,8 +69,13 @@ public class AuctionStart extends CommandHandler {
             return false;
         }
         try {
+            for(String arg : args) {
+                if(Integer.valueOf(arg) <= 0) {
+                    sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
+                    return false;
+                }
+            }
             startingBid = Float.valueOf(args[1]);
-            if(args.length == 3) quantity = Integer.valueOf(args[2]);
         } catch (NumberFormatException ex) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
@@ -92,13 +97,15 @@ public class AuctionStart extends CommandHandler {
         }
 
         // Quantity check
-        if(quantity != 0) {
-            if(quantity > ItemManager.getQuantity(player, itemStack)) {
-                player.sendMessage(locale.getMessage("Auction.notEnough"));
-                return false;
-            }
-            else itemStack.setAmount(quantity);
+        if(quantity > ItemManager.getQuantity(player, itemStack)) {
+            player.sendMessage(locale.getMessage("Auction.notEnough"));
+            return false;
         }
+        if(quantity < 1) {
+            sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
+            return false;
+        }
+        else itemStack.setAmount(quantity);
 
         switch(auction.start(player, itemStack, startingBid)) {
             case RUNNING:
