@@ -54,7 +54,7 @@ public class Salesmania extends JavaPlugin {
         getCommand("collect").setExecutor(new StashCommandExecutor(this));
         getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
 
-        getServer().getPluginManager().registerEvents(new AuctionEventListener(), this);
+        getServer().getPluginManager().registerEvents(new AuctionEventListener(this), this);
         getServer().getPluginManager().registerEvents(new LoginListener(this), this);
         // Vault
         if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {

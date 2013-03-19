@@ -33,7 +33,8 @@ public class AuctionEvent extends Event {
         START,
         TIMER,
         ENABLE,
-        DISABLE
+        DISABLE,
+        RELOAD
     }
 
     public AuctionEvent(Auction auction, EventType eventType) {

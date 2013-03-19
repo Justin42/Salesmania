@@ -36,37 +36,48 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AuctionEventListener implements Listener {
-
-    AuctionEvent auctionEvent;
     Salesmania plugin;
-    Auction auction;
     AuctionIgnoreList auctionIgnoreList;
     AuctionSettings auctionSettings;
     Economy economy;
     LocaleHandler localeHandler;
 
+    public AuctionEventListener(Salesmania plugin) {
+        this.plugin = plugin;
+        auctionSettings =  plugin.getSettings().getAuctionSettings();
+        auctionIgnoreList = plugin.getAuctionIgnoreList();
+        economy = plugin.getEconomy();
+        localeHandler = plugin.getLocaleHandler();
+    }
+
+    public void onAuctionReload(AuctionEvent auctionEvent) {
+        auctionSettings =  plugin.getSettings().getAuctionSettings();
+        auctionIgnoreList = plugin.getAuctionIgnoreList();
+        economy = plugin.getEconomy();
+        localeHandler = plugin.getLocaleHandler();
+    }
+
     @EventHandler
     public void onAuctionEvent(AuctionEvent auctionEvent) {
-        this.auctionEvent = auctionEvent;
-        auction = auctionEvent.getAuction();
-        plugin = auction.getPlugin();
         auctionSettings = plugin.getSettings().getAuctionSettings();
         auctionIgnoreList = plugin.getAuctionIgnoreList();
         economy = plugin.getEconomy();
         localeHandler = plugin.getLocaleHandler();
 
         switch (auctionEvent.getEventType()) {
-            case BID: onAuctionBidEvent(); break;
-            case END: onAuctionEndEvent(); break;
-            case START: onAuctionStartEvent(); break;
-            case TIMER: onAuctionTimerEvent(); break;
-            case CANCEL: onAuctionCancelEvent(); break;
-            case ENABLE: onAuctionEnableEvent(); break;
-            case DISABLE: onAuctionDisableEvent(); break;
+            case BID: onAuctionBidEvent(auctionEvent); break;
+            case END: onAuctionEndEvent(auctionEvent); break;
+            case START: onAuctionStartEvent(auctionEvent); break;
+            case TIMER: onAuctionTimerEvent(auctionEvent); break;
+            case CANCEL: onAuctionCancelEvent(auctionEvent); break;
+            case ENABLE: onAuctionEnableEvent(auctionEvent); break;
+            case DISABLE: onAuctionDisableEvent(auctionEvent); break;
+            case RELOAD: onAuctionReload(auctionEvent); break;
         }
     }
 
-    private void processTax() {
+    private void processTax(AuctionEvent auctionEvent) {
+        Auction auction = auctionEvent.getAuction();
         Player owner = auction.getOwner();
         Locale locale = localeHandler.getLocale(owner);
         double taxAmount = 0;
@@ -89,7 +100,7 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    private void onAuctionTimerEvent() {
+    private void onAuctionTimerEvent(AuctionEvent auctionEvent) {
         long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
         List<Long> notifyTimes = auctionSettings.getNofityTime();
         if(notifyTimes.contains(timeRemaining)) {
@@ -103,7 +114,8 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    private void onAuctionStartEvent() {
+    private void onAuctionStartEvent(AuctionEvent auctionEvent) {
+        Auction auction = auctionEvent.getAuction();
         // Take item
         ItemManager.takeItem(auction.getOwner(), auction.getItemStack());
 
@@ -119,10 +131,11 @@ public class AuctionEventListener implements Listener {
         }
 
         // Tax
-        processTax();
+        processTax(auctionEvent);
     }
 
-    public void onAuctionBidEvent() {
+    public void onAuctionBidEvent(AuctionEvent auctionEvent) {
+        Auction auction = auctionEvent.getAuction();
         // Anti-Snipe
         if(auction.getTimeRemaining() < auctionSettings.getSnipeTime()) {
             auction.setTimeRemaining(auction.getTimeRemaining() + auctionSettings.getSnipeValue());
@@ -149,7 +162,8 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    public void onAuctionEndEvent() {
+    public void onAuctionEndEvent(AuctionEvent auctionEvent) {
+        Auction auction = auctionEvent.getAuction();
         // NO BIDS
         if(plugin.getAuction().getWinner() == null) {
             // Broadcast
@@ -162,7 +176,7 @@ public class AuctionEventListener implements Listener {
 
             // Tax
             if(auctionSettings.taxIfNoBids()) {
-                processTax();
+                processTax(auctionEvent);
             }
 
             // Give back item to owner
@@ -187,14 +201,15 @@ public class AuctionEventListener implements Listener {
             economy.depositPlayer(auction.getOwner().getName(), auction.getBid());
 
             // Tax
-            processTax();
+            processTax(auctionEvent);
 
             // Give item to winner
             giveItem(auction.getWinner(), auction.getItemStack());
         }
     }
 
-    public void onAuctionCancelEvent() {
+    public void onAuctionCancelEvent(AuctionEvent auctionEvent) {
+        Auction auction = auctionEvent.getAuction();
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
             String message = locale.getMessage("Auction.tag") +
@@ -211,7 +226,7 @@ public class AuctionEventListener implements Listener {
         giveItem(auction.getOwner(), auction.getItemStack());
     }
 
-    public void onAuctionEnableEvent() {
+    public void onAuctionEnableEvent(AuctionEvent auctionEvent) {
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
             String message = locale.getMessage("Auction.tag") +
@@ -220,7 +235,8 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    public void onAuctionDisableEvent() {
+    public void onAuctionDisableEvent(AuctionEvent auctionEvent) {
+        Auction auction = auctionEvent.getAuction();
         // Cancel current auction
         auction.cancel();
 
