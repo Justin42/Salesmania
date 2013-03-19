@@ -62,20 +62,16 @@ public class AuctionStart extends CommandHandler {
         }
 
         // Syntax check
-        float startingBid;
-        int quantity = 0;
         if(args.length < 2) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
         }
+
+        float startingBid;
+        int quantity;
         try {
-            for(String arg : args) {
-                if(Integer.valueOf(arg) <= 0) {
-                    sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
-                    return false;
-                }
-            }
             startingBid = Float.valueOf(args[1]);
+            quantity = Integer.valueOf(args[2]);
         } catch (NumberFormatException ex) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
