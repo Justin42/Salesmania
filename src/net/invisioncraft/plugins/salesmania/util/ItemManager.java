@@ -18,7 +18,7 @@ package net.invisioncraft.plugins.salesmania.util;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.milkbowl.vault.item.Items;
-import net.minecraft.server.Block;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -74,7 +74,7 @@ public class ItemManager {
     public static String getName(ItemStack itemStack) {
         // Spawner names
         String itemName;
-        if(itemStack.getTypeId() == Block.MOB_SPAWNER.id) {
+        if(itemStack.getTypeId() == Material.MOB_SPAWNER.getId()) {
             itemName = EntityType.fromId((int) itemStack.getData().getData()).getName()
                     + " Spawner";
         }
