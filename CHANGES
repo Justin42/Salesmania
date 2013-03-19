@@ -1,3 +1,24 @@
+1.2 -
+- Updated to work with craftbukkit v1.5
+- Duplication exploit fixed.
+
+1.1a3 -
+- Added portuguese locale
+- Fixed not being able to auction items not in Vault
+- Added the item stash
+- Fixed french locale encoding
+
+1.1a2 -
+- Locale now saves as expected
+- Added french locale
+- Server tax
+
+1.1a1 -
+- Locale related optimizations
+- No longer shows enchantment for spawners
+- /bid can now be used instead of /auction bid
+- Better logging
+
 1.0b9 (RC1):
 - Fixed error when auctioning with no item in hand
 - /auction ignore now saves config as expected
@@ -7,20 +28,3 @@
 - Fixed typo in locale file
 - Syntax fix for /salesmania locale command
 - Creative check for bidding
-
-1.1a1 -
-- Locale related optimizations
-- No longer shows enchantment for spawners
-- /bid can now be used instead of /auction bid
-- Better logging
-
-1.1a2 -
-- Locale now saves as expected
-- Added french locale
-- Server tax
-
-1.1a3 -
-- Added portuguese locale
-- Fixed not being able to auction items not in Vault
-- Added the item stash
-- Fixed french locale encoding
