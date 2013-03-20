@@ -4,6 +4,7 @@ import net.invisioncraft.plugins.salesmania.configuration.Configuration;
 import net.invisioncraft.plugins.salesmania.configuration.ConfigurationHandler;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -52,5 +53,13 @@ public class AuctionQueue extends LinkedList<Auction> {
 
     public void load() {
         queueConfig.loadQueue(this);
+    }
+
+    public int playerSize(Player player) {
+        int count = 0;
+        for(Auction auction : this) {
+            if(auction.getOwner().equals(player)) count++;
+        }
+        return count;
     }
 }

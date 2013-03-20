@@ -126,6 +126,14 @@ public class AuctionSettings implements ConfigurationHandler {
         settings.save();
     }
 
+    public int getMaxQueueSize() {
+        return config.getInt("Auction.Queue.maxSize");
+    }
+
+    public int getMaxQueuePerPlayer() {
+        return config.getInt("Auction.Queue.maxPerPlayer");
+    }
+
     @Override
     public void update() {
         config = settings.getConfig();

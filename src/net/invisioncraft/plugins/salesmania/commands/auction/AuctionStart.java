@@ -104,11 +104,11 @@ public class AuctionStart extends CommandHandler {
         else itemStack.setAmount(quantity);
 
         switch(auction.start(player, itemStack, startingBid)) {
-            case RUNNING:
-                player.sendMessage(locale.getMessage("Auction.alreadyStarted"));
+            case QUEUE_FULL:
+                player.sendMessage(locale.getMessage("Auction.queueFull"));
                 return false;
-            case COOLDOWN:
-                player.sendMessage(locale.getMessage("Auction.cooldown"));
+            case PLAYER_QUEUE_FULL:
+                player.sendMessage(locale.getMessage("Auction.playerQueueFull"));
                 return false;
             case UNDER_MIN:
                 player.sendMessage(String.format(locale.getMessage("Auction.startUnderMin"),

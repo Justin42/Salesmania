@@ -11,6 +11,12 @@ Auction:
   cooldown: 300
   minStart: 100
   maxStart: 100000
+
+  Queue:
+    maxSize: 1
+    maxPerPlayer: 1
+
+
   
   taxAccount: None
   useTaxAccount: false

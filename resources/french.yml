@@ -59,6 +59,8 @@ Auction:
   notEnough: "&cVous n'avez pas assez de ce poste."
   itemBlacklisted: "&cVous ne pouvez pas d'enchères cet article."
   noCreative: "&cVous ne pouvez pas utiliser d'enchères dans le mode créative."
+  queueFull: ""
+  playerQueueFull: ""
   
   enabled: "&ala vente aux enchères a été activé."
   disabled: "&cLa vente aux enchères a été désactivé."

@@ -58,6 +58,8 @@ Auction:
   notEnough: "&cNão tens o suficiente desse objeto."
   itemBlacklisted: "&cNão podes leiloar esse objeto."
   noCreative: "&cNão podes leiloar em modo creativo."
+  queueFull: ""
+  playerQueueFull: ""
   
   enabled: "&aOs leilões foram activados."
   disabled: "&cOs leilões foram desactivados."

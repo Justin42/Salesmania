@@ -132,9 +132,6 @@ public class AuctionEventListener implements Listener {
 
         // Tax
         processTax(auctionEvent);
-
-        plugin.getAuctionQueue().add(auctionEvent.getAuction());
-        plugin.getAuctionQueue().save();
     }
 
     public void onAuctionBidEvent(AuctionEvent auctionEvent) {

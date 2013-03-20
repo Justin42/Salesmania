@@ -54,6 +54,7 @@ public class Auction {
     private ItemStack itemStack;
 
     private long timeRemaining = 0;
+    public static String PLAYER_QUEUE_METADATA = "AUCTIONS_IN_QUEUE";
 
     private Runnable cooldownRunnable = new Runnable() {
         @Override
@@ -83,11 +84,10 @@ public class Auction {
         UNDER_MIN,
         SUCCESS,
         FAILURE,
-        RUNNING,
-        COOLDOWN,
         WINNING,
         NOT_RUNNING,
-        CANCELED,
+        QUEUE_FULL,
+        PLAYER_QUEUE_FULL,
         OWNER,
         CANT_AFFORD_TAX
     }
@@ -166,8 +166,8 @@ public class Auction {
     }
 
     public AuctionStatus performChecks(Player player, double startBid) {
-        if(isRunning()) return AuctionStatus.RUNNING;
-        if(isInCooldown()) return AuctionStatus.COOLDOWN;
+        if(plugin.getAuctionQueue().size() >= auctionSettings.getMaxQueueSize()) return AuctionStatus.QUEUE_FULL;
+        if(player.getMetadata(PLAYER_QUEUE_METADATA).get(0).asInt() >= plugin.getAuctionQueue().playerSize(player)) return AuctionStatus.PLAYER_QUEUE_FULL;
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
         if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
