@@ -40,6 +40,8 @@ public class Salesmania extends JavaPlugin {
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
     private ItemStash itemStash;
+    private AuctionQueue auctionQueue;
+
     @Override
     public void onEnable() {
         configSet = new HashSet<Configuration>();
@@ -48,6 +50,7 @@ public class Salesmania extends JavaPlugin {
         localeHandler = new LocaleHandler(this);
         auctionIgnoreList = new AuctionIgnoreList(this);
         itemStash = new ItemStash(this);
+        auctionQueue = new AuctionQueue(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getCommand("bid").setExecutor(getCommand("auction").getExecutor());
@@ -87,6 +90,10 @@ public class Salesmania extends JavaPlugin {
             currentAuction = new Auction(this);
         }
         return currentAuction;
+    }
+
+    public AuctionQueue getAuctionQueue() {
+        return auctionQueue;
     }
 
     public LocaleHandler getLocaleHandler() {

@@ -34,7 +34,8 @@ public class AuctionEvent extends Event {
         TIMER,
         ENABLE,
         DISABLE,
-        RELOAD
+        RELOAD,
+        QUEUED
     }
 
     public AuctionEvent(Auction auction, EventType eventType) {

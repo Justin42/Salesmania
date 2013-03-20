@@ -147,19 +147,8 @@ public class Auction {
     }
 
     public AuctionStatus start(Player player, ItemStack itemStack, double startBid)  {
-        if(isRunning()) return AuctionStatus.RUNNING;
-        if(isInCooldown()) return AuctionStatus.COOLDOWN;
-        if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
-        if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
-
-        // Tax
-        if(auctionSettings.getStartTax() != 0) {
-            startTax = auctionSettings.getStartTax();
-            if(auctionSettings.isStartTaxPercent()) {
-                startTax = (startTax / 100) * startBid;
-            }
-            if(!economy.has(player.getName(), startTax)) return AuctionStatus.CANT_AFFORD_TAX;
-        }
+        AuctionStatus checkResult = performChecks(player, startBid);
+        if(checkResult != AuctionStatus.SUCCESS) return checkResult;
 
         bid = startBid;
         lastBid = 0;
@@ -173,6 +162,23 @@ public class Auction {
         updateInfoTokens();
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
+        return AuctionStatus.SUCCESS;
+    }
+
+    public AuctionStatus performChecks(Player player, double startBid) {
+        if(isRunning()) return AuctionStatus.RUNNING;
+        if(isInCooldown()) return AuctionStatus.COOLDOWN;
+        if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
+        if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
+
+        // Tax
+        if(auctionSettings.getStartTax() != 0) {
+            startTax = auctionSettings.getStartTax();
+            if(auctionSettings.isStartTaxPercent()) {
+                startTax = (startTax / 100) * startBid;
+            }
+            if(!economy.has(player.getName(), startTax)) return AuctionStatus.CANT_AFFORD_TAX;
+        }
         return AuctionStatus.SUCCESS;
     }
 
