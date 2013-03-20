@@ -36,7 +36,6 @@ public class Salesmania extends JavaPlugin {
     private Economy economy;
     private Settings settings;
     private AuctionIgnoreList auctionIgnoreList;
-    private Auction currentAuction;
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
     private ItemStash itemStash;
@@ -83,13 +82,6 @@ public class Salesmania extends JavaPlugin {
 
     public Settings getSettings() {
         return settings;
-    }
-
-    public Auction getAuction() {
-        if(currentAuction == null) {
-            currentAuction = new Auction(this);
-        }
-        return currentAuction;
     }
 
     public AuctionQueue getAuctionQueue() {

@@ -2,6 +2,7 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.Configuration;
 import net.invisioncraft.plugins.salesmania.configuration.ConfigurationHandler;
+import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -61,5 +62,14 @@ public class AuctionQueue extends LinkedList<Auction> {
             if(auction.getOwner().equals(player)) count++;
         }
         return count;
+    }
+
+    @Override
+    public boolean add(Auction auction) {
+        if(super.add(auction)) {
+            plugin.getServer().getPluginManager().callEvent(new AuctionEvent(auction, AuctionEvent.EventType.QUEUED));
+            return true;
+        }
+        return false;
     }
 }

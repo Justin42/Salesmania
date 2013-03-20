@@ -73,6 +73,7 @@ public class AuctionEventListener implements Listener {
             case ENABLE: onAuctionEnableEvent(auctionEvent); break;
             case DISABLE: onAuctionDisableEvent(auctionEvent); break;
             case RELOAD: onAuctionReload(auctionEvent); break;
+            case QUEUED: onAuctionQueue(auctionEvent); break;
         }
     }
 
@@ -116,8 +117,6 @@ public class AuctionEventListener implements Listener {
 
     private void onAuctionStartEvent(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
-        // Take item
-        ItemManager.takeItem(auction.getOwner(), auction.getItemStack());
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
@@ -129,6 +128,13 @@ public class AuctionEventListener implements Listener {
             infoList = MsgUtil.addPrefix(infoList, locale.getMessage("Auction.tag"));
             locale.broadcastMessage(infoList, auctionIgnoreList);
         }
+    }
+
+    private void onAuctionQueue(AuctionEvent auctionEvent) {
+        Auction auction = auctionEvent.getAuction();
+
+        // Take item
+        ItemManager.takeItem(auction.getOwner(), auction.getItemStack());
 
         // Tax
         processTax(auctionEvent);
@@ -165,7 +171,7 @@ public class AuctionEventListener implements Listener {
     public void onAuctionEndEvent(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         // NO BIDS
-        if(plugin.getAuction().getWinner() == null) {
+        if(auctionEvent.getAuction().getWinner() == null) {
             // Broadcast
             for(Locale locale : localeHandler.getLocales()) {
                 String message =

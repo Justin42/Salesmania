@@ -146,7 +146,7 @@ public class Auction {
         return itemStack;
     }
 
-    public AuctionStatus start(Player player, ItemStack itemStack, double startBid)  {
+    public AuctionStatus queue(Player player, ItemStack itemStack, double startBid)  {
         AuctionStatus checkResult = performChecks(player, startBid);
         if(checkResult != AuctionStatus.SUCCESS) return checkResult;
 
@@ -160,8 +160,13 @@ public class Auction {
         plugin.getAuctionIgnoreList().setIgnore(player, false);
 
         updateInfoTokens();
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
+        plugin.getAuctionQueue().add(this);
+        return AuctionStatus.SUCCESS;
+    }
+
+    public AuctionStatus start() {
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
+        plugin.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         return AuctionStatus.SUCCESS;
     }
 

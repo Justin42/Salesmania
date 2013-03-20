@@ -46,7 +46,6 @@ public class AuctionStart extends CommandHandler {
         }
 
         Player player = (Player) sender;
-        Auction auction = plugin.getAuction();
         ItemStack itemStack = player.getItemInHand().clone();
 
         // Disable check
@@ -78,10 +77,10 @@ public class AuctionStart extends CommandHandler {
         }
 
         // Permission check
-        if(!sender.hasPermission("salesmania.auction.start")) {
+        if(!sender.hasPermission("salesmania.auction.queue")) {
             sender.sendMessage(String.format(
                     locale.getMessage("Permission.noPermission"),
-                    locale.getMessage("Permisson.Auction.start")));
+                    locale.getMessage("Permisson.Auction.queue")));
             return false;
         }
 
@@ -103,7 +102,8 @@ public class AuctionStart extends CommandHandler {
         }
         else itemStack.setAmount(quantity);
 
-        switch(auction.start(player, itemStack, startingBid)) {
+        Auction auction = new Auction(plugin);
+        switch(auction.queue(player, itemStack, startingBid)) {
             case QUEUE_FULL:
                 player.sendMessage(locale.getMessage("Auction.queueFull"));
                 return false;
@@ -120,7 +120,7 @@ public class AuctionStart extends CommandHandler {
                 return false;
             case CANT_AFFORD_TAX:
                 player.sendMessage(String.format(locale.getMessage("Auction.cantAffordTax"),
-                        plugin.getAuction().getStartTax()));
+                        auction.getStartTax()));
             case SUCCESS:
                 return true;
         }
