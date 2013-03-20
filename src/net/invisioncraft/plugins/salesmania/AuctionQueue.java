@@ -64,6 +64,15 @@ public class AuctionQueue extends LinkedList<Auction> {
         return count;
     }
 
+    // TODO implement start and stop methods + scheduling
+    public void start() {
+
+    }
+
+    public void stop() {
+
+    }
+
     @Override
     public boolean add(Auction auction) {
         if(super.add(auction)) {
