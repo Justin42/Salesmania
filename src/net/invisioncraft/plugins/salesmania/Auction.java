@@ -167,7 +167,7 @@ public class Auction {
 
     public AuctionStatus performChecks(Player player, double startBid) {
         if(plugin.getAuctionQueue().size() >= auctionSettings.getMaxQueueSize()) return AuctionStatus.QUEUE_FULL;
-        if(player.getMetadata(PLAYER_QUEUE_METADATA).get(0).asInt() >= plugin.getAuctionQueue().playerSize(player)) return AuctionStatus.PLAYER_QUEUE_FULL;
+        if(plugin.getAuctionQueue().playerSize(player) >= auctionSettings.getMaxQueuePerPlayer()) return AuctionStatus.PLAYER_QUEUE_FULL;
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
         if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
 
