@@ -121,6 +121,8 @@ public class AuctionStart extends CommandHandler {
             case CANT_AFFORD_TAX:
                 player.sendMessage(String.format(locale.getMessage("Auction.cantAffordTax"),
                         auction.getStartTax()));
+            case QUEUE_SUCCESS:
+                player.sendMessage(locale.getMessage("Auction.queued"));
             case SUCCESS:
                 return true;
         }

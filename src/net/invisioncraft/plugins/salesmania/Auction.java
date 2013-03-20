@@ -89,7 +89,8 @@ public class Auction {
         QUEUE_FULL,
         PLAYER_QUEUE_FULL,
         OWNER,
-        CANT_AFFORD_TAX
+        CANT_AFFORD_TAX,
+        QUEUE_SUCCESS,
     }
 
     private HashMap<String, String> tokenMap;
@@ -160,17 +161,26 @@ public class Auction {
         plugin.getAuctionIgnoreList().setIgnore(player, false);
 
         updateInfoTokens();
-        plugin.getAuctionQueue().add(this);
-        return AuctionStatus.SUCCESS;
+        if(plugin.getAuctionQueue().add(this)) {
+            if(plugin.getAuctionQueue().size() != 1) return AuctionStatus.QUEUE_SUCCESS;
+            else return AuctionStatus.SUCCESS;
+        }
+        else {
+            plugin.getLogger().warning("Failed to add auction to queue.");
+            plugin.getLogger().info(String.format(
+                    "Player: %s\n ItemStack: %s\n Starting Bid: %,d",
+                    player.getName(), itemStack, startBid));
+            return AuctionStatus.FAILURE;
+        }
     }
 
-    public AuctionStatus start() {
+    protected AuctionStatus start() {
         timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
         plugin.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         return AuctionStatus.SUCCESS;
     }
 
-    public AuctionStatus performChecks(Player player, double startBid) {
+    private AuctionStatus performChecks(Player player, double startBid) {
         if(plugin.getAuctionQueue().size() >= auctionSettings.getMaxQueueSize()) return AuctionStatus.QUEUE_FULL;
         if(plugin.getAuctionQueue().playerSize(player) >= auctionSettings.getMaxQueuePerPlayer()) return AuctionStatus.PLAYER_QUEUE_FULL;
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
