@@ -19,6 +19,9 @@ import java.util.*;
 public class AuctionQueue extends LinkedList<Auction> {
     private Salesmania plugin;
     private QueueConfig queueConfig;
+    private boolean isRunning;
+    private Auction currentAuction;
+    private static long TICKS_PER_SECOND = 20;
 
     private class QueueConfig extends Configuration {
         public QueueConfig(Salesmania plugin) {
@@ -52,6 +55,18 @@ public class AuctionQueue extends LinkedList<Auction> {
         queueConfig.loadQueue(this);
     }
 
+    private Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(currentAuction.isRunning()) {
+                currentAuction.timerTick();
+            }
+            else {
+                nextAuction();
+            }
+        }
+    };
+
     public void load() {
         queueConfig.loadQueue(this);
     }
@@ -64,13 +79,30 @@ public class AuctionQueue extends LinkedList<Auction> {
         return count;
     }
 
+    public boolean nextAuction() {
+        poll();
+        if(size() != 0) {
+            currentAuction = peek();
+            currentAuction.start();
+            currentAuction.timerTick();
+            return true;
+        }
+        else return false;
+    }
+
     // TODO implement start and stop methods + scheduling
     public void start() {
-
+        isRunning = true;
+        if(size() != 0) {
+            currentAuction = peek();
+            plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STARTED));
+            plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
+        }
     }
 
     public void stop() {
-
+        plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STOPPED));
+        isRunning = false;
     }
 
     @Override

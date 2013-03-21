@@ -34,13 +34,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Auction {
-    private static long TICKS_PER_SECOND = 20;
     Salesmania plugin;
     Economy economy;
     AuctionSettings auctionSettings;
 
     private boolean isRunning = false;
-    private boolean inCooldown = false;
 
     private Player owner;
     private Player winner;
@@ -54,30 +52,6 @@ public class Auction {
     private ItemStack itemStack;
 
     private long timeRemaining = 0;
-    public static String PLAYER_QUEUE_METADATA = "AUCTIONS_IN_QUEUE";
-
-    private Runnable cooldownRunnable = new Runnable() {
-        @Override
-        public void run() {
-            inCooldown = false;
-        }
-    };
-
-    private Runnable timerRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if(isRunning) {
-                timeRemaining -= 1;
-                if (timeRemaining == 0) end();
-                callTimerEvent();
-            }
-            else {
-                Bukkit.getServer().getScheduler().cancelTask(timerID);
-            }
-        }
-    };
-
-    private int timerID;
 
     public static enum AuctionStatus {
         OVER_MAX,
@@ -116,10 +90,6 @@ public class Auction {
 
     public boolean isRunning() {
         return isRunning;
-    }
-
-    public boolean isInCooldown() {
-        return inCooldown;
     }
 
     public Player getWinner() {
@@ -175,7 +145,6 @@ public class Auction {
     }
 
     protected AuctionStatus start() {
-        timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
         plugin.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         return AuctionStatus.SUCCESS;
     }
@@ -195,10 +164,6 @@ public class Auction {
             if(!economy.has(player.getName(), startTax)) return AuctionStatus.CANT_AFFORD_TAX;
         }
         return AuctionStatus.SUCCESS;
-    }
-
-    public int getTimerID() {
-        return timerID;
     }
 
     public AuctionStatus bid(Player player, double bid) {
@@ -231,10 +196,6 @@ public class Auction {
 
             Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.END));
             isRunning = false;
-            inCooldown = true;
-
-            plugin.getServer().getScheduler().cancelTask(timerID);
-            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
         }
     }
 
@@ -242,8 +203,6 @@ public class Auction {
         if(!isRunning()) return AuctionStatus.NOT_RUNNING;
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.CANCEL));
         isRunning = false;
-        inCooldown = true;
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, cooldownRunnable, auctionSettings.getCooldown()*TICKS_PER_SECOND);
         return AuctionStatus.SUCCESS;
     }
 
@@ -312,8 +271,14 @@ public class Auction {
         timeRemaining = time;
     }
 
-    private void callTimerEvent() {
+    protected void timerTick() {
         Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.TIMER));
+        if(isRunning) {
+            timeRemaining -= 1;
+            if (timeRemaining == 0) {
+                end();
+            }
+        }
     }
 
     public Salesmania getPlugin() {
