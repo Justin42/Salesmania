@@ -78,7 +78,7 @@ public class AuctionBid extends CommandHandler {
             return false;
         }
 
-        Auction auction = plugin.getAuction();
+        Auction auction = plugin.getAuctionQueue().getCurrentAuction();
         switch(auction.bid(player, bidAmount)) {
             case SUCCESS:
                 player.sendMessage(String.format(

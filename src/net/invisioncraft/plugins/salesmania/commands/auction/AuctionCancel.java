@@ -16,6 +16,7 @@ Copyright 2012 Byte 2 O Software LLC
 
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
+import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
@@ -32,22 +33,27 @@ public class AuctionCancel extends CommandHandler {
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
         boolean hasPermission = false;
-        if((sender instanceof Player)) {
-            if(sender == plugin.getAuction().getOwner() | sender.hasPermission("salesmania.auction.cancel")) {
-                hasPermission = true;
+        Auction currentAuction = plugin.getAuctionQueue().getCurrentAuction();
+        if(currentAuction != null) {
+            if((sender instanceof Player)) {
+                if(sender == currentAuction.getOwner() | sender.hasPermission("salesmania.auction.cancel")) {
+                    hasPermission = true;
+                }
             }
-        }
-        if(!hasPermission) {
-            sender.sendMessage(
-                    locale.getMessage("Permission.noPermission") +
-                    locale.getMessage("Permission.Auction.cancel"));
-            return false;
-        }
+            if(!hasPermission) {
+                sender.sendMessage(
+                        locale.getMessage("Permission.noPermission") +
+                        locale.getMessage("Permission.Auction.cancel"));
+                return false;
+            }
 
-        switch(plugin.getAuction().cancel()) {
-            case NOT_RUNNING:
-                sender.sendMessage(locale.getMessage("Auction.notRunning"));
-                return true;
+            switch(currentAuction.cancel()) {
+                // TODO no reason the auction shouldn't be running. it may be better to check the AuctionQueue for this.
+                case NOT_RUNNING:
+                    sender.sendMessage(locale.getMessage("Auction.notRunning"));
+                    return true;
+            }
+            return false;
         }
         return false;
     }

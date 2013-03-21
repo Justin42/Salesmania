@@ -16,6 +16,7 @@ Copyright 2012 Byte 2 O Software LLC
 
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
+import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
@@ -31,23 +32,26 @@ public class AuctionEnd extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
+        Auction currentAuction = plugin.getAuctionQueue().getCurrentAuction();
+        if(currentAuction != null) {
+            if(!(sender instanceof Player)) {
+                currentAuction.end();
+                return true;
+            }
 
-        if(!(sender instanceof Player)) {
-            plugin.getAuction().end();
-            return true;
+            Player player = (Player) sender;
+            if(player.hasPermission("salesmania.auction.end") | player == currentAuction.getOwner()) {
+                if(currentAuction.isRunning()) currentAuction.end();
+                else sender.sendMessage(locale.getMessage("Auction.notRunning"));
+                return true;
+            }
+            else {
+                sender.sendMessage(String.format(
+                        locale.getMessage("Permission.noPermission"),
+                        locale.getMessage("Permission.Auction.end")));
+                return false;
+            }
         }
-
-        Player player = (Player) sender;
-        if(player.hasPermission("salesmania.auction.end") | player == plugin.getAuction().getOwner()) {
-            if(plugin.getAuction().isRunning()) plugin.getAuction().end();
-            else sender.sendMessage(locale.getMessage("Auction.notRunning"));
-            return true;
-        }
-        else {
-            sender.sendMessage(String.format(
-                    locale.getMessage("Permission.noPermission"),
-                    locale.getMessage("Permission.Auction.end")));
-            return false;
-        }
+        return false;
     }
 }

@@ -25,7 +25,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     private boolean isCooldown = false;
     private long cooldownRemaining;
 
-    private Auction currentAuction;
+    private Auction currentAuction = null;
     private static long TICKS_PER_SECOND = 20;
     private Integer timerID;
 
@@ -38,7 +38,7 @@ public class AuctionQueue extends LinkedList<Auction> {
         }
 
         public void saveAuction(Auction auction) {
-            HashMap dataMap = new HashMap<String, Object>();
+            HashMap<String, Object> dataMap = new HashMap<String, Object>();
             dataMap.put("itemstack", auction.getItemStack());
             dataMap.put("bid", auction.getBid());
             dataMap.put("winner", auction.getWinner());
@@ -95,7 +95,7 @@ public class AuctionQueue extends LinkedList<Auction> {
         poll();
         if(size() != 0) {
             currentAuction = peek();
-        }
+        } else currentAuction = null;
         cooldownRemaining = plugin.getSettings().getAuctionSettings().getCooldown();
         if(cooldownRemaining != 0) {
             isCooldown = true;
@@ -120,6 +120,10 @@ public class AuctionQueue extends LinkedList<Auction> {
             plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STOPPED));
             isRunning = false;
         }
+    }
+
+    public Auction getCurrentAuction() {
+        return currentAuction;
     }
 
     @Override
