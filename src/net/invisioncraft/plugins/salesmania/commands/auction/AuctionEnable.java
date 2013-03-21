@@ -47,7 +47,7 @@ public class AuctionEnable extends CommandHandler {
             }
             else {
                 auctionSettings.setEnabled(true);
-                plugin.getServer().getPluginManager().callEvent(new AuctionEvent(plugin.getAuction(), AuctionEvent.EventType.ENABLE));
+                plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.ENABLE));
                 sender.sendMessage(locale.getMessage("Auction.enabled"));
             }
         }
@@ -64,7 +64,7 @@ public class AuctionEnable extends CommandHandler {
             }
             else {
                 auctionSettings.setEnabled(false);
-                plugin.getServer().getPluginManager().callEvent(new AuctionEvent(plugin.getAuction(), AuctionEvent.EventType.DISABLE));
+                plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.DISABLE));
                 sender.sendMessage(locale.getMessage("Auction.disabled"));
             }
         }

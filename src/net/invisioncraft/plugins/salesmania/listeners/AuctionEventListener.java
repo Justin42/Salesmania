@@ -233,6 +233,9 @@ public class AuctionEventListener implements Listener {
     }
 
     public void onAuctionEnableEvent(AuctionEvent auctionEvent) {
+        // Start the queue
+        plugin.getAuctionQueue().start();
+
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
             String message = locale.getMessage("Auction.tag") +
@@ -242,9 +245,8 @@ public class AuctionEventListener implements Listener {
     }
 
     public void onAuctionDisableEvent(AuctionEvent auctionEvent) {
-        Auction auction = auctionEvent.getAuction();
-        // Cancel current auction
-        auction.cancel();
+        // Stop the queue
+        plugin.getAuctionQueue().stop();
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {

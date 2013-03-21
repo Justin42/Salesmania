@@ -1,5 +1,6 @@
 package net.invisioncraft.plugins.salesmania;
 
+import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Configuration;
 import net.invisioncraft.plugins.salesmania.configuration.ConfigurationHandler;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
@@ -19,9 +20,14 @@ import java.util.*;
 public class AuctionQueue extends LinkedList<Auction> {
     private Salesmania plugin;
     private QueueConfig queueConfig;
+
     private boolean isRunning;
+    private boolean isCooldown = false;
+    private long cooldownRemaining;
+
     private Auction currentAuction;
     private static long TICKS_PER_SECOND = 20;
+    private Integer timerID;
 
     private class QueueConfig extends Configuration {
         public QueueConfig(Salesmania plugin) {
@@ -61,8 +67,14 @@ public class AuctionQueue extends LinkedList<Auction> {
             if(currentAuction.isRunning()) {
                 currentAuction.timerTick();
             }
-            else {
+            else { // If current auction isn't running, we can safely assume it has ended.
                 nextAuction();
+            }
+            if(isCooldown) {
+                if(cooldownRemaining > 0) {
+                    cooldownRemaining--;
+                }
+                else isCooldown = false;
             }
         }
     };
@@ -79,30 +91,35 @@ public class AuctionQueue extends LinkedList<Auction> {
         return count;
     }
 
-    public boolean nextAuction() {
+    public void nextAuction() {
         poll();
         if(size() != 0) {
             currentAuction = peek();
-            currentAuction.start();
-            currentAuction.timerTick();
-            return true;
         }
-        else return false;
+        cooldownRemaining = plugin.getSettings().getAuctionSettings().getCooldown();
+        if(cooldownRemaining != 0) {
+            isCooldown = true;
+        }
     }
 
     // TODO implement start and stop methods + scheduling
     public void start() {
-        isRunning = true;
-        if(size() != 0) {
-            currentAuction = peek();
-            plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STARTED));
-            plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
+        if(!isRunning) {
+            isRunning = true;
+            if(size() != 0) {
+                currentAuction = peek();
+                plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STARTED));
+                timerID = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
+            }
         }
     }
 
     public void stop() {
-        plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STOPPED));
-        isRunning = false;
+        if(isRunning) {
+            plugin.getServer().getScheduler().cancelTask(timerID);
+            plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STOPPED));
+            isRunning = false;
+        }
     }
 
     @Override
