@@ -59,9 +59,9 @@ Auction:
   notEnough: "&cVous n'avez pas assez de ce poste."
   itemBlacklisted: "&cVous ne pouvez pas d'enchères cet article."
   noCreative: "&cVous ne pouvez pas utiliser d'enchères dans le mode créative."
-  queueFull: "&cThe auction queue is full, you cannot start an auction at this time."
-  playerQueueFull: "&cYou can't auction another item at this time."
-  queued: "&aYour auction has been added to the queue."
+  queueFull: "&cLa file d'attente est pleine, vous ne pouvez pas demarrer une vente aux encheres en ce moment."
+  playerQueueFull: "&cVous avez actuellement ne peut pas vendre aux encheres plus articles."
+  queued: "&aVotre enchere a ete ajoute a la file d'attente."
   
   enabled: "&ala vente aux enchères a été activé."
   disabled: "&cLa vente aux enchères a été désactivé."
