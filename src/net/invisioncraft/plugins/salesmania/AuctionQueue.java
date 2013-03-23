@@ -21,7 +21,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     private Salesmania plugin;
     private QueueConfig queueConfig;
 
-    private boolean isRunning;
+    private boolean isRunning = false;
     private boolean isCooldown = false;
     private long cooldownRemaining;
 
@@ -29,15 +29,18 @@ public class AuctionQueue extends LinkedList<Auction> {
     private static long TICKS_PER_SECOND = 20;
     private Integer timerID;
 
+    AuctionSettings auctionSettings;
+
     private class QueueConfig extends Configuration {
         public QueueConfig(Salesmania plugin) {
             super(plugin, "auctionQueue.yml");
         }
 
-        public void loadQueue(AuctionQueue queue) {
+        protected void loadQueue(AuctionQueue queue) {
         }
 
-        public void saveAuction(Auction auction) {
+        // TODO implement saving and loading of queue
+        protected void saveAuction(Auction auction) {
             HashMap<String, Object> dataMap = new HashMap<String, Object>();
             dataMap.put("itemstack", auction.getItemStack());
             dataMap.put("bid", auction.getBid());
@@ -46,7 +49,7 @@ public class AuctionQueue extends LinkedList<Auction> {
             save();
         }
 
-        public void removeAuction(Auction auction) {
+        protected void removeAuction(Auction auction) {
             ConfigurationSection section = config.getConfigurationSection(auction.getOwner().getName());
             section.set("itemstack", null);
             section.set("bid", null);
@@ -59,22 +62,29 @@ public class AuctionQueue extends LinkedList<Auction> {
         this.plugin = plugin;
         queueConfig = new QueueConfig(plugin);
         queueConfig.loadQueue(this);
+        auctionSettings = plugin.getSettings().getAuctionSettings();
     }
 
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            if(currentAuction.isRunning()) {
-                currentAuction.timerTick();
+            if(currentAuction == null) {
+                if(size() == 0) stop();
             }
-            else { // If current auction isn't running, we can safely assume it has ended.
-                nextAuction();
-            }
-            if(isCooldown) {
-                if(cooldownRemaining > 0) {
-                    cooldownRemaining--;
+            else {
+                if(isCooldown) {
+                    if(cooldownRemaining > 0) {
+                        cooldownRemaining--;
+                    } else {
+                        isCooldown = false;
+                    }
                 }
-                else isCooldown = false;
+
+                else if(currentAuction.isRunning()) {
+                    currentAuction.timerTick();
+                } else {
+                    nextAuction();
+                }
             }
         }
     };
@@ -91,24 +101,29 @@ public class AuctionQueue extends LinkedList<Auction> {
         return count;
     }
 
-    public void nextAuction() {
-        poll();
+    public boolean nextAuction() {
         if(size() != 0) {
             currentAuction = peek();
-        } else currentAuction = null;
-        cooldownRemaining = plugin.getSettings().getAuctionSettings().getCooldown();
-        if(cooldownRemaining != 0) {
-            isCooldown = true;
+            if(!isCooldown) currentAuction.start();
+        } else {
+            currentAuction = null;
+            return false;
         }
+        return true;
     }
 
-    // TODO implement start and stop methods + scheduling
+    public void startCooldown() {
+        cooldownRemaining = plugin.getSettings().getAuctionSettings().getCooldown();
+        isCooldown = true;
+    }
+
     public void start() {
         if(!isRunning) {
             isRunning = true;
             if(size() != 0) {
-                currentAuction = peek();
                 plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STARTED));
+                currentAuction = peek();
+                currentAuction.start();
                 timerID = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
             }
         }
@@ -130,6 +145,9 @@ public class AuctionQueue extends LinkedList<Auction> {
     public boolean add(Auction auction) {
         if(super.add(auction)) {
             plugin.getServer().getPluginManager().callEvent(new AuctionEvent(auction, AuctionEvent.EventType.QUEUED));
+            if(auctionSettings.getEnabled() && !isRunning) {
+                start();
+            }
             return true;
         }
         return false;
