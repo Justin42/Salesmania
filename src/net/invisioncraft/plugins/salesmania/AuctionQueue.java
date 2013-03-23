@@ -45,16 +45,15 @@ public class AuctionQueue extends LinkedList<Auction> {
             dataMap.put("itemstack", auction.getItemStack());
             dataMap.put("bid", auction.getBid());
             dataMap.put("winner", auction.getWinner());
-            config.set(auction.getOwner().getName(), dataMap);
+            config.createSection(auction.getOwner().getName(), dataMap);
             save();
+            plugin.getLogger().info("Auction saved");
         }
 
         protected void removeAuction(Auction auction) {
-            ConfigurationSection section = config.getConfigurationSection(auction.getOwner().getName());
-            section.set("itemstack", null);
-            section.set("bid", null);
-            section.set("winner", null);
+            config.set(auction.getOwner().getName(), null);
             save();
+            plugin.getLogger().info("Auction removed");
         }
     }
 
@@ -144,6 +143,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     @Override
     public boolean add(Auction auction) {
         if(super.add(auction)) {
+            queueConfig.saveAuction(auction);
             plugin.getServer().getPluginManager().callEvent(new AuctionEvent(auction, AuctionEvent.EventType.QUEUED));
             if(auctionSettings.getEnabled() && !isRunning) {
                 start();
@@ -151,5 +151,12 @@ public class AuctionQueue extends LinkedList<Auction> {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Auction remove() {
+        Auction auction = super.remove();
+        queueConfig.removeAuction(auction);
+        return auction;
     }
 }

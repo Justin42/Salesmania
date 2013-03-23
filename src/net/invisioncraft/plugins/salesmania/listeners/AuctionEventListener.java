@@ -214,7 +214,7 @@ public class AuctionEventListener implements Listener {
             giveItem(auction.getWinner(), auction.getItemStack());
         }
 
-        plugin.getAuctionQueue().removeFirst();
+        plugin.getAuctionQueue().remove();
         plugin.getAuctionQueue().startCooldown();
     }
 
@@ -235,7 +235,7 @@ public class AuctionEventListener implements Listener {
         // Give back item to owner
         giveItem(auction.getOwner(), auction.getItemStack());
 
-        plugin.getAuctionQueue().removeFirst();
+        plugin.getAuctionQueue().remove();
         plugin.getAuctionQueue().startCooldown();
     }
 
