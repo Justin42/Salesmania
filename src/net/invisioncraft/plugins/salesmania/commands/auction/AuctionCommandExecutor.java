@@ -24,6 +24,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AuctionCommandExecutor implements CommandExecutor {
     protected Salesmania plugin;
@@ -91,8 +92,8 @@ public class AuctionCommandExecutor implements CommandExecutor {
                     // We need to set "bid"' as the first argument
                     ArrayList<String> newArgs = new ArrayList<String>(args.length+1);
                     newArgs.add("bid");
-                    for(String arg : args) newArgs.add(arg);
-                    args = newArgs.toArray(new String[0]);
+                    Collections.addAll(newArgs, args);
+                    args = newArgs.toArray(new String[newArgs.size()]);
                 }
                 auctionBid.execute(sender, command, label, args);
                 break;

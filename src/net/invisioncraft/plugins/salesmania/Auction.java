@@ -148,8 +148,8 @@ public class Auction {
         else {
             plugin.getLogger().warning("Failed to add auction to queue.");
             plugin.getLogger().info(String.format(
-                    "Player: %s\n ItemStack: %s\n Starting Bid: %,d",
-                    player.getName(), itemStack, startBid));
+                    "Player: %s\n ItemStack: %s\n Starting Bid: %,f",
+                    player.getName(), itemStack.toString(), startBid));
             return AuctionStatus.FAILURE;
         }
     }
@@ -218,7 +218,7 @@ public class Auction {
     }
 
     private float getDurability() {
-        float dur = (Float.valueOf(itemStack.getType().getMaxDurability()) - Float.valueOf(itemStack.getDurability())) / Float.valueOf(itemStack.getType().getMaxDurability());
+        float dur = ((float) itemStack.getType().getMaxDurability() - (float) itemStack.getDurability()) / (float) itemStack.getType().getMaxDurability();
         return dur * 100;
     }
 

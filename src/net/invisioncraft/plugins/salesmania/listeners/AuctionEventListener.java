@@ -28,7 +28,6 @@ import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.invisioncraft.plugins.salesmania.util.MsgUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -274,8 +273,7 @@ public class AuctionEventListener implements Listener {
         if(player.isOnline()) {
             Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
             HashMap<Integer, ItemStack> remainingItems = player.getPlayer().getInventory().addItem(itemStack);
-            if(remainingItems.isEmpty()) return;
-            else {
+            if(!remainingItems.isEmpty()) {
                 plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()));
                 player.getPlayer().sendMessage(locale.getMessage("Stash.itemsWaiting"));
             }

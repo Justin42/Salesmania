@@ -44,7 +44,7 @@ public class AuctionInfo extends CommandHandler {
             infoList = currentAuction.enchantReplace(infoList,
                     locale.getMessage("Auction.enchant"),
                     locale.getMessage("Auction.enchantInfo"), locale);
-            sender.sendMessage(infoList.toArray(new String[0]));
+            sender.sendMessage(infoList.toArray(new String[infoList.size()]));
             return true;
         }
         return false;

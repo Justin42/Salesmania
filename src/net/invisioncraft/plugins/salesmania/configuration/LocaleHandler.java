@@ -59,7 +59,7 @@ public class LocaleHandler implements ConfigurationHandler {
     }
 
     public Locale[] getLocales() {
-        return localeMap.values().toArray(new Locale[0]);
+        return localeMap.values().toArray(new Locale[localeMap.size()]);
     }
 
     public Locale getLocale(CommandSender user) {
