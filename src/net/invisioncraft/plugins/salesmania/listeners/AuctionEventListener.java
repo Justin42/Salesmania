@@ -164,6 +164,7 @@ public class AuctionEventListener implements Listener {
 
         // Take new bid
         economy.withdrawPlayer(auction.getWinner().getName(), auction.getBid());
+        plugin.getAuctionQueue().update();
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {

@@ -53,13 +53,13 @@ public class AuctionQueue extends LinkedList<Auction> {
                     ItemStack itemStack = (ItemStack) dataMap.get("itemStack");
                     double startBid = (Double) dataMap.get("currentBid");
                     OfflinePlayer owner = plugin.getServer().getOfflinePlayer((String)dataMap.get("owner"));
-                    auctionList.add(new Auction(plugin, owner, itemStack, startBid));
+                    OfflinePlayer winner = plugin.getServer().getOfflinePlayer((String)dataMap.get("winner"));
+                    auctionList.add(new Auction(plugin, owner, winner, itemStack, startBid));
                 }
                 queue.addAll(auctionList);
             }
         }
 
-        // TODO implement saving and loading of queue
         protected void saveAuction(Auction auction) {
             List<Map<?, ?>> auctionList;
             if(!config.contains("Auctions")) {
@@ -80,7 +80,20 @@ public class AuctionQueue extends LinkedList<Auction> {
         protected void removeAuction(int position) {
             if(config.contains("Auctions")) {
                 List<Map<?, ?>> auctionList = config.getMapList("Auctions");
-                auctionList.remove(0);
+                auctionList.remove(position);
+                config.set("Auctions", auctionList);
+                save();
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        protected void update() {
+            if(config.contains("Auctions")) {
+                List<Map<?, ?>> auctionList = config.getMapList("Auctions");
+                Map<String, Object> dataMap = (Map<String, Object>) auctionList.get(0);
+                dataMap.put("currentBid", currentAuction.getBid());
+                dataMap.put("winner", currentAuction.getWinner().getName());
+                auctionList.set(0, dataMap);
                 config.set("Auctions", auctionList);
                 save();
             }
@@ -119,16 +132,16 @@ public class AuctionQueue extends LinkedList<Auction> {
         }
     };
 
-    public void load() {
-        queueConfig.loadQueue(this);
-    }
-
     public int playerSize(Player player) {
         int count = 0;
         for(Auction auction : this) {
             if(auction.getOwner().equals(player)) count++;
         }
         return count;
+    }
+
+    public void update() {
+        queueConfig.update();
     }
 
     public boolean nextAuction() {

@@ -91,11 +91,12 @@ public class Auction {
         timeRemaining = auctionSettings.getDefaultTime();
     }
 
-    public Auction(Salesmania plugin, OfflinePlayer owner, ItemStack itemStack, double startBid) {
+    public Auction(Salesmania plugin, OfflinePlayer owner, OfflinePlayer winner, ItemStack itemStack, double bid) {
         this(plugin);
         this.owner = owner;
         this.itemStack = itemStack;
-        this.bid = startBid;
+        this.bid = bid;
+        this.winner = winner;
         updateInfoTokens();
     }
 
