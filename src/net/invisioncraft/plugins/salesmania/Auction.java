@@ -44,8 +44,8 @@ public class Auction {
     private Player owner;
     private Player winner;
     private Player lastWinner;
-    private double bid;
-    private double lastBid;
+    private double bid = 0;
+    private double lastBid = 0;
 
     private double startTax = 0;
     private double endTax = 0;
@@ -87,6 +87,15 @@ public class Auction {
         tokenPattern = Pattern.compile(patternString);
         tokenMap = new HashMap<String, String>();
         economy = plugin.getEconomy();
+        timeRemaining = auctionSettings.getDefaultTime();
+    }
+
+    public Auction(Salesmania plugin, Player owner, ItemStack itemStack, double startBid) {
+        this(plugin);
+        this.owner = owner;
+        this.itemStack = itemStack;
+        this.bid = startBid;
+        updateInfoTokens();
     }
 
     public boolean isRunning() {
@@ -123,12 +132,8 @@ public class Auction {
         if(checkResult != AuctionStatus.SUCCESS) return checkResult;
 
         bid = startBid;
-        lastBid = 0;
         this.itemStack = itemStack;
-        winner = null;
         owner = player;
-        isRunning = true;
-        timeRemaining = auctionSettings.getDefaultTime();
         plugin.getAuctionIgnoreList().setIgnore(player, false);
 
         updateInfoTokens();
@@ -146,6 +151,7 @@ public class Auction {
     }
 
     protected AuctionStatus start() {
+        isRunning = true;
         plugin.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
         return AuctionStatus.SUCCESS;
     }

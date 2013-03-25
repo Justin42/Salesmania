@@ -20,10 +20,11 @@ package net.invisioncraft.plugins.salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Configuration;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class AuctionQueue extends LinkedList<Auction> {
     private Salesmania plugin;
@@ -45,31 +46,53 @@ public class AuctionQueue extends LinkedList<Auction> {
         }
 
         protected void loadQueue(AuctionQueue queue) {
+            if(config.contains("Auctions")) {
+                List<Auction>  auctionList = new LinkedList<Auction>();
+                List<Map<?, ?>> savedAuctions = config.getMapList("Auctions");
+                for(Map<?, ?> dataMap : savedAuctions) {
+                    ItemStack itemStack = (ItemStack) dataMap.get("itemStack");
+                    double startBid = (Double) dataMap.get("currentBid");
+                    OfflinePlayer owner = (Player) plugin.getServer().getOfflinePlayer((String)dataMap.get("owner"));
+                    auctionList.add(new Auction(plugin, owner, itemStack, startBid));
+                }
+                queue.addAll(auctionList);
+            }
         }
 
         // TODO implement saving and loading of queue
         protected void saveAuction(Auction auction) {
+            List<Map<?, ?>> auctionList;
+            if(!config.contains("Auctions")) {
+                auctionList = new ArrayList<Map<?, ?>>();
+            }
+            else {
+                auctionList = config.getMapList("Auctions");
+            }
             HashMap<String, Object> dataMap = new HashMap<String, Object>();
-            dataMap.put("itemstack", auction.getItemStack());
-            dataMap.put("bid", auction.getBid());
-            dataMap.put("winner", auction.getWinner());
-            config.createSection(auction.getOwner().getName(), dataMap);
+            dataMap.put("itemStack", auction.getItemStack());
+            dataMap.put("owner", auction.getOwner().getName());
+            dataMap.put("currentBid", auction.getBid());
+            auctionList.add(dataMap);
+            config.set("Auctions", auctionList);
             save();
-            plugin.getLogger().info("Auction saved");
         }
 
-        protected void removeAuction(Auction auction) {
-            config.set(auction.getOwner().getName(), null);
-            save();
-            plugin.getLogger().info("Auction removed");
+        protected void removeAuction(int position) {
+            if(config.contains("Auctions")) {
+                List<Map<?, ?>> auctionList = config.getMapList("Auctions");
+                auctionList.remove(0);
+                config.set("Auctions", auctionList);
+                save();
+            }
         }
     }
 
     public AuctionQueue(Salesmania plugin) {
         this.plugin = plugin;
         queueConfig = new QueueConfig(plugin);
-        queueConfig.loadQueue(this);
         auctionSettings = plugin.getSettings().getAuctionSettings();
+        queueConfig.loadQueue(this);
+        start();
     }
 
     private Runnable timerRunnable = new Runnable() {
@@ -126,8 +149,8 @@ public class AuctionQueue extends LinkedList<Auction> {
 
     public void start() {
         if(!isRunning) {
-            isRunning = true;
             if(size() != 0) {
+                isRunning = true;
                 plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STARTED));
                 currentAuction = peek();
                 currentAuction.start();
@@ -162,9 +185,10 @@ public class AuctionQueue extends LinkedList<Auction> {
     }
 
     @Override
+    // TODO for now, it's only possible to remove the first auction in the queue
     public Auction remove() {
         Auction auction = super.remove();
-        queueConfig.removeAuction(auction);
+        queueConfig.removeAuction(0);
         return auction;
     }
 }
