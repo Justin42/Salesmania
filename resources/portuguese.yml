@@ -47,7 +47,6 @@ Auction:
   ignoring: "&cEstá agora a ignorar as mensagens dos leilões."
   notIgnoring: "&aJá não está a ignorar as mensagens dos leilões."
   alreadyStarted: "&cJá está um leilão a decorrer."
-  cooldown: "&cO leilão está em cooldown."
   bidRaised: "&aNova licitação: &2$%,.2f&a por &3%s"
   canceled: "&cLeilão cancelado."
   startOverMax: "&cO preço inicial não pode ser superior a $%,.2f"
@@ -61,6 +60,7 @@ Auction:
   queueFull: "&cThe auction queue is full, you cannot start an auction at this time."
   playerQueueFull: "&cYou can't auction another item at this time."
   queued: "&aYour auction has been added to the queue."
+  cooldown: "&cO leilão está em cooldown."
   
   enabled: "&aOs leilões foram activados."
   disabled: "&cOs leilões foram desactivados."

@@ -160,6 +160,10 @@ public class AuctionQueue extends LinkedList<Auction> {
         isCooldown = true;
     }
 
+    public boolean isCooldown() {
+        return isCooldown;
+    }
+
     public void start() {
         if(!isRunning) {
             if(size() != 0) {

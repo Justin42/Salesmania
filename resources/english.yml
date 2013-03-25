@@ -47,7 +47,6 @@ Auction:
   ignoring: "&cYou are now ignoring all auction messages."
   notIgnoring: "&aYou are no longer ignoring auction messages."
   alreadyStarted: "&cThere is already an auction running."
-  cooldown: "&cAuction is in a cooldown period."
   bidRaised: "&aBid raised to &2$%,.2f&a by &3%s"
   canceled: "&cAuction canceled."
   startOverMax: "&cThe starting bid can't be over $%,.2f"
@@ -61,6 +60,7 @@ Auction:
   queueFull: "&cThe auction queue is full, you cannot start an auction at this time."
   playerQueueFull: "&cYou can't auction another item at this time."
   queued: "&aYour auction has been added to the queue."
+  cooldown: "&aYour auction will begin shortly."
   
   enabled: "&aThe auction has been enabled."
   disabled: "&cThe auction has been disabled."

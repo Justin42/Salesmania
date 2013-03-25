@@ -47,7 +47,6 @@ Auction:
   ignoring: "&cVous êtes maintenant en ignorant tous les messages provenant vente aux enchères."
   notIgnoring: "&aVous n'avez plus ignorer les messages partir aux enchères."
   alreadyStarted: "&cIl ya déjà une vente aux enchères en cours d'exécution."
-  cooldown: "&cVente aux enchères est dans une période de refroidissement qui."
   time: "&c%d secondes restantes dans la vente aux enchères."
   bidRaised: "&al'offre a été élevé au &2$%,.2f&a par &3%s"
   canceled: "&cLa vente aux enchères a été annulée en."
@@ -62,6 +61,7 @@ Auction:
   queueFull: "&cLa file d'attente est pleine, vous ne pouvez pas demarrer une vente aux encheres en ce moment."
   playerQueueFull: "&cVous avez actuellement ne peut pas vendre aux encheres plus articles."
   queued: "&aVotre enchere a ete ajoute a la file d'attente."
+  cooldown: "&cVente aux enchères est dans une période de refroidissement qui."
   
   enabled: "&ala vente aux enchères a été activé."
   disabled: "&cLa vente aux enchères a été désactivé."

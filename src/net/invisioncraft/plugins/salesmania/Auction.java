@@ -67,6 +67,7 @@ public class Auction {
         OWNER,
         CANT_AFFORD_TAX,
         QUEUE_SUCCESS,
+        COOLDOWN_SUCCESS
     }
 
     private HashMap<String, String> tokenMap;
@@ -141,6 +142,7 @@ public class Auction {
         updateInfoTokens();
         if(plugin.getAuctionQueue().add(this)) {
             if(plugin.getAuctionQueue().size() != 1) return AuctionStatus.QUEUE_SUCCESS;
+            if(plugin.getAuctionQueue().isCooldown()) return AuctionStatus.COOLDOWN_SUCCESS;
             else return AuctionStatus.SUCCESS;
         }
         else {
