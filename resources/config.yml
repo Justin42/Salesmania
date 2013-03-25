@@ -13,7 +13,7 @@ Auction:
   maxStart: 100000
 
   Queue:
-    maxSize: 1
+    maxSize: 10
     maxPerPlayer: 1
 
 
