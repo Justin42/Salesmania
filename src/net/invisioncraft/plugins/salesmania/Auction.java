@@ -104,11 +104,11 @@ public class Auction {
     }
 
     public OfflinePlayer getWinner() {
-        return winner.getPlayer();
+        return winner;
     }
 
     public OfflinePlayer getOwner() {
-        return owner.getPlayer();
+        return owner;
     }
 
     public double getBid() {
