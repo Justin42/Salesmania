@@ -18,6 +18,7 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.configuration;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,7 +32,7 @@ public class ItemStash extends Configuration {
     }
 
     @SuppressWarnings("unchecked")
-    public void store(Player player, ItemStack itemStack) {
+    public void store(OfflinePlayer player, ItemStack itemStack) {
         logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString());
         ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
         if(hasItems(player)) {
@@ -46,13 +47,13 @@ public class ItemStash extends Configuration {
         save();
     }
 
-    private void corruptionWarning(Player player) {
+    private void corruptionWarning(OfflinePlayer player) {
         Logger.getLogger(ItemStash.class.getName())
                 .severe("Stash seems corrupted. Couldn't retrieve stash for player: " + player.getName());
     }
 
     @SuppressWarnings("unchecked")
-    public void store(Player player, ArrayList<ItemStack> itemStacks) {
+    public void store(OfflinePlayer player, ArrayList<ItemStack> itemStacks) {
         for(ItemStack itemStack : itemStacks) {
             logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString());
         }
@@ -90,7 +91,7 @@ public class ItemStash extends Configuration {
         return stackList;
     }
 
-    public boolean hasItems(Player player) {
+    public boolean hasItems(OfflinePlayer player) {
         return config.contains(player.getName());
     }
 }

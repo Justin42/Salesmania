@@ -52,7 +52,7 @@ public class AuctionQueue extends LinkedList<Auction> {
                 for(Map<?, ?> dataMap : savedAuctions) {
                     ItemStack itemStack = (ItemStack) dataMap.get("itemStack");
                     double startBid = (Double) dataMap.get("currentBid");
-                    OfflinePlayer owner = (Player) plugin.getServer().getOfflinePlayer((String)dataMap.get("owner"));
+                    OfflinePlayer owner = plugin.getServer().getOfflinePlayer((String)dataMap.get("owner"));
                     auctionList.add(new Auction(plugin, owner, itemStack, startBid));
                 }
                 queue.addAll(auctionList);

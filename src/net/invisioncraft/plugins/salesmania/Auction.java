@@ -24,6 +24,7 @@ import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -41,9 +42,9 @@ public class Auction {
 
     private boolean isRunning = false;
 
-    private Player owner;
-    private Player winner;
-    private Player lastWinner;
+    private OfflinePlayer owner;
+    private OfflinePlayer winner;
+    private OfflinePlayer lastWinner;
     private double bid = 0;
     private double lastBid = 0;
 
@@ -90,7 +91,7 @@ public class Auction {
         timeRemaining = auctionSettings.getDefaultTime();
     }
 
-    public Auction(Salesmania plugin, Player owner, ItemStack itemStack, double startBid) {
+    public Auction(Salesmania plugin, OfflinePlayer owner, ItemStack itemStack, double startBid) {
         this(plugin);
         this.owner = owner;
         this.itemStack = itemStack;
@@ -102,12 +103,12 @@ public class Auction {
         return isRunning;
     }
 
-    public Player getWinner() {
-        return winner;
+    public OfflinePlayer getWinner() {
+        return winner.getPlayer();
     }
 
-    public Player getOwner() {
-        return owner;
+    public OfflinePlayer getOwner() {
+        return owner.getPlayer();
     }
 
     public double getBid() {
@@ -296,7 +297,7 @@ public class Auction {
         return lastBid;
     }
 
-    public Player getLastWinner() {
+    public OfflinePlayer getLastWinner() {
         return lastWinner;
     }
 

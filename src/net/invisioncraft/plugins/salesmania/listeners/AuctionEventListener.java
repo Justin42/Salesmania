@@ -27,6 +27,7 @@ import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.invisioncraft.plugins.salesmania.util.MsgUtil;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -80,8 +81,8 @@ public class AuctionEventListener implements Listener {
 
     private void processTax(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
-        Player owner = auction.getOwner();
-        Locale locale = localeHandler.getLocale(owner);
+        OfflinePlayer owner = auction.getOwner();
+        Locale locale = localeHandler.getLocale(owner.getPlayer());
         double taxAmount = 0;
         switch(auctionEvent.getEventType()) {
             case START:
@@ -97,8 +98,10 @@ public class AuctionEventListener implements Listener {
             if(auctionSettings.useTaxAccount()) {
                 economy.depositPlayer(auctionSettings.getTaxAccount(), taxAmount);
             }
-            owner.sendMessage(String.format(locale.getMessage("Auction.tax"),
+            if(owner.isOnline()) {
+            owner.getPlayer().sendMessage(String.format(locale.getMessage("Auction.tax"),
                     taxAmount));
+            }
         }
     }
 
@@ -135,7 +138,7 @@ public class AuctionEventListener implements Listener {
         Auction auction = auctionEvent.getAuction();
 
         // Take item
-        ItemManager.takeItem(auction.getOwner(), auction.getItemStack());
+        ItemManager.takeItem(auction.getOwner().getPlayer(), auction.getItemStack());
 
         // Tax
         processTax(auctionEvent);
@@ -150,11 +153,13 @@ public class AuctionEventListener implements Listener {
 
         // Give back last bid
         if(auction.getLastWinner() != null) {
-            Player player = auction.getLastWinner();
+            OfflinePlayer player = auction.getLastWinner();
             economy.depositPlayer(player.getName(), auction.getLastBid());
-            Locale locale = plugin.getLocaleHandler().getLocale(player);
-            player.sendMessage(String.format(
-                    locale.getMessage("Auction.Bidding.outBid"), auction.getWinner().getName()));
+            if(player.getPlayer().isOnline()) {
+                Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
+                player.getPlayer().sendMessage(String.format(
+                        locale.getMessage("Auction.Bidding.outBid"), auction.getWinner().getName()));
+            }
         }
 
         // Take new bid
@@ -264,14 +269,14 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    private void giveItem(Player player, ItemStack itemStack) {
-        Locale locale = plugin.getLocaleHandler().getLocale(player);
+    private void giveItem(OfflinePlayer player, ItemStack itemStack) {
         if(player.isOnline()) {
-            HashMap<Integer, ItemStack> remainingItems = player.getInventory().addItem(itemStack);
+            Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
+            HashMap<Integer, ItemStack> remainingItems = player.getPlayer().getInventory().addItem(itemStack);
             if(remainingItems.isEmpty()) return;
             else {
                 plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()));
-                player.sendMessage(locale.getMessage("Stash.itemsWaiting"));
+                player.getPlayer().sendMessage(locale.getMessage("Stash.itemsWaiting"));
             }
         }
         else plugin.getItemStash().store(player, itemStack);
