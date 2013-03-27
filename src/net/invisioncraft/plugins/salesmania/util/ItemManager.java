@@ -66,6 +66,7 @@ public class ItemManager {
     }
 
     public static boolean compareItem(ItemStack stack1, ItemStack stack2) {
+        if(!stack1.getType().equals(stack2.getType())) return false;
         if(!stack1.getEnchantments().equals(stack2.getEnchantments())) return false;
         if(!stack1.getData().equals(stack2.getData())) return false;
         if(stack1.getDurability() != stack2.getDurability()) return false;
