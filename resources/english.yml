@@ -107,6 +107,7 @@ Auction:
     cantStartAuction: "Sorry, only players can start an auction."
     cantBid: "Sorry, only players can bid on items."
     cantCancel: "Sorry, only players can cancel an auction."
+    cantConsole: "Sorry, you can't do that from the console."
     
 Enchantment:
   ARROW_DAMAGE: "Power"

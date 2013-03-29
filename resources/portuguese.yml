@@ -107,6 +107,7 @@ Auction:
     cantStartAuction: "Desculpe, apenas jogadores podem começar leilões."
     cantBid: "Desculpe, apenas jogadores podem licitar por objetos."
     cantCancel: "Sorry, only players can cancel an auction."
+    cantConsole: "Sorry, you can't do that from the console."
     
 Enchantment:
   ARROW_DAMAGE: "Power"
