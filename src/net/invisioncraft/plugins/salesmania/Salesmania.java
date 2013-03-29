@@ -23,6 +23,7 @@ import net.invisioncraft.plugins.salesmania.commands.stash.StashCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.invisioncraft.plugins.salesmania.listeners.LoginListener;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -40,7 +41,7 @@ public class Salesmania extends JavaPlugin {
     private LocaleHandler localeHandler;
     private HashSet<Configuration> configSet;
     private ItemStash itemStash;
-    private AuctionQueue auctionQueue;
+    private WorldGroupManager worldGroupManager;
 
     @Override
     public void onEnable() {
@@ -50,7 +51,7 @@ public class Salesmania extends JavaPlugin {
         localeHandler = new LocaleHandler(this);
         auctionIgnoreList = new AuctionIgnoreList(this);
         itemStash = new ItemStash(this);
-        auctionQueue = new AuctionQueue(this);
+        worldGroupManager = new WorldGroupManager(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getCommand("bid").setExecutor(getCommand("auction").getExecutor());
@@ -83,10 +84,6 @@ public class Salesmania extends JavaPlugin {
 
     public Settings getSettings() {
         return settings;
-    }
-
-    public AuctionQueue getAuctionQueue() {
-        return auctionQueue;
     }
 
     public LocaleHandler getLocaleHandler() {
@@ -129,5 +126,9 @@ public class Salesmania extends JavaPlugin {
 
     public ItemStash getItemStash() {
         return itemStash;
+    }
+
+    public WorldGroupManager getWorldGroupManager() {
+        return worldGroupManager;
     }
 }
