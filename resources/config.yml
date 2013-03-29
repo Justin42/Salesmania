@@ -16,8 +16,6 @@ Auction:
     maxSize: 10
     maxPerPlayer: 1
 
-
-  
   taxAccount: None
   useTaxAccount: false
   startTax: 0
@@ -30,6 +28,15 @@ Auction:
   - 30
   - 10
   - 5
+
+  WorldGroups:
+    enabled: false
+    groups:
+    - group: default
+        enabled: true
+        worlds: [world, world_the_end, world_nether]
+        channels: [BROADCAST]
+
   
   Blacklist:
   - Bedrock
