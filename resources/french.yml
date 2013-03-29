@@ -107,6 +107,7 @@ Auction:
   Console:
     cantStartAuction: "Désolé, seuls les joueurs peuvent commencer à une vente aux enchères."
     cantBid: "Désolé, seuls les joueurs peuvent enchérir sur des articles."
+    cantCancel: "Sorry, only players can cancel an auction."
     
 Enchantment:
   ARROW_DAMAGE: "Puissance"

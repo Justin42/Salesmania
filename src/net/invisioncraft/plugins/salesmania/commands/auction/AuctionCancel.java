@@ -33,28 +33,30 @@ public class AuctionCancel extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
-        boolean hasPermission = false;
-        Auction currentAuction = plugin.getAuctionQueue().getCurrentAuction();
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(locale.getMessage("Auction.Console.cantCancel"));
+            return false;
+        }
+
+        Player player = (Player) sender;
+        Auction currentAuction = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue().getCurrentAuction();
         if(currentAuction != null) {
-            if((sender instanceof Player)) {
-                if(sender == currentAuction.getOwner() | sender.hasPermission("salesmania.auction.cancel")) {
-                    hasPermission = true;
+            if(player == currentAuction.getOwner() | player.hasPermission("salesmania.auction.cancel")) {
+                if(!currentAuction.isRunning()) {
+                    player.sendMessage(locale.getMessage("Auction.notRunning"));
+                    return false;
                 }
+                currentAuction.cancel();
+                return true;
             }
-            if(!hasPermission) {
+            else {
                 sender.sendMessage(
                         locale.getMessage("Permission.noPermission") +
                         locale.getMessage("Permission.Auction.cancel"));
-                return false;
             }
-
-            switch(currentAuction.cancel()) {
-                // TODO no reason the auction shouldn't be running. it may be better to check the AuctionQueue for this.
-                case NOT_RUNNING:
-                    sender.sendMessage(locale.getMessage("Auction.notRunning"));
-                    return true;
-            }
-            return false;
+        }
+        else {
+            player.sendMessage(locale.getMessage("Auction.notRunning"));
         }
         return false;
     }
