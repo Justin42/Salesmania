@@ -27,7 +27,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class WorldGroupManager implements ConfigurationHandler {
+public class WorldGroupManager {
     private WorldGroupSettings worldGroupSettings;
     private Salesmania plugin;
     private ArrayList<WorldGroup> worldGroups;
@@ -39,7 +39,6 @@ public class WorldGroupManager implements ConfigurationHandler {
         cache = new GroupCache(plugin);
     }
 
-    @Override
     public void update() {
         worldGroups = worldGroupSettings.parseGroups();
     }
