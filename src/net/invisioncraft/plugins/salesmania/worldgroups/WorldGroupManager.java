@@ -18,21 +18,28 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.worldgroups;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.ConfigurationHandler;
+import net.invisioncraft.plugins.salesmania.configuration.GroupCache;
 import net.invisioncraft.plugins.salesmania.configuration.WorldGroupSettings;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class WorldGroupManager {
+public class WorldGroupManager implements ConfigurationHandler {
     private WorldGroupSettings worldGroupSettings;
     private Salesmania plugin;
     private ArrayList<WorldGroup> worldGroups;
+    private GroupCache cache;
 
     public WorldGroupManager(Salesmania plugin) {
         worldGroupSettings = plugin.getSettings().getWorldGroupSettings();
         this.plugin = plugin;
+        cache = new GroupCache(plugin);
     }
 
+    @Override
     public void update() {
         worldGroups = worldGroupSettings.parseGroups();
     }
@@ -46,5 +53,18 @@ public class WorldGroupManager {
             if(worldGroup.hasPlayer(player)) return worldGroup;
         }
         return null;
+    }
+
+    public WorldGroup getGroup(OfflinePlayer player) {
+        if(player.isOnline()) return getGroup(player.getPlayer());
+        World world = cache.loadPlayer(player);
+        for(WorldGroup worldGroup : worldGroups) {
+           if(worldGroup.getWorlds().contains(world)) return worldGroup;
+        }
+        return null;
+    }
+
+    public GroupCache getCache() {
+        return cache;
     }
 }

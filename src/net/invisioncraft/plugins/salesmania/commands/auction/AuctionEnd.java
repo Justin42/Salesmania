@@ -33,14 +33,13 @@ public class AuctionEnd extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
-        Auction currentAuction = plugin.getAuctionQueue().getCurrentAuction();
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(locale.getMessage("Auction.Console.cantConsole"));
+            return false;
+        }
+        Player player = (Player) sender;
+        Auction currentAuction = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue().getCurrentAuction();
         if(currentAuction != null) {
-            if(!(sender instanceof Player)) {
-                currentAuction.end();
-                return true;
-            }
-
-            Player player = (Player) sender;
             if(player.hasPermission("salesmania.auction.end") | player == currentAuction.getOwner()) {
                 if(currentAuction.isRunning()) currentAuction.end();
                 else sender.sendMessage(locale.getMessage("Auction.notRunning"));

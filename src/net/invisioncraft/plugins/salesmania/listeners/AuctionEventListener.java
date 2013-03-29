@@ -26,6 +26,7 @@ import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.invisioncraft.plugins.salesmania.util.MsgUtil;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
@@ -163,7 +164,9 @@ public class AuctionEventListener implements Listener {
 
         // Take new bid
         economy.withdrawPlayer(auction.getWinner().getName(), auction.getBid());
-        plugin.getAuctionQueue().update();
+
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getWinner());
+        worldGroup.getAuctionQueue().update();
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
@@ -220,8 +223,9 @@ public class AuctionEventListener implements Listener {
             giveItem(auction.getWinner(), auction.getItemStack());
         }
 
-        plugin.getAuctionQueue().remove();
-        plugin.getAuctionQueue().startCooldown();
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
+        worldGroup.getAuctionQueue().remove();
+        worldGroup.getAuctionQueue().startCooldown();
     }
 
     public void onAuctionCancelEvent(AuctionEvent auctionEvent) {
@@ -241,13 +245,15 @@ public class AuctionEventListener implements Listener {
         // Give back item to owner
         giveItem(auction.getOwner(), auction.getItemStack());
 
-        plugin.getAuctionQueue().remove();
-        plugin.getAuctionQueue().startCooldown();
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
+        worldGroup.getAuctionQueue().remove();
+        worldGroup.getAuctionQueue().startCooldown();
     }
 
     public void onAuctionEnableEvent(AuctionEvent auctionEvent) {
         // Start the queue
-        plugin.getAuctionQueue().start();
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auctionEvent.getAuction().getOwner());
+        worldGroup.getAuctionQueue().start();
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
@@ -259,7 +265,8 @@ public class AuctionEventListener implements Listener {
 
     public void onAuctionDisableEvent(AuctionEvent auctionEvent) {
         // Stop the queue
-        plugin.getAuctionQueue().stop();
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auctionEvent.getAuction().getOwner());
+        worldGroup.getAuctionQueue().stop();
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {

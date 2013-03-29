@@ -23,6 +23,7 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,12 @@ public class AuctionInfo extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = localeHandler.getLocale(sender);
-        Auction currentAuction = plugin.getAuctionQueue().getCurrentAuction();
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(locale.getMessage("Auction."));
+            return false;
+        }
+        Player player = (Player) sender;
+        Auction currentAuction = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue().getCurrentAuction();
         if(currentAuction != null) {
             if(!currentAuction.isRunning()) {
                 sender.sendMessage(locale.getMessage("Auction.notRunning"));

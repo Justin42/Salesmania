@@ -47,5 +47,6 @@ public class LoginListener implements Listener {
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         localeHandler.updateLocale(event.getPlayer());
+        plugin.getWorldGroupManager().getCache().savePlayer(event.getPlayer(), event.getPlayer().getWorld());
     }
 }
