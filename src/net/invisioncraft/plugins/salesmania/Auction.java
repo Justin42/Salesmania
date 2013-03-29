@@ -140,9 +140,10 @@ public class Auction {
         plugin.getAuctionIgnoreList().setIgnore(player, false);
 
         updateInfoTokens();
-        if(plugin.getAuctionQueue().add(this)) {
-            if(plugin.getAuctionQueue().size() != 1) return AuctionStatus.QUEUE_SUCCESS;
-            if(plugin.getAuctionQueue().isCooldown()) return AuctionStatus.COOLDOWN_SUCCESS;
+        AuctionQueue auctionQueue = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue();
+        if(auctionQueue.add(this)) {
+            if(auctionQueue.size() != 1) return AuctionStatus.QUEUE_SUCCESS;
+            if(auctionQueue.isCooldown()) return AuctionStatus.COOLDOWN_SUCCESS;
             else return AuctionStatus.SUCCESS;
         }
         else {
@@ -161,8 +162,9 @@ public class Auction {
     }
 
     private AuctionStatus performChecks(Player player, double startBid) {
-        if(plugin.getAuctionQueue().size() >= auctionSettings.getMaxQueueSize()) return AuctionStatus.QUEUE_FULL;
-        if(plugin.getAuctionQueue().playerSize(player) >= auctionSettings.getMaxQueuePerPlayer()) return AuctionStatus.PLAYER_QUEUE_FULL;
+        AuctionQueue auctionQueue = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue();
+        if(auctionQueue.size() >= auctionSettings.getMaxQueueSize()) return AuctionStatus.QUEUE_FULL;
+        if(auctionQueue.playerSize(player) >= auctionSettings.getMaxQueuePerPlayer()) return AuctionStatus.PLAYER_QUEUE_FULL;
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
         if(startBid > auctionSettings.getMaxStart()) return AuctionStatus.OVER_MAX;
 

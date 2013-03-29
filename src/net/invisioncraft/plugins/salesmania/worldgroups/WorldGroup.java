@@ -17,6 +17,7 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania.worldgroups;
 
+import net.invisioncraft.plugins.salesmania.AuctionQueue;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -27,12 +28,14 @@ public class WorldGroup {
     private ArrayList<World> worldList;
     private Salesmania plugin;
     private String groupName;
+    private AuctionQueue auctionQueue;
 
     public WorldGroup(Salesmania plugin, String[] worlds) {
         groupName = "NoName";
         worldList = new ArrayList<World>(worlds.length);
         updateWorlds(worlds);
         this.plugin = plugin;
+        auctionQueue = new AuctionQueue(plugin);
     }
 
     public ArrayList<World> getWorlds() {
@@ -59,7 +62,7 @@ public class WorldGroup {
     public void updateWorlds(String[] worlds) {
         for(String worldName : worlds) {
             World world = plugin.getServer().getWorld(worldName);
-            if(!worldList.contains(world)) {
+            if(world != null && !worldList.contains(world)) {
                 worldList.add(world);
             }
         }
@@ -70,6 +73,10 @@ public class WorldGroup {
     }
 
     public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
+    public AuctionQueue getAuctionQueue() {
+        return auctionQueue;
     }
 }
