@@ -17,15 +17,36 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania.configuration;
 
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class WorldGroupSettings implements ConfigurationHandler  {
     private FileConfiguration config;
     private Settings settings;
+    private Salesmania plugin;
 
     public WorldGroupSettings(Settings settings) {
         this.settings = settings;
+        plugin = settings.getPlugin();
         update();
+    }
+
+    public ArrayList<WorldGroup> parseGroups() {
+        ArrayList<WorldGroup> worldGroups = new ArrayList<WorldGroup>();
+        List<Map<?, ?>> groupData = config.getMapList("Auction.WorldGroups.groups");
+        for(Map<?, ?> data : groupData) {
+            if(Boolean.valueOf((String)data.get("enabled"))) {
+                WorldGroup worldGroup = new WorldGroup(plugin, (String[])data.get("worlds"));
+                worldGroup.setGroupName((String)data.get("groupName"));
+                worldGroups.add(worldGroup);
+            }
+        }
+        return worldGroups;
     }
 
     @Override

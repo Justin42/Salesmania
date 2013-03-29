@@ -20,31 +20,40 @@ package net.invisioncraft.plugins.salesmania.worldgroups;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class WorldGroup {
-    ArrayList<World> worldList;
-    Salesmania plugin;
+    private ArrayList<World> worldList;
+    private Salesmania plugin;
+    private String groupName;
 
     public WorldGroup(Salesmania plugin, String[] worlds) {
+        groupName = "NoName";
         worldList = new ArrayList<World>(worlds.length);
         updateWorlds(worlds);
         this.plugin = plugin;
     }
 
-    public World[] getWorlds() {
-        return worldList.toArray(new World[worldList.size()]);
+    public ArrayList<World> getWorlds() {
+        return worldList;
     }
 
-    public Player[] getPlayers() {
+    public ArrayList<Player> getPlayers() {
         ArrayList<Player> playersInGroup = new ArrayList<Player>();
         for(World world : worldList) {
             playersInGroup.addAll(world.getPlayers());
         }
-        return playersInGroup.toArray(new Player[playersInGroup.size()]);
+        return playersInGroup;
+    }
+
+    public boolean hasPlayer(String playerName) {
+        Player player = plugin.getServer().getPlayerExact(playerName);
+        return worldList.contains(player.getWorld());
+    }
+
+    public boolean hasPlayer(Player player) {
+        return worldList.contains(player.getWorld());
     }
 
     public void updateWorlds(String[] worlds) {
@@ -54,5 +63,13 @@ public class WorldGroup {
                 worldList.add(world);
             }
         }
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+
     }
 }
