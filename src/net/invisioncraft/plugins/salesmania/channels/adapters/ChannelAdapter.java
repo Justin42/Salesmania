@@ -18,9 +18,16 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.channels.adapters;
 
 import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
 
 public interface ChannelAdapter {
-    public void broadcast(String channelName, String[] message, AuctionIgnoreList ignoreList);
-    public void broadcast(WorldGroup worldGroup, String[] message, AuctionIgnoreList ignoreList);
+    public void broadcast(String channelName, String[] message);
+    public void broadcast(WorldGroup worldGroup, String[] message);
+
+    public void broadcast(WorldGroup worldGroup, String[] message, ArrayList<Player> players);
+    public void broadcast(WorldGroup worldGroup, String message, ArrayList<Player> players);
 }

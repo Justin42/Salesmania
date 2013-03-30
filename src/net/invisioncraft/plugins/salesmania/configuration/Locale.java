@@ -20,16 +20,17 @@ package net.invisioncraft.plugins.salesmania.configuration;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
 public class Locale extends Configuration {
     private String localeName;
-    private ArrayList<CommandSender> userCache;
+    private ArrayList<Player> playerCache;
     protected Locale(Salesmania plugin, String locale) {
         super(plugin, locale + ".yml");
         localeName = locale;
-        userCache = new ArrayList<CommandSender>();
+        playerCache = new ArrayList<Player>();
     }
 
     public String getMessage(String path) {
@@ -50,43 +51,43 @@ public class Locale extends Configuration {
         return localeName;
     }
 
-    public void addUser(CommandSender user) {
-        userCache.add(user);
+    public void addPlayer(Player player) {
+        playerCache.add(player);
     }
 
-    public void removeUser(CommandSender user) {
-        userCache.remove(user);
+    public void removeUser(Player player) {
+        playerCache.remove(player);
     }
 
-    public ArrayList<CommandSender> getUsers() {
-        return userCache;
+    public ArrayList<Player> getPlayers() {
+        return playerCache;
     }
 
     public void broadcastMessage(String message) {
-        for(CommandSender user : userCache) {
-            user.sendMessage(message);
+        for(Player player : playerCache) {
+            player.sendMessage(message);
         }
     }
 
     public void broadcastMessage(String message, IgnoreList ignoreList) {
-        for(CommandSender user : userCache) {
-            if(ignoreList.isIgnored(user)) continue;
-            user.sendMessage(message);
+        for(Player player : playerCache) {
+            if(ignoreList.isIgnored(player)) continue;
+            player.sendMessage(message);
         }
     }
 
     public void broadcastMessage(ArrayList<String> message, IgnoreList ignoreList) {
         String[] messageArray = message.toArray(new String[0]);
-        for(CommandSender user : userCache) {
-            if(ignoreList.isIgnored(user)) continue;
-            user.sendMessage(messageArray);
+        for(Player player : playerCache) {
+            if(ignoreList.isIgnored(player)) continue;
+            player.sendMessage(messageArray);
         }
     }
 
     public void broadcastMessage(ArrayList<String> message) {
         String[] messageArray = message.toArray(new String[0]);
-        for(CommandSender user : userCache) {
-            user.sendMessage(messageArray);
+        for(Player player : playerCache) {
+            player.sendMessage(messageArray);
         }
     }
 }

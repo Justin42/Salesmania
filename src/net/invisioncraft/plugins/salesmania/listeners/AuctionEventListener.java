@@ -19,6 +19,7 @@ package net.invisioncraft.plugins.salesmania.listeners;
 
 import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.channels.ChannelManager;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
@@ -27,6 +28,7 @@ import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.invisioncraft.plugins.salesmania.util.MsgUtil;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
@@ -43,6 +45,8 @@ public class AuctionEventListener implements Listener {
     AuctionSettings auctionSettings;
     Economy economy;
     LocaleHandler localeHandler;
+    ChannelManager channelManager;
+    WorldGroupManager worldGroupManager;
 
     public AuctionEventListener(Salesmania plugin) {
         this.plugin = plugin;
@@ -50,6 +54,8 @@ public class AuctionEventListener implements Listener {
         auctionIgnoreList = plugin.getAuctionIgnoreList();
         economy = plugin.getEconomy();
         localeHandler = plugin.getLocaleHandler();
+        channelManager = plugin.getChannelManager();
+        worldGroupManager = plugin.getWorldGroupManager();
     }
 
     public void onAuctionReload(AuctionEvent auctionEvent) {
@@ -108,12 +114,14 @@ public class AuctionEventListener implements Listener {
     private void onAuctionTimerEvent(AuctionEvent auctionEvent) {
         long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
         List<Long> notifyTimes = auctionSettings.getNofityTime();
+        OfflinePlayer player = auctionEvent.getAuction().getOwner();
+        WorldGroup worldGroup = worldGroupManager.getGroup(player);
         if(notifyTimes.contains(timeRemaining)) {
             for(Locale locale : localeHandler.getLocales()) {
                 String message =
                         locale.getMessage("Auction.tag") +
                         String.format(locale.getMessage("Auction.timeRemaining"), timeRemaining);
-                locale.broadcastMessage(message, auctionIgnoreList);
+                channelManager.broadcast(worldGroup, message, locale.getPlayers());
             }
 
         }
@@ -121,7 +129,8 @@ public class AuctionEventListener implements Listener {
 
     private void onAuctionStartEvent(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
-
+        OfflinePlayer player = auctionEvent.getAuction().getOwner();
+        WorldGroup worldGroup = worldGroupManager.getGroup(player);
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
             ArrayList<String> infoList = locale.getMessageList("Auction.startInfo");
@@ -130,7 +139,8 @@ public class AuctionEventListener implements Listener {
                     locale.getMessage("Auction.enchant"),
                     locale.getMessage("Auction.enchantInfo"), locale);
             infoList = MsgUtil.addPrefix(infoList, locale.getMessage("Auction.tag"));
-            locale.broadcastMessage(infoList, auctionIgnoreList);
+            String[] message = infoList.toArray(new String[infoList.size()]);
+            channelManager.broadcast(worldGroup, message, locale.getPlayers());
         }
     }
 
@@ -165,7 +175,7 @@ public class AuctionEventListener implements Listener {
         // Take new bid
         economy.withdrawPlayer(auction.getWinner().getName(), auction.getBid());
 
-        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getWinner());
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
         worldGroup.getAuctionQueue().update();
 
         // Broadcast
@@ -173,12 +183,14 @@ public class AuctionEventListener implements Listener {
             String message = locale.getMessage("Auction.tag") +
             String.format(locale.getMessage("Auction.bidRaised"),
                 auction.getBid(), auction.getWinner().getName());
-            locale.broadcastMessage(message, auctionIgnoreList);
+            channelManager.broadcast(worldGroup, message, locale.getPlayers());
         }
     }
 
     public void onAuctionEndEvent(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
+
         // NO BIDS
         if(auctionEvent.getAuction().getWinner() == null) {
             // Broadcast
@@ -186,7 +198,7 @@ public class AuctionEventListener implements Listener {
                 String message =
                         locale.getMessage("Auction.tag") +
                         locale.getMessage("Auction.noBids");
-                locale.broadcastMessage(message, auctionIgnoreList);
+                channelManager.broadcast(worldGroup, message, locale.getPlayers());
             }
 
             // Tax
@@ -210,7 +222,8 @@ public class AuctionEventListener implements Listener {
                         locale.getMessage("Auction.enchant"),
                         locale.getMessage("Auction.enchantInfo"), locale);
                 infoList = MsgUtil.addPrefix(infoList, locale.getMessage("Auction.tag"));
-                locale.broadcastMessage(infoList, auctionIgnoreList);
+                String[] message = infoList.toArray(new String[infoList.size()]);
+                channelManager.broadcast(worldGroup, message, locale.getPlayers());
             }
 
             // Give money to owner
@@ -223,18 +236,19 @@ public class AuctionEventListener implements Listener {
             giveItem(auction.getWinner(), auction.getItemStack());
         }
 
-        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
         worldGroup.getAuctionQueue().remove();
         worldGroup.getAuctionQueue().startCooldown();
     }
 
     public void onAuctionCancelEvent(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
+        WorldGroup worldGroup = worldGroupManager.getGroup(auctionEvent.getAuction().getOwner());
+
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
             String message = locale.getMessage("Auction.tag") +
                     locale.getMessage("Auction.canceled");
-            locale.broadcastMessage(message, auctionIgnoreList);
+            channelManager.broadcast(worldGroup, message, locale.getPlayers());
         }
 
         // Give back bid
@@ -245,7 +259,6 @@ public class AuctionEventListener implements Listener {
         // Give back item to owner
         giveItem(auction.getOwner(), auction.getItemStack());
 
-        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
         worldGroup.getAuctionQueue().remove();
         worldGroup.getAuctionQueue().startCooldown();
     }
@@ -259,7 +272,7 @@ public class AuctionEventListener implements Listener {
         for(Locale locale : localeHandler.getLocales()) {
             String message = locale.getMessage("Auction.tag") +
                     locale.getMessage("Auction.enabled");
-            locale.broadcastMessage(message, auctionIgnoreList);
+            channelManager.broadcast(worldGroup, message, locale.getPlayers());
         }
     }
 
@@ -272,7 +285,7 @@ public class AuctionEventListener implements Listener {
         for(Locale locale : localeHandler.getLocales()) {
             String message = locale.getMessage("Auction.tag") +
                     locale.getMessage("Auction.disabled");
-            locale.broadcastMessage(message, auctionIgnoreList);
+            channelManager.broadcast(worldGroup, message, locale.getPlayers());
         }
     }
 

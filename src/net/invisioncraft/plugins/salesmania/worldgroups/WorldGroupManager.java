@@ -18,7 +18,6 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.worldgroups;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
-import net.invisioncraft.plugins.salesmania.configuration.ConfigurationHandler;
 import net.invisioncraft.plugins.salesmania.configuration.GroupCache;
 import net.invisioncraft.plugins.salesmania.configuration.WorldGroupSettings;
 import org.bukkit.OfflinePlayer;

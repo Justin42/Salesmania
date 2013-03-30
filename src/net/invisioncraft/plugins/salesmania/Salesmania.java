@@ -18,8 +18,6 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.channels.ChannelManager;
-import net.invisioncraft.plugins.salesmania.channels.adapters.GenericAdapter;
-import net.invisioncraft.plugins.salesmania.channels.adapters.TownyChatAdapter;
 import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
 import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaCommandExecutor;
 import net.invisioncraft.plugins.salesmania.commands.stash.StashCommandExecutor;

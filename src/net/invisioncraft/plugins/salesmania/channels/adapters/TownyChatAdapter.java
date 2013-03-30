@@ -21,34 +21,59 @@ import com.palmergames.bukkit.TownyChat.Chat;
 import com.palmergames.bukkit.TownyChat.channels.Channel;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
+import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+
 public class TownyChatAdapter implements ChannelAdapter {
-    Chat townyChat;
-    Salesmania plugin;
+    private Chat townyChat;
+    private Salesmania plugin;
+    private LocaleHandler localeHandler;
+    private AuctionIgnoreList auctionIgnoreList;
 
     public TownyChatAdapter(Salesmania plugin) {
         townyChat = (Chat) plugin.getServer().getPluginManager().getPlugin("TownyChat");
         this.plugin = plugin;
+        localeHandler = plugin.getLocaleHandler();
     }
 
     @Override
-    public void broadcast(String channelName, String[] message, AuctionIgnoreList ignoreList) {
+    public void broadcast(String channelName, String[] message) {
         Channel channel = townyChat.getChannelsHandler().getChannel(channelName);
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(channel.isPresent(player.getName())) {
-                if(ignoreList != null && ignoreList.isIgnored(player)) continue;
+                if(auctionIgnoreList.isIgnored(player)) continue;
                 player.sendMessage(message);
             }
         }
     }
 
     @Override
-    public void broadcast(WorldGroup worldGroup, String[] message, AuctionIgnoreList ignoreList) {
+    public void broadcast(WorldGroup worldGroup, String[] message) {
         for(String channelName : worldGroup.getChannels()) {
-            broadcast(channelName, message, ignoreList);
+            broadcast(channelName, message);
         }
+    }
+
+    // TODO This is a problem...
+    @Override
+    public void broadcast(WorldGroup worldGroup, String[] message, ArrayList<Player> playerList) {
+        for(String channelName : worldGroup.getChannels()) {
+            Channel channel = townyChat.getChannelsHandler().getChannel(channelName);
+            for(Player player : worldGroup.getPlayers()) {
+                if(channel.isPresent(player.getName()) && playerList.contains(player) && !auctionIgnoreList.isIgnored(player)) {
+                    player.sendMessage(message);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void broadcast(WorldGroup worldGroup, String message, ArrayList<Player> players) {
+        broadcast(worldGroup, new String[]{message}, players);
     }
 
 }
