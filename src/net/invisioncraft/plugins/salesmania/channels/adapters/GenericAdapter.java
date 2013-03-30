@@ -20,21 +20,36 @@ package net.invisioncraft.plugins.salesmania.channels.adapters;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
 
 public class GenericAdapter implements ChannelAdapter {
     private Salesmania plugin;
+    private AuctionIgnoreList auctionIgnoreList;
 
     public GenericAdapter(Salesmania plugin) {
         this.plugin = plugin;
+        auctionIgnoreList = plugin.getAuctionIgnoreList();
     }
 
     @Override
-    public void broadcast(String channelName, String[] message, AuctionIgnoreList ignoreList) {
+    public void broadcast(String channelName, String[] message) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void broadcast(WorldGroup worldGroup, String[] message, AuctionIgnoreList ignoreList) {
+    public void broadcast(WorldGroup worldGroup, String[] message) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void broadcast(WorldGroup worldGroup, String[] message, ArrayList<Player> players) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void broadcast(WorldGroup worldGroup, String message, ArrayList<Player> players) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 }

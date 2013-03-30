@@ -31,13 +31,12 @@ import java.util.ArrayList;
 public class TownyChatAdapter implements ChannelAdapter {
     private Chat townyChat;
     private Salesmania plugin;
-    private LocaleHandler localeHandler;
     private AuctionIgnoreList auctionIgnoreList;
 
     public TownyChatAdapter(Salesmania plugin) {
         townyChat = (Chat) plugin.getServer().getPluginManager().getPlugin("TownyChat");
         this.plugin = plugin;
-        localeHandler = plugin.getLocaleHandler();
+        auctionIgnoreList = plugin.getAuctionIgnoreList();
     }
 
     @Override
