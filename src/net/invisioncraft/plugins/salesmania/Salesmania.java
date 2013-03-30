@@ -17,6 +17,9 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania;
 
+import net.invisioncraft.plugins.salesmania.channels.ChannelManager;
+import net.invisioncraft.plugins.salesmania.channels.adapters.GenericAdapter;
+import net.invisioncraft.plugins.salesmania.channels.adapters.TownyChatAdapter;
 import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
 import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaCommandExecutor;
 import net.invisioncraft.plugins.salesmania.commands.stash.StashCommandExecutor;
@@ -42,6 +45,7 @@ public class Salesmania extends JavaPlugin {
     private HashSet<Configuration> configSet;
     private ItemStash itemStash;
     private WorldGroupManager worldGroupManager;
+    private ChannelManager channelManager;
 
     @Override
     public void onEnable() {
@@ -60,6 +64,7 @@ public class Salesmania extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new AuctionEventListener(this), this);
         getServer().getPluginManager().registerEvents(new LoginListener(this), this);
+
         // Vault
         if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {
             consoleLogger.info("Found Vault.");
@@ -74,6 +79,9 @@ public class Salesmania extends JavaPlugin {
             consoleLogger.severe("Vault not found.");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
+
+        channelManager = new ChannelManager(this);
+
         if(isEnabled()) consoleLogger.info("Salesmania Activated");
     }
 
@@ -130,5 +138,9 @@ public class Salesmania extends JavaPlugin {
 
     public WorldGroupManager getWorldGroupManager() {
         return worldGroupManager;
+    }
+
+    public ChannelManager getChannelManager() {
+        return channelManager;
     }
 }

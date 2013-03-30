@@ -17,10 +17,16 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania.channels.adapters;
 
+import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 
 public class GenericAdapter implements ChannelAdapter {
+    private Salesmania plugin;
+
+    public GenericAdapter(Salesmania plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void broadcast(String channelName, String[] message, AuctionIgnoreList ignoreList) {
