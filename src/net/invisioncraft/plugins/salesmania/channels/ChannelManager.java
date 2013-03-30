@@ -19,23 +19,25 @@ package net.invisioncraft.plugins.salesmania.channels;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.channels.adapters.ChannelAdapter;
-import net.invisioncraft.plugins.salesmania.channels.adapters.HeroChatAdapter;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
-import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 
 public class ChannelManager {
-    ChannelAdapter channelAdapter;
-    WorldGroupManager worldGroupManager;
+    private Salesmania plugin;
+    private ChannelAdapter channelAdapter;
 
-    public ChannelManager(Salesmania plugin) {
-        worldGroupManager = plugin.getWorldGroupManager();
-        channelAdapter = new HeroChatAdapter(); // Specific adapter should be detected during plugin loading
+    public ChannelManager(Salesmania plugin, ChannelAdapter channelAdapter) {
+        this.plugin = plugin;
+        this.channelAdapter = channelAdapter;
     }
 
-    public broadcast(WorldGroup worldGroup, String message) {
-        for(String channelName : worldGroup.getChannels()) {
-            channelAdapter.broadcast(channelName, message);
-        }
+    // Wrapper methods
+    public void broadcast(String channelName, String[] message, AuctionIgnoreList ignoreList) {
+        channelAdapter.broadcast(channelName, message, ignoreList);
     }
 
+
+    public void broadcast(WorldGroup worldGroup, String[] message, AuctionIgnoreList ignoreList) {
+        channelAdapter.broadcast(worldGroup, message, ignoreList);
+    }
 }

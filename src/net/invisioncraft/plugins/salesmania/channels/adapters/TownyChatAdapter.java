@@ -17,11 +17,38 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania.channels.adapters;
 
+import com.palmergames.bukkit.TownyChat.Chat;
+import com.palmergames.bukkit.TownyChat.channels.Channel;
+import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
+import org.bukkit.entity.Player;
+
 public class TownyChatAdapter implements ChannelAdapter {
+    Chat townyChat;
+    Salesmania plugin;
+
+    public TownyChatAdapter(Salesmania plugin) {
+        townyChat = (Chat) plugin.getServer().getPluginManager().getPlugin("TownyChat");
+        this.plugin = plugin;
+    }
 
     @Override
-    public void broadcast(String message, String channelName) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void broadcast(String channelName, String[] message, AuctionIgnoreList ignoreList) {
+        Channel channel = townyChat.getChannelsHandler().getChannel(channelName);
+        for(Player player : plugin.getServer().getOnlinePlayers()) {
+            if(channel.isPresent(player.getName())) {
+                if(ignoreList != null && ignoreList.isIgnored(player)) continue;
+                player.sendMessage(message);
+            }
+        }
+    }
+
+    @Override
+    public void broadcast(WorldGroup worldGroup, String[] message, AuctionIgnoreList ignoreList) {
+        for(String channelName : worldGroup.getChannels()) {
+            broadcast(channelName, message, ignoreList);
+        }
     }
 
 }

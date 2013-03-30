@@ -29,6 +29,7 @@ public class WorldGroup {
     private Salesmania plugin;
     private String groupName;
     private AuctionQueue auctionQueue;
+    private ArrayList<String> channelList;
 
     public WorldGroup(Salesmania plugin, String[] worlds) {
         groupName = "NoName";
@@ -66,6 +67,24 @@ public class WorldGroup {
                 worldList.add(world);
             }
         }
+    }
+
+    public ArrayList<String> getChannels() {
+        return channelList;
+    }
+
+    public void setChannels(ArrayList<String> channels) {
+        channelList = channels;
+    }
+
+    public void addChannel(String channel) {
+        if(!channelList.contains(channel)) {
+            channelList.add(channel);
+        }
+    }
+
+    public void removeChannel(String channel) {
+        channelList.remove(channel);
     }
 
     public String getGroupName() {
