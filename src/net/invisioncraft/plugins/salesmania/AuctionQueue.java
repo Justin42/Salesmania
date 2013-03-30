@@ -108,6 +108,7 @@ public class AuctionQueue extends LinkedList<Auction> {
         start();
     }
 
+    // TODO queues can be slightly optimized by ticking once instead of once per world group
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
