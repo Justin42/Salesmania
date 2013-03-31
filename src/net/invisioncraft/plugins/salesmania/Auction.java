@@ -21,6 +21,7 @@ import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -39,6 +40,7 @@ public class Auction {
     Salesmania plugin;
     Economy economy;
     AuctionSettings auctionSettings;
+    WorldGroup worldGroup;
 
     private boolean isRunning = false;
 
@@ -142,6 +144,11 @@ public class Auction {
         updateInfoTokens();
         AuctionQueue auctionQueue = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue();
         if(auctionQueue.add(this)) {
+            if(owner.isOnline()) {
+                worldGroup = plugin.getWorldGroupManager().getGroup(player);
+            }
+            else worldGroup = plugin.getWorldGroupManager().getGroup(player);
+
             if(auctionQueue.size() != 1) return AuctionStatus.QUEUE_SUCCESS;
             if(auctionQueue.isCooldown()) return AuctionStatus.COOLDOWN_SUCCESS;
             else return AuctionStatus.SUCCESS;
@@ -312,5 +319,9 @@ public class Auction {
 
     public double getEndTax() {
         return endTax;
+    }
+
+    public WorldGroup getWorldGroup() {
+        return worldGroup;
     }
 }

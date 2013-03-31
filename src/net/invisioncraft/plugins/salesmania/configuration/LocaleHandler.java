@@ -48,8 +48,6 @@ public class LocaleHandler implements ConfigurationHandler {
             Locale locale = new Locale(plugin, localeName);
             registerLocale(locale);
         }
-        localeMap.get(localeSettings.getDefaultLocale()).
-                addUser(plugin.getServer().getConsoleSender());
     }
 
     public void registerLocale(Locale locale) {
@@ -69,19 +67,19 @@ public class LocaleHandler implements ConfigurationHandler {
         return localeMap.get(localeName);
     }
 
-    public boolean setLocale(CommandSender user, String localeName) {
+    public boolean setLocale(Player player, String localeName) {
         if(!localeMap.containsKey(localeName)) return false;
-        getLocale(user).removeUser(user);
-        localeMap.get(localeName).addUser(user);
-        fileConfig.set(user.getName(), localeName);
+        getLocale(player).removePlayer(player);
+        localeMap.get(localeName).addPlayer(player);
+        fileConfig.set(player.getName(), localeName);
         config.save();
         return true;
     }
 
     public void updateLocale(Player player) {
         Locale locale = getLocale(player);
-        if(player.isOnline()) locale.addUser(player);
-        else locale.removeUser(player);
+        if(player.isOnline()) locale.addPlayer(player);
+        else locale.removePlayer(player);
     }
 
     public void updateLocales() {

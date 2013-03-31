@@ -22,7 +22,6 @@ import net.invisioncraft.plugins.salesmania.channels.adapters.ChannelAdapter;
 import net.invisioncraft.plugins.salesmania.channels.adapters.GenericAdapter;
 import net.invisioncraft.plugins.salesmania.channels.adapters.HeroChatAdapter;
 import net.invisioncraft.plugins.salesmania.channels.adapters.TownyChatAdapter;
-import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -30,12 +29,9 @@ import org.bukkit.plugin.PluginManager;
 import java.util.ArrayList;
 
 public class ChannelManager implements ChannelAdapter {
-    private Salesmania plugin;
     private ChannelAdapter channelAdapter;
 
     public ChannelManager(Salesmania plugin) {
-        this.plugin = plugin;
-
         // Channel support
         PluginManager pluginManager = plugin.getServer().getPluginManager();
         if(pluginManager.getPlugin("TownyChat") != null && pluginManager.getPlugin("TownyChat").isEnabled()) {
@@ -53,12 +49,18 @@ public class ChannelManager implements ChannelAdapter {
     }
 
     // Wrapper methods
+    @Override
     public void broadcast(String channelName, String[] message) {
         channelAdapter.broadcast(channelName, message);
     }
 
-
+    @Override
     public void broadcast(WorldGroup worldGroup, String[] message) {
+        channelAdapter.broadcast(worldGroup, message);
+    }
+
+    @Override
+    public void broadcast(WorldGroup worldGroup, String message) {
         channelAdapter.broadcast(worldGroup, message);
     }
 

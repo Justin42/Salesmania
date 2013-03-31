@@ -20,18 +20,23 @@ package net.invisioncraft.plugins.salesmania.listeners;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class LoginListener implements Listener {
     private Salesmania plugin;
     private LocaleHandler localeHandler;
+    private WorldGroupManager worldGroupManager;
+
     public LoginListener(Salesmania plugin) {
         this.plugin = plugin;
         localeHandler = plugin.getLocaleHandler();
+        worldGroupManager = plugin.getWorldGroupManager();
     }
 
     @EventHandler
@@ -39,7 +44,16 @@ public class LoginListener implements Listener {
         Player player = event.getPlayer();
         localeHandler.updateLocale(player);
         Locale locale = localeHandler.getLocale(player);
-        if(plugin.getItemStash().hasItems(player)) {
+        if(plugin.getItemStash().hasItems(player, worldGroupManager.getGroup(player))) {
+            player.sendMessage(locale.getMessage("Stash.itemsWaiting"));
+        }
+    }
+
+    @EventHandler
+    public void onPlayerChangedWorldEvent(PlayerChangedWorldEvent event) {
+        Player player = event.getPlayer();
+        Locale locale = localeHandler.getLocale(player);
+        if(plugin.getItemStash().hasItems(player, worldGroupManager.getGroup(player))) {
             player.sendMessage(locale.getMessage("Stash.itemsWaiting"));
         }
     }

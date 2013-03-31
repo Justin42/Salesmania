@@ -19,7 +19,6 @@ package net.invisioncraft.plugins.salesmania.configuration;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -55,39 +54,11 @@ public class Locale extends Configuration {
         playerCache.add(player);
     }
 
-    public void removeUser(Player player) {
+    public void removePlayer(Player player) {
         playerCache.remove(player);
     }
 
     public ArrayList<Player> getPlayers() {
         return playerCache;
-    }
-
-    public void broadcastMessage(String message) {
-        for(Player player : playerCache) {
-            player.sendMessage(message);
-        }
-    }
-
-    public void broadcastMessage(String message, IgnoreList ignoreList) {
-        for(Player player : playerCache) {
-            if(ignoreList.isIgnored(player)) continue;
-            player.sendMessage(message);
-        }
-    }
-
-    public void broadcastMessage(ArrayList<String> message, IgnoreList ignoreList) {
-        String[] messageArray = message.toArray(new String[0]);
-        for(Player player : playerCache) {
-            if(ignoreList.isIgnored(player)) continue;
-            player.sendMessage(messageArray);
-        }
-    }
-
-    public void broadcastMessage(ArrayList<String> message) {
-        String[] messageArray = message.toArray(new String[0]);
-        for(Player player : playerCache) {
-            player.sendMessage(messageArray);
-        }
     }
 }

@@ -20,6 +20,8 @@ package net.invisioncraft.plugins.salesmania.commands.stash;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.ItemStash;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,9 +33,11 @@ import java.util.ArrayList;
 public class StashCommandExecutor implements CommandExecutor {
     ItemStash itemStash;
     Salesmania plugin;
+    WorldGroupManager worldGroupManager;
     public StashCommandExecutor(Salesmania plugin) {
         this.plugin = plugin;
         itemStash = plugin.getItemStash();
+        worldGroupManager = plugin.getWorldGroupManager();
     }
 
     @Override
@@ -43,13 +47,14 @@ public class StashCommandExecutor implements CommandExecutor {
         Player player = (Player) sender;
         Locale locale = plugin.getLocaleHandler().getLocale(player);
 
-        if(itemStash.hasItems(player)) {
+        WorldGroup worldGroup = worldGroupManager.getGroup(player);
+        if(itemStash.hasItems(player, worldGroup)) {
             ArrayList<ItemStack> remainingItems = new ArrayList<ItemStack>();
-            for(ItemStack itemStack : itemStash.collect(player)) {
+            for(ItemStack itemStack : itemStash.collect(player, worldGroup)) {
                 remainingItems.addAll(player.getInventory().addItem(itemStack).values());
             }
             if(!remainingItems.isEmpty()) {
-                itemStash.store(player, remainingItems);
+                itemStash.store(player, remainingItems, worldGroup);
                 player.sendMessage(locale.getMessage("Stash.inventoryFull"));
             }
             else player.sendMessage(locale.getMessage("Stash.gotItems"));

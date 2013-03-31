@@ -207,7 +207,7 @@ public class AuctionEventListener implements Listener {
             }
 
             // Give back item to owner
-            giveItem(auction.getOwner(), auction.getItemStack());
+            giveItem(auction.getOwner(), auction.getItemStack(), auction.getWorldGroup());
 
         }
 
@@ -233,7 +233,7 @@ public class AuctionEventListener implements Listener {
             processTax(auctionEvent);
 
             // Give item to winner
-            giveItem(auction.getWinner(), auction.getItemStack());
+            giveItem(auction.getWinner(), auction.getItemStack(), auction.getWorldGroup());
         }
 
         worldGroup.getAuctionQueue().remove();
@@ -257,7 +257,7 @@ public class AuctionEventListener implements Listener {
         }
 
         // Give back item to owner
-        giveItem(auction.getOwner(), auction.getItemStack());
+        giveItem(auction.getOwner(), auction.getItemStack(), auction.getWorldGroup());
 
         worldGroup.getAuctionQueue().remove();
         worldGroup.getAuctionQueue().startCooldown();
@@ -289,15 +289,15 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    private void giveItem(OfflinePlayer player, ItemStack itemStack) {
+    private void giveItem(OfflinePlayer player, ItemStack itemStack, WorldGroup worldGroup) {
         if(player.isOnline()) {
             Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
             HashMap<Integer, ItemStack> remainingItems = player.getPlayer().getInventory().addItem(itemStack);
             if(!remainingItems.isEmpty()) {
-                plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()));
+                plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()), worldGroup);
                 player.getPlayer().sendMessage(locale.getMessage("Stash.itemsWaiting"));
             }
         }
-        else plugin.getItemStash().store(player, itemStack);
+        else plugin.getItemStash().store(player, itemStack, worldGroup);
     }
 }

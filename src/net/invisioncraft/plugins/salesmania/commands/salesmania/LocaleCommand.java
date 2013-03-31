@@ -23,6 +23,7 @@ import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleSettings;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class LocaleCommand extends CommandHandler {
     LocaleSettings localeSettings;
@@ -41,7 +42,10 @@ public class LocaleCommand extends CommandHandler {
         Locale locale = localeHandler.getLocale(sender);
 
         LocaleCommands localeCommand;
-
+        if(!(sender instanceof Player)) {
+            sender.sendMessage((locale.getMessage("Auction.Console.cantConsole")));
+            return false;
+        }
         // Syntax
         if(args.length < 2) {
             sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
@@ -54,6 +58,7 @@ public class LocaleCommand extends CommandHandler {
             return false;
         }
 
+        Player player = (Player) sender;
         switch(localeCommand) {
             case LIST:
                 String localeList = "";
@@ -69,7 +74,7 @@ public class LocaleCommand extends CommandHandler {
                     sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
                     return false;
                 }
-                if(localeHandler.setLocale(sender, args[2])) {
+                if(localeHandler.setLocale(player, args[2])) {
                     locale = plugin.getLocaleHandler().getLocale(sender);
                     sender.sendMessage(String.format(
                             locale.getMessage("Locale.changed"),

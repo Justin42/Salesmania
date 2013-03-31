@@ -18,7 +18,9 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.configuration;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,23 +29,24 @@ import java.util.logging.Logger;
 
 public class ItemStash extends Configuration {
     private Logger logger = Logger.getLogger(ItemStash.class.getName());
+
     public ItemStash(Salesmania plugin) {
         super(plugin, "itemStash.yml");
     }
 
     @SuppressWarnings("unchecked")
-    public void store(OfflinePlayer player, ItemStack itemStack) {
+    public void store(OfflinePlayer player, ItemStack itemStack, WorldGroup worldGroup) {
         logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString());
         ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
-        if(hasItems(player)) {
-            try { stackList = (ArrayList<ItemStack>) config.get(player.getName()); }
+        if(hasItems(player, worldGroup)) {
+            try { stackList = (ArrayList<ItemStack>) config.get(player.getName() + "." + worldGroup.getGroupName()); }
             catch (ClassCastException ex) {
                 corruptionWarning(player);
                 return;
             }
         }
         stackList.add(itemStack.clone());
-        config.set(player.getName(), stackList);
+        config.set(player.getName() + "." + worldGroup.getGroupName(), stackList);
         save();
     }
 
@@ -53,13 +56,13 @@ public class ItemStash extends Configuration {
     }
 
     @SuppressWarnings("unchecked")
-    public void store(OfflinePlayer player, ArrayList<ItemStack> itemStacks) {
+    public void store(OfflinePlayer player, ArrayList<ItemStack> itemStacks, WorldGroup worldGroup) {
         for(ItemStack itemStack : itemStacks) {
             logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString());
         }
-        if(hasItems(player)) {
+        if(hasItems(player, worldGroup)) {
             try {
-                ArrayList<ItemStack> stackList = (ArrayList<ItemStack>) config.get(player.getName());
+                ArrayList<ItemStack> stackList = (ArrayList<ItemStack>) config.get(player.getName() + "." + worldGroup.getGroupName());
                 stackList.addAll(itemStacks);
                 config.set(player.getName(), stackList);
             }
@@ -75,11 +78,11 @@ public class ItemStash extends Configuration {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<ItemStack> collect(Player player) {
+    public ArrayList<ItemStack> collect(Player player, WorldGroup worldGroup) {
         ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
-        if(hasItems(player)) {
+        if(hasItems(player, worldGroup)) {
             try {
-                stackList = (ArrayList<ItemStack>) config.get(player.getName());
+                stackList = (ArrayList<ItemStack>) config.get(player.getName() + "." + worldGroup.getGroupName());
                 config.set(player.getName(), null);
                 save();
             }
@@ -91,7 +94,7 @@ public class ItemStash extends Configuration {
         return stackList;
     }
 
-    public boolean hasItems(OfflinePlayer player) {
-        return config.contains(player.getName());
+    public boolean hasItems(OfflinePlayer player, WorldGroup worldGroup) {
+        return config.contains(player.getName() + "." + worldGroup.getGroupName());
     }
 }
