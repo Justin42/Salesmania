@@ -17,9 +17,11 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania.channels.adapters;
 
+import com.palmergames.bukkit.TownyChat.channels.Channel;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -33,23 +35,35 @@ public class GenericAdapter implements ChannelAdapter {
         auctionIgnoreList = plugin.getAuctionIgnoreList();
     }
 
-    @Override
     public void broadcast(String channelName, String[] message) {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override
     public void broadcast(WorldGroup worldGroup, String[] message) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        for(Player player : worldGroup.getPlayers()) {
+            if(!auctionIgnoreList.isIgnored(player)) {
+                player.sendMessage(message);
+            }
+        }
+    }
+
+    @Override
+    public void broadcast(WorldGroup worldGroup, String message) {
+        broadcast(worldGroup, new String[]{message});
     }
 
     @Override
     public void broadcast(WorldGroup worldGroup, String[] message, ArrayList<Player> players) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        for(Player player : worldGroup.getPlayers()) {
+            if(players.contains(player) && auctionIgnoreList.isIgnored(player)) {
+                player.sendMessage(message);
+            }
+        }
     }
 
     @Override
     public void broadcast(WorldGroup worldGroup, String message, ArrayList<Player> players) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        broadcast(worldGroup, new String[]{message}, players);
     }
 }

@@ -44,6 +44,11 @@ public class HeroChatAdapter implements ChannelAdapter {
     }
 
     @Override
+    public void broadcast(WorldGroup worldGroup, String message) {
+        broadcast(worldGroup, new String[]{message});
+    }
+
+    @Override
     public void broadcast(WorldGroup worldGroup, String[] message, ArrayList<Player> players) {
         //To change body of implemented methods use File | Settings | File Templates.
     }

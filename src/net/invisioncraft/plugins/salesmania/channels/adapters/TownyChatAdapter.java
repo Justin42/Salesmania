@@ -39,7 +39,6 @@ public class TownyChatAdapter implements ChannelAdapter {
         auctionIgnoreList = plugin.getAuctionIgnoreList();
     }
 
-    @Override
     public void broadcast(String channelName, String[] message) {
         Channel channel = townyChat.getChannelsHandler().getChannel(channelName);
         for(Player player : plugin.getServer().getOnlinePlayers()) {
@@ -55,6 +54,11 @@ public class TownyChatAdapter implements ChannelAdapter {
         for(String channelName : worldGroup.getChannels()) {
             broadcast(channelName, message);
         }
+    }
+
+    @Override
+    public void broadcast(WorldGroup worldGroup, String message) {
+        broadcast(worldGroup, new String[]{message});
     }
 
     // TODO This is a problem...

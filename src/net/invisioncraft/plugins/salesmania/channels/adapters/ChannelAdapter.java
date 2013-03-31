@@ -26,7 +26,9 @@ import java.util.ArrayList;
 
 public interface ChannelAdapter {
     public void broadcast(String channelName, String[] message);
+
     public void broadcast(WorldGroup worldGroup, String[] message);
+    public void broadcast(WorldGroup worldGroup, String message);
 
     public void broadcast(WorldGroup worldGroup, String[] message, ArrayList<Player> players);
     public void broadcast(WorldGroup worldGroup, String message, ArrayList<Player> players);
