@@ -42,11 +42,13 @@ public class AuctionQueue extends LinkedList<Auction> {
     AuctionSettings auctionSettings;
 
     private class QueueConfig extends Configuration {
-        public QueueConfig(Salesmania plugin) {
+        WorldGroup worldGroup;
+        public QueueConfig(Salesmania plugin, WorldGroup worldGroup) {
             super(plugin, "auctionQueue.yml");
+            this.worldGroup = worldGroup;
         }
 
-        protected void loadQueue(AuctionQueue queue, WorldGroup worldGroup) {
+        protected void loadQueue(AuctionQueue queue) {
             if(config.contains("Auctions")) {
                 List<Auction>  auctionList = new LinkedList<Auction>();
                 List<Map<?, ?>> savedAuctions = config.getMapList("Auctions." + worldGroup.getGroupName());
@@ -67,22 +69,22 @@ public class AuctionQueue extends LinkedList<Auction> {
 
         protected void saveAuction(Auction auction) {
             List<Map<?, ?>> auctionList;
-            if(!config.contains("Auctions." + auction.getWorldGroup().getGroupName())) {
+            if(!config.contains("Auctions." + worldGroup.getGroupName())) {
                 auctionList = new ArrayList<Map<?, ?>>();
             }
             else {
-                auctionList = config.getMapList("Auctions." + auction.getWorldGroup().getGroupName());
+                auctionList = config.getMapList("Auctions." + worldGroup.getGroupName());
             }
             HashMap<String, Object> dataMap = new HashMap<String, Object>();
             dataMap.put("itemStack", auction.getItemStack());
             dataMap.put("owner", auction.getOwner().getName());
             dataMap.put("currentBid", auction.getBid());
             auctionList.add(dataMap);
-            config.set("Auctions." + auction.getWorldGroup().getGroupName(), auctionList);
+            config.set("Auctions." + worldGroup.getGroupName(), auctionList);
             save();
         }
 
-        protected void removeAuction(WorldGroup worldGroup, int position) {
+        protected void removeAuction(int position) {
             if(config.contains("Auctions")) {
                 List<Map<?, ?>> auctionList = config.getMapList("Auctions." + worldGroup.getGroupName());
                 auctionList.remove(position);
@@ -92,7 +94,7 @@ public class AuctionQueue extends LinkedList<Auction> {
         }
 
         @SuppressWarnings("unchecked")
-        protected void update(WorldGroup worldGroup) {
+        protected void update() {
             if(config.contains("Auctions")) {
                 List<Map<?, ?>> auctionList = config.getMapList("Auctions." + worldGroup.getGroupName());
                 Map<String, Object> dataMap = (Map<String, Object>) auctionList.get(0);
@@ -107,9 +109,9 @@ public class AuctionQueue extends LinkedList<Auction> {
 
     public AuctionQueue(Salesmania plugin, WorldGroup worldGroup) {
         this.plugin = plugin;
-        queueConfig = new QueueConfig(plugin);
+        queueConfig = new QueueConfig(plugin, worldGroup);
         auctionSettings = plugin.getSettings().getAuctionSettings();
-        queueConfig.loadQueue(this, worldGroup);
+        queueConfig.loadQueue(this);
         start();
     }
 
@@ -146,8 +148,8 @@ public class AuctionQueue extends LinkedList<Auction> {
         return count;
     }
 
-    public void update(WorldGroup worldGroup) {
-        queueConfig.update(worldGroup);
+    public void update() {
+        queueConfig.update();
     }
 
     public boolean nextAuction() {
@@ -208,9 +210,10 @@ public class AuctionQueue extends LinkedList<Auction> {
     }
 
     // TODO for now, it's only possible to remove the first auction in the queue
-    public Auction remove(WorldGroup worldGroup) {
+    @Override
+    public Auction remove() {
         Auction auction = super.remove();
-        queueConfig.removeAuction(worldGroup, 0);
+        queueConfig.removeAuction(0);
         return auction;
     }
 }
