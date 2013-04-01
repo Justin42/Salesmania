@@ -72,6 +72,7 @@ public class LocaleHandler implements ConfigurationHandler {
         getLocale(player).removePlayer(player);
         localeMap.get(localeName).addPlayer(player);
         fileConfig.set(player.getName(), localeName);
+        plugin.getLogger().info("Player '" + player.getName() + "' changed locale to '" + localeName +"'");
         config.save();
         return true;
     }

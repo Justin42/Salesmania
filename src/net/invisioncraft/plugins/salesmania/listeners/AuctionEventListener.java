@@ -142,6 +142,12 @@ public class AuctionEventListener implements Listener {
             String[] message = infoList.toArray(new String[infoList.size()]);
             channelManager.broadcast(worldGroup, message, locale.getPlayers());
         }
+        plugin.getLogger().info(String.format(
+                "Started auction for player '%s' -\n" +
+                "World group: '%s'\n" +
+                "Item stack: '%s'\n" +
+                "Starting Bid: %,f",
+                player.getName(), worldGroup.getGroupName(), auction.getItemStack().toString(), auction.getBid()));
     }
 
     private void onAuctionQueue(AuctionEvent auctionEvent) {
@@ -149,6 +155,7 @@ public class AuctionEventListener implements Listener {
 
         // Take item
         ItemManager.takeItem(auction.getOwner().getPlayer(), auction.getItemStack());
+        plugin.getLogger().info(String.format("Player '%s' has queued an auction\nItem Stack: %s", auction.getOwner().getName(), auction.getItemStack().toString()));
 
         // Tax
         processTax(auctionEvent);
@@ -165,6 +172,8 @@ public class AuctionEventListener implements Listener {
         if(auction.getLastWinner() != null) {
             OfflinePlayer player = auction.getLastWinner();
             economy.depositPlayer(player.getName(), auction.getLastBid());
+            plugin.getLogger().info(String.format("Returned %,f to player '%s' for previous bid.",
+                    auction.getLastBid(), player.getName()));
             if(player.getPlayer().isOnline()) {
                 Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
                 player.getPlayer().sendMessage(String.format(
@@ -174,6 +183,8 @@ public class AuctionEventListener implements Listener {
 
         // Take new bid
         economy.withdrawPlayer(auction.getWinner().getName(), auction.getBid());
+        plugin.getLogger().info(String.format("Removed %,f from player '%s' for auction bid.",
+                auction.getBid(), auction.getWinner().getName()));
 
         WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
         worldGroup.getAuctionQueue().update();
@@ -208,7 +219,8 @@ public class AuctionEventListener implements Listener {
 
             // Give back item to owner
             giveItem(auction.getOwner(), auction.getItemStack(), auction.getWorldGroup());
-
+            plugin.getLogger().info(String.format("No bids for auction.\n Item Stack: %s\n returned to player '%s'",
+                    auction.getItemStack().toString(), auction.getOwner().getName()));
         }
 
         // BIDS
@@ -228,12 +240,16 @@ public class AuctionEventListener implements Listener {
 
             // Give money to owner
             economy.depositPlayer(auction.getOwner().getName(), auction.getBid());
+            plugin.getLogger().info(String.format("Auction finished, %,f given to player '%s'",
+                    auction.getBid(), auction.getOwner().getName()));
 
             // Tax
             processTax(auctionEvent);
 
             // Give item to winner
             giveItem(auction.getWinner(), auction.getItemStack(), auction.getWorldGroup());
+            plugin.getLogger().info(String.format("Item stack '%s' given to auction winner '%s'",
+                    auction.getItemStack(), auction.getWinner()));
         }
 
         worldGroup.getAuctionQueue().remove();
@@ -254,19 +270,25 @@ public class AuctionEventListener implements Listener {
         // Give back bid
         if(auction.getWinner() != null) {
             economy.depositPlayer(auction.getWinner().getName(), auction.getBid());
+            plugin.getLogger().info(String.format("Returned %,f to player '%s' for canceled auction bid.",
+                    auction.getBid(), auction.getWinner().getName()));
         }
 
         // Give back item to owner
         giveItem(auction.getOwner(), auction.getItemStack(), auction.getWorldGroup());
+        plugin.getLogger().info(String.format("Returned item stack '%s' to auction owner '%s' for canceled auction.",
+                auction.getItemStack(), auction.getOwner().getName()));
 
         worldGroup.getAuctionQueue().remove();
         worldGroup.getAuctionQueue().startCooldown();
     }
 
+    // TODO allow enable/disable in specific world groups
     public void onAuctionEnableEvent(AuctionEvent auctionEvent) {
         // Start the queue
         WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auctionEvent.getAuction().getOwner());
         worldGroup.getAuctionQueue().start();
+        plugin.getLogger().info("Auction enabled, queue processing started.");
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
@@ -280,6 +302,7 @@ public class AuctionEventListener implements Listener {
         // Stop the queue
         WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auctionEvent.getAuction().getOwner());
         worldGroup.getAuctionQueue().stop();
+        plugin.getLogger().info("Auction disabled, queue processing stopped.");
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
