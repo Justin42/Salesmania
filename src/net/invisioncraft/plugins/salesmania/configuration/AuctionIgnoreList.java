@@ -18,7 +18,7 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.configuration;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -27,32 +27,44 @@ public class AuctionIgnoreList extends Configuration implements IgnoreList {
         super(plugin, "auctionIgnore.yml");
     }
 
-    public boolean isIgnored(CommandSender sender) {
+    @Override
+    public boolean isIgnored(Player player) {
         List<String> ignoreList = getConfig().getStringList("Ignore");
-        if(ignoreList.contains(sender.getName())) return true;
+        if(ignoreList.contains(player.getName())) return true;
         else return false;
     }
 
-    public void setIgnore(CommandSender sender, boolean ignored) {
+    @Override
+    public boolean setIgnore(Player player, boolean ignored) {
         List<String> ignoreList = getConfig().getStringList("Ignore");
-        ignoreList.remove(sender.getName());
-        config.set("Ignore", ignoreList);
-        save();
-    }
-
-    public boolean toggleIgnore(CommandSender sender) {
-        boolean hasIgnored;
-        List<String> ignoreList = getConfig().getStringList("Ignore");
-        if(ignoreList.contains(sender.getName())) {
-            ignoreList.remove(sender.getName());
-            hasIgnored = false;
+        if(ignored) {
+            if(ignoreList.contains(player.getName())) return ignored;
+            else {
+                ignoreList.add(player.getName());
+                getPlugin().getLogger().info(player.getName() + " is now ignoring auction broadcasts.");
+            }
         }
         else {
-            ignoreList.add(sender.getName());
-            hasIgnored = true;
+            if(ignoreList.contains(player.getName())) {
+                ignoreList.remove(player.getName());
+                getPlugin().getLogger().info(player.getName() + " is no longer ignoring auction broadcasts.");
+            }
+            else return ignored;
         }
         config.set("Ignore", ignoreList);
         save();
-        return hasIgnored;
+        return ignored;
+    }
+
+    @Override
+    public boolean toggleIgnore(Player player) {
+        List<String> ignoreList = getConfig().getStringList("Ignore");
+        if(ignoreList.contains(player.getName())) {
+            return setIgnore(player, false);
+        }
+        else {
+            ignoreList.add(player.getName());
+            return setIgnore(player, true);
+        }
     }
 }

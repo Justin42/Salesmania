@@ -18,9 +18,10 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.configuration;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public interface IgnoreList {
-    public boolean isIgnored(CommandSender sender);
-    public void setIgnore(CommandSender sender, boolean ignored);
-    public boolean toggleIgnore(CommandSender sender);
+    public boolean isIgnored(Player player);
+    public boolean setIgnore(Player player, boolean ignored);
+    public boolean toggleIgnore(Player player);
 }
