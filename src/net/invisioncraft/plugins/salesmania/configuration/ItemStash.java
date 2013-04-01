@@ -36,7 +36,7 @@ public class ItemStash extends Configuration {
 
     @SuppressWarnings("unchecked")
     public void store(OfflinePlayer player, ItemStack itemStack, WorldGroup worldGroup) {
-        logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString());
+        logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString() + " in world group " + worldGroup.getGroupName());
         ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
         if(hasItems(player, worldGroup)) {
             try { stackList = (ArrayList<ItemStack>) config.get(player.getName() + "." + worldGroup.getGroupName()); }
@@ -58,7 +58,7 @@ public class ItemStash extends Configuration {
     @SuppressWarnings("unchecked")
     public void store(OfflinePlayer player, ArrayList<ItemStack> itemStacks, WorldGroup worldGroup) {
         for(ItemStack itemStack : itemStacks) {
-            logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString());
+            logger.info("Storing item stack for player '" + player.getName() + "' " + itemStack.toString() + " in world group " + worldGroup.getGroupName());
         }
         if(hasItems(player, worldGroup)) {
             try {
