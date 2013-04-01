@@ -35,7 +35,7 @@ public class AuctionInfo extends CommandHandler {
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = localeHandler.getLocale(sender);
         if(!(sender instanceof Player)) {
-            sender.sendMessage(locale.getMessage("Auction."));
+            sender.sendMessage(locale.getMessage("Auction.Console.cantConsole"));
             return false;
         }
         Player player = (Player) sender;

@@ -22,6 +22,7 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class AuctionIgnore extends CommandHandler {
     public AuctionIgnore(Salesmania plugin) {
@@ -31,7 +32,11 @@ public class AuctionIgnore extends CommandHandler {
     @Override
     public boolean execute(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = localeHandler.getLocale(sender);
-        if(plugin.getAuctionIgnoreList().toggleIgnore(sender)) {
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(locale.getMessage("Auction.Console.cantConsole"));
+        }
+        Player player = (Player) sender;
+        if(plugin.getAuctionIgnoreList().toggleIgnore(player)) {
             sender.sendMessage(locale.getMessage("Auction.ignoring"));
         }
         else {
