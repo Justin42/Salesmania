@@ -117,8 +117,7 @@ public class AuctionEventListener implements Listener {
     private void onAuctionTimerEvent(AuctionEvent auctionEvent) {
         long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
         List<Long> notifyTimes = auctionSettings.getNofityTime();
-        OfflinePlayer player = auctionEvent.getAuction().getOwner();
-        WorldGroup worldGroup = worldGroupManager.getGroup(player);
+        WorldGroup worldGroup = auctionEvent.getAuction().getWorldGroup();
         if(notifyTimes.contains(timeRemaining)) {
             for(Locale locale : localeHandler.getLocales()) {
                 String message =
@@ -133,7 +132,7 @@ public class AuctionEventListener implements Listener {
     private void onAuctionStartEvent(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         OfflinePlayer player = auctionEvent.getAuction().getOwner();
-        WorldGroup worldGroup = worldGroupManager.getGroup(player);
+        WorldGroup worldGroup = auctionEvent.getAuction().getWorldGroup();
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
             ArrayList<String> infoList = locale.getMessageList("Auction.startInfo");
@@ -191,7 +190,7 @@ public class AuctionEventListener implements Listener {
         logger.info(String.format("Removed %,.2f from player '%s' for auction bid.",
                 auction.getBid(), auction.getWinner().getName()));
 
-        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
+        WorldGroup worldGroup = auction.getWorldGroup();
         worldGroup.getAuctionQueue().update();
 
         // Broadcast
@@ -205,7 +204,7 @@ public class AuctionEventListener implements Listener {
 
     public void onAuctionEndEvent(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
-        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
+        WorldGroup worldGroup = auction.getWorldGroup();
 
         // NO BIDS
         if(auctionEvent.getAuction().getWinner() == null) {
@@ -263,7 +262,7 @@ public class AuctionEventListener implements Listener {
 
     public void onAuctionCancelEvent(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
-        WorldGroup worldGroup = worldGroupManager.getGroup(auctionEvent.getAuction().getOwner());
+        WorldGroup worldGroup = auction.getWorldGroup();
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {

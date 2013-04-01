@@ -21,6 +21,7 @@ import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,7 +40,13 @@ public class AuctionCancel extends CommandHandler {
         }
 
         Player player = (Player) sender;
-        Auction currentAuction = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue().getCurrentAuction();
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(player);
+        if(worldGroup == null) {
+            sender.sendMessage(locale.getMessage("Auction.worldDisabled"));
+            return false;
+        }
+
+        Auction currentAuction = worldGroup.getAuctionQueue().getCurrentAuction();
         if(currentAuction != null) {
             if(player == currentAuction.getOwner() | player.hasPermission("salesmania.auction.cancel")) {
                 if(!currentAuction.isRunning()) {

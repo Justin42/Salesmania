@@ -23,6 +23,7 @@ import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -48,6 +49,12 @@ public class AuctionStart extends CommandHandler {
 
         Player player = (Player) sender;
         ItemStack itemStack = player.getItemInHand().clone();
+
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(player);
+        if(worldGroup == null) {
+            sender.sendMessage(locale.getMessage("Auction.worldDisabled"));
+            return false;
+        }
 
         // Disable check
         if(!auctionSettings.getEnabled()) {

@@ -22,6 +22,7 @@ import net.invisioncraft.plugins.salesmania.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import net.milkbowl.vault.item.Items;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -44,7 +45,13 @@ public class AuctionBid extends CommandHandler {
             sender.sendMessage(locale.getMessage("Console.cantBid"));
             return false;
         }
+
         Player player = (Player) sender;
+        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(player);
+        if(worldGroup == null) {
+            sender.sendMessage(locale.getMessage("Auction.worldDisabled"));
+            return false;
+        }
 
         // Permission check
         if(!sender.hasPermission("salesmania.auction.bid")) {
