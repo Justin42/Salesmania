@@ -38,6 +38,7 @@ Syntax:
     
 Stash:
   itemsWaiting: "&cVous avez des articles en attente dans votre cachette. Tapez /collect pour les collecter."
+  itemsWaitingInGroup: "&cYou have items waiting in world group '%s'"
   noItems: "&cIl n'y a aucun article dans votre cachette."
   inventoryFull: "&cIl ya plus d'articles dans votre cachette, faire de la place des stocks et utilisez /collect à nouveau."
   gotItems: "&2Vous avez rassemblé tous vos articles."

@@ -38,6 +38,7 @@ Syntax:
     
 Stash:
   itemsWaiting: "&cTem objectos à sua espera. Utilize /collect para os receber."
+  itemsWaitingInGroup: "&cYou have items waiting in world group '%s'"
   noItems: "&cNão possui objectos em espera."
   inventoryFull: "&cAinda existem objectos em espera, crie espaço no inventário e utilize /collect de novo."
   gotItems: "&2Recebeu todos os objectos com sucesso."

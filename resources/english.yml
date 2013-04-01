@@ -38,6 +38,7 @@ Syntax:
 
 Stash:
   itemsWaiting: "&cYou have items waiting in your stash. Type /collect to retrieve them"
+  itemsWaitingInGroup: "&cYou have items waiting in world group '%s'"
   noItems: "&cThere are no items in your stash."
   inventoryFull: "&cThere are more items in your stash, make inventory space and use /collect again."
   gotItems: "&2You've collected all your items."
