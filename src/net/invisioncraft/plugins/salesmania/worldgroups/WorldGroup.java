@@ -31,12 +31,12 @@ public class WorldGroup {
     private AuctionQueue auctionQueue;
     private ArrayList<String> channelList;
 
-    public WorldGroup(Salesmania plugin, String[] worlds) {
+    public WorldGroup(Salesmania plugin, ArrayList<String> worlds) {
         groupName = "NoName";
-        worldList = new ArrayList<World>(worlds.length);
-        updateWorlds(worlds);
+        worldList = new ArrayList<World>(worlds.size());
         this.plugin = plugin;
-        auctionQueue = new AuctionQueue(plugin);
+        auctionQueue = new AuctionQueue(plugin, this);
+        updateWorlds(worlds);
     }
 
     public ArrayList<World> getWorlds() {
@@ -60,7 +60,7 @@ public class WorldGroup {
         return worldList.contains(player.getWorld());
     }
 
-    public void updateWorlds(String[] worlds) {
+    public void updateWorlds(ArrayList<String> worlds) {
         for(String worldName : worlds) {
             World world = plugin.getServer().getWorld(worldName);
             if(world != null && !worldList.contains(world)) {

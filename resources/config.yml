@@ -14,7 +14,7 @@ Auction:
 
   Queue:
     maxSize: 10
-    maxPerPlayer: 1
+    maxPerPlayer: 10
 
   taxAccount: None
   useTaxAccount: false
@@ -30,11 +30,10 @@ Auction:
   - 5
 
   WorldGroups:
-    enabled: false
     groups:
     - groupName: default
-        enabled: true
-        worlds: [world, world_the_end, world_nether]
+      enabled: true
+      worlds: [world, world_the_end, world_nether]
 
   
   Blacklist:

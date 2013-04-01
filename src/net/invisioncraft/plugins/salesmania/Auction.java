@@ -140,15 +140,12 @@ public class Auction {
         this.itemStack = itemStack;
         owner = player;
         plugin.getAuctionIgnoreList().setIgnore(player, false);
+        worldGroup = plugin.getWorldGroupManager().getGroup(player);
+        AuctionQueue auctionQueue = worldGroup.getAuctionQueue();
 
         updateInfoTokens();
-        AuctionQueue auctionQueue = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue();
-        if(auctionQueue.add(this)) {
-            if(owner.isOnline()) {
-                worldGroup = plugin.getWorldGroupManager().getGroup(player);
-            }
-            else worldGroup = plugin.getWorldGroupManager().getGroup(player);
 
+        if(auctionQueue.add(this)) {
             if(auctionQueue.size() != 1) return AuctionStatus.QUEUE_SUCCESS;
             if(auctionQueue.isCooldown()) return AuctionStatus.COOLDOWN_SUCCESS;
             else return AuctionStatus.SUCCESS;

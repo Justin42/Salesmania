@@ -54,6 +54,7 @@ public class Salesmania extends JavaPlugin {
         auctionIgnoreList = new AuctionIgnoreList(this);
         itemStash = new ItemStash(this);
         worldGroupManager = new WorldGroupManager(this);
+        channelManager = new ChannelManager(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getCommand("bid").setExecutor(getCommand("auction").getExecutor());
@@ -77,8 +78,6 @@ public class Salesmania extends JavaPlugin {
             consoleLogger.severe("Vault not found.");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
-
-        channelManager = new ChannelManager(this);
 
         if(isEnabled()) consoleLogger.info("Salesmania Activated");
     }

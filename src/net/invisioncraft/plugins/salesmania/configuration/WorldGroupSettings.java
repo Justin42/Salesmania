@@ -40,8 +40,8 @@ public class WorldGroupSettings implements ConfigurationHandler  {
         ArrayList<WorldGroup> worldGroups = new ArrayList<WorldGroup>();
         List<Map<?, ?>> groupData = config.getMapList("Auction.WorldGroups.groups");
         for(Map<?, ?> data : groupData) {
-            if(Boolean.valueOf((String)data.get("enabled"))) {
-                WorldGroup worldGroup = new WorldGroup(plugin, (String[])data.get("worlds"));
+            if((Boolean)data.get("enabled")) {
+                WorldGroup worldGroup = new WorldGroup(plugin, (ArrayList<String>)data.get("worlds"));
                 worldGroup.setGroupName((String)data.get("groupName"));
                 worldGroups.add(worldGroup);
             }
@@ -52,6 +52,5 @@ public class WorldGroupSettings implements ConfigurationHandler  {
     @Override
     public void update() {
         config = settings.getConfig();
-        settings.getPlugin().getWorldGroupManager().update();
     }
 }

@@ -54,7 +54,7 @@ public class GenericAdapter implements ChannelAdapter {
     @Override
     public void broadcast(WorldGroup worldGroup, String[] message, ArrayList<Player> players) {
         for(Player player : worldGroup.getPlayers()) {
-            if(players.contains(player) && auctionIgnoreList.isIgnored(player)) {
+            if(players.contains(player) && !auctionIgnoreList.isIgnored(player)) {
                 player.sendMessage(message);
             }
         }

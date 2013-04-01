@@ -176,7 +176,7 @@ public class AuctionEventListener implements Listener {
         economy.withdrawPlayer(auction.getWinner().getName(), auction.getBid());
 
         WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auction.getOwner());
-        worldGroup.getAuctionQueue().update();
+        worldGroup.getAuctionQueue().update(worldGroup);
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
@@ -236,7 +236,7 @@ public class AuctionEventListener implements Listener {
             giveItem(auction.getWinner(), auction.getItemStack(), auction.getWorldGroup());
         }
 
-        worldGroup.getAuctionQueue().remove();
+        worldGroup.getAuctionQueue().remove(worldGroup);
         worldGroup.getAuctionQueue().startCooldown();
     }
 
