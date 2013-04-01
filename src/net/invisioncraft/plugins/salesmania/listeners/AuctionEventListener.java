@@ -290,31 +290,30 @@ public class AuctionEventListener implements Listener {
 
     // TODO allow enable/disable in specific world groups
     public void onAuctionEnableEvent(AuctionEvent auctionEvent) {
-        // Start the queue
-        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auctionEvent.getAuction().getOwner());
-        worldGroup.getAuctionQueue().start();
-        plugin.getLogger().info("Auction enabled, queue processing started.");
-
-        // Broadcast
-        for(Locale locale : localeHandler.getLocales()) {
-            String message = locale.getMessage("Auction.tag") +
-                    locale.getMessage("Auction.enabled");
-            channelManager.broadcast(worldGroup, message, locale.getPlayers());
+        for(WorldGroup worldGroup : worldGroupManager.getWorldGroups()) {
+            worldGroup.getAuctionQueue().start();
+            // Broadcast
+            for(Locale locale : localeHandler.getLocales()) {
+                String message = locale.getMessage("Auction.tag") +
+                        locale.getMessage("Auction.enabled");
+                channelManager.broadcast(worldGroup, message, locale.getPlayers());
+            }
         }
+        logger.info("Auction enabled, queue processing started.");
     }
 
     public void onAuctionDisableEvent(AuctionEvent auctionEvent) {
-        // Stop the queue
-        WorldGroup worldGroup = plugin.getWorldGroupManager().getGroup(auctionEvent.getAuction().getOwner());
-        worldGroup.getAuctionQueue().stop();
+        for(WorldGroup worldGroup : worldGroupManager.getWorldGroups()) {
+            worldGroup.getAuctionQueue().stop();
+            // Broadcast
+            for(Locale locale : localeHandler.getLocales()) {
+                String message = locale.getMessage("Auction.tag") +
+                        locale.getMessage("Auction.disabled");
+                channelManager.broadcast(worldGroup, message, locale.getPlayers());
+            }
+        }
         logger.info("Auction disabled, queue processing stopped.");
 
-        // Broadcast
-        for(Locale locale : localeHandler.getLocales()) {
-            String message = locale.getMessage("Auction.tag") +
-                    locale.getMessage("Auction.disabled");
-            channelManager.broadcast(worldGroup, message, locale.getPlayers());
-        }
     }
 
     private void giveItem(OfflinePlayer player, ItemStack itemStack, WorldGroup worldGroup) {
