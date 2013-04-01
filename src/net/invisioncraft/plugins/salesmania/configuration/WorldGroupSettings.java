@@ -43,7 +43,13 @@ public class WorldGroupSettings implements ConfigurationHandler  {
             if((Boolean)data.get("enabled")) {
                 WorldGroup worldGroup = new WorldGroup(plugin, (ArrayList<String>)data.get("worlds"));
                 worldGroup.setGroupName((String)data.get("groupName"));
+                if(data.containsKey("channels")) {
+                    for(String channelName : (ArrayList<String>)data.get("channels")) {
+                        worldGroup.addChannel(channelName);
+                    }
+                }
                 worldGroups.add(worldGroup);
+
             }
         }
         return worldGroups;
