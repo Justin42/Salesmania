@@ -25,6 +25,7 @@ public class Settings extends Configuration {
     private LocaleSettings localeSettings;
     private LogSettings logSettings;
     private WorldGroupSettings worldGroupSettings;
+    private AuctionQueueSettings auctionQueueSettings;
 
     public Settings(Salesmania plugin) {
         super(plugin, "config.yml");
@@ -35,6 +36,8 @@ public class Settings extends Configuration {
         logSettings = new LogSettings(this);
         worldGroupSettings = new WorldGroupSettings(this);
 
+        auctionQueueSettings = new AuctionQueueSettings(plugin);
+
         registerHandler(auctionSettings);
         registerHandler(databaseSettings);
         registerHandler(localeSettings);
@@ -44,6 +47,10 @@ public class Settings extends Configuration {
 
     public AuctionSettings getAuctionSettings() {
         return auctionSettings;
+    }
+
+    public AuctionQueueSettings getAuctionQueueSettings() {
+        return auctionQueueSettings;
     }
 
     public DatabaseSettings getDatabaseSettings() {

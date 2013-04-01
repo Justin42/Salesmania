@@ -50,6 +50,7 @@ public class WorldGroupSettings implements ConfigurationHandler  {
     }
 
     @Override
+    // TODO make world groups reinitialize properly.
     public void update() {
         config = settings.getConfig();
     }

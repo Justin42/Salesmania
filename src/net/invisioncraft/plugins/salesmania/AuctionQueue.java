@@ -17,19 +17,18 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania;
 
+import net.invisioncraft.plugins.salesmania.configuration.AuctionQueueSettings;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.configuration.Configuration;
+import net.invisioncraft.plugins.salesmania.configuration.ConfigurationHandler;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
 public class AuctionQueue extends LinkedList<Auction> {
     private Salesmania plugin;
-    private QueueConfig queueConfig;
+    private AuctionQueueSettings queueConfig;
 
     private boolean isRunning = false;
     private boolean isCooldown = false;
@@ -39,79 +38,13 @@ public class AuctionQueue extends LinkedList<Auction> {
     private static long TICKS_PER_SECOND = 20;
     private Integer timerID;
 
-    AuctionSettings auctionSettings;
-
-    private class QueueConfig extends Configuration {
-        WorldGroup worldGroup;
-        public QueueConfig(Salesmania plugin, WorldGroup worldGroup) {
-            super(plugin, "auctionQueue.yml");
-            this.worldGroup = worldGroup;
-        }
-
-        protected void loadQueue(AuctionQueue queue) {
-            if(config.contains("Auctions")) {
-                List<Auction>  auctionList = new LinkedList<Auction>();
-                List<Map<?, ?>> savedAuctions = config.getMapList("Auctions." + worldGroup.getGroupName());
-                for(Map<?, ?> dataMap : savedAuctions) {
-                    ItemStack itemStack = (ItemStack) dataMap.get("itemStack");
-                    double startBid = (Double) dataMap.get("currentBid");
-                    OfflinePlayer owner = plugin.getServer().getOfflinePlayer((String)dataMap.get("owner"));
-
-                    OfflinePlayer winner;
-                    if(dataMap.containsKey("winner")) {
-                        winner = plugin.getServer().getOfflinePlayer((String)dataMap.get("winner"));
-                    } else winner = null;
-                    auctionList.add(new Auction(plugin, owner, winner, itemStack, startBid));
-                }
-                queue.addAll(auctionList);
-            }
-        }
-
-        protected void saveAuction(Auction auction) {
-            List<Map<?, ?>> auctionList;
-            if(!config.contains("Auctions." + worldGroup.getGroupName())) {
-                auctionList = new ArrayList<Map<?, ?>>();
-            }
-            else {
-                auctionList = config.getMapList("Auctions." + worldGroup.getGroupName());
-            }
-            HashMap<String, Object> dataMap = new HashMap<String, Object>();
-            dataMap.put("itemStack", auction.getItemStack());
-            dataMap.put("owner", auction.getOwner().getName());
-            dataMap.put("currentBid", auction.getBid());
-            auctionList.add(dataMap);
-            config.set("Auctions." + worldGroup.getGroupName(), auctionList);
-            save();
-        }
-
-        protected void removeAuction(int position) {
-            if(config.contains("Auctions")) {
-                List<Map<?, ?>> auctionList = config.getMapList("Auctions." + worldGroup.getGroupName());
-                auctionList.remove(position);
-                config.set("Auctions." + worldGroup.getGroupName(), auctionList);
-                save();
-            }
-        }
-
-        @SuppressWarnings("unchecked")
-        protected void update() {
-            if(config.contains("Auctions")) {
-                List<Map<?, ?>> auctionList = config.getMapList("Auctions." + worldGroup.getGroupName());
-                Map<String, Object> dataMap = (Map<String, Object>) auctionList.get(0);
-                dataMap.put("currentBid", currentAuction.getBid());
-                dataMap.put("winner", currentAuction.getWinner().getName());
-                auctionList.set(0, dataMap);
-                config.set("Auctions." + worldGroup.getGroupName(), auctionList);
-                save();
-            }
-        }
-    }
+    AuctionSettings auctionConfig;
 
     public AuctionQueue(Salesmania plugin, WorldGroup worldGroup) {
         this.plugin = plugin;
-        queueConfig = new QueueConfig(plugin, worldGroup);
-        auctionSettings = plugin.getSettings().getAuctionSettings();
-        queueConfig.loadQueue(this);
+        queueConfig = plugin.getSettings().getAuctionQueueSettings();
+        auctionConfig = plugin.getSettings().getAuctionSettings();
+        queueConfig.loadQueue(this, worldGroup);
         start();
     }
 
@@ -149,7 +82,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     }
 
     public void update() {
-        queueConfig.update();
+        queueConfig.update(currentAuction, currentAuction.getWorldGroup());
     }
 
     public boolean nextAuction() {
@@ -199,9 +132,9 @@ public class AuctionQueue extends LinkedList<Auction> {
     @Override
     public boolean add(Auction auction) {
         if(super.add(auction)) {
-            queueConfig.saveAuction(auction);
+            queueConfig.saveAuction(auction, auction.getWorldGroup());
             plugin.getServer().getPluginManager().callEvent(new AuctionEvent(auction, AuctionEvent.EventType.QUEUED));
-            if(auctionSettings.getEnabled() && !isRunning) {
+            if(auctionConfig.getEnabled() && !isRunning) {
                 start();
             }
             return true;
@@ -213,7 +146,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     @Override
     public Auction remove() {
         Auction auction = super.remove();
-        queueConfig.removeAuction(0);
+        queueConfig.removeAuction(0, auction.getWorldGroup());
         return auction;
     }
 }
