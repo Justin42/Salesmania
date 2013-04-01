@@ -62,6 +62,7 @@ Auction:
   playerQueueFull: "&cVous avez actuellement ne peut pas vendre aux encheres plus articles."
   queued: "&aVotre enchere a ete ajoute a la file d'attente."
   cooldown: "&cVente aux enchères est dans une période de refroidissement qui."
+  worldDisabled: "&cAuctions are disabled for this world."
   
   enabled: "&ala vente aux enchères a été activé."
   disabled: "&cLa vente aux enchères a été désactivé."

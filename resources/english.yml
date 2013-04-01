@@ -61,6 +61,7 @@ Auction:
   playerQueueFull: "&cYou can't auction another item at this time."
   queued: "&aYour auction has been added to the queue."
   cooldown: "&aYour auction will begin shortly."
+  worldDisabled: "&cAuctions are disabled for this world."
   
   enabled: "&aThe auction has been enabled."
   disabled: "&cThe auction has been disabled."
