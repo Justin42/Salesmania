@@ -61,6 +61,9 @@ public class AuctionInfo extends CommandHandler {
             sender.sendMessage(infoList.toArray(new String[infoList.size()]));
             return true;
         }
-        return false;
+        else {
+            sender.sendMessage(locale.getMessage("Auction.notRunning"));
+            return false;
+        }
     }
 }

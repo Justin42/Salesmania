@@ -318,10 +318,16 @@ public class AuctionEventListener implements Listener {
     private void giveItem(OfflinePlayer player, ItemStack itemStack, WorldGroup worldGroup) {
         if(player.isOnline()) {
             Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
-            HashMap<Integer, ItemStack> remainingItems = player.getPlayer().getInventory().addItem(itemStack);
-            if(!remainingItems.isEmpty()) {
-                plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()), worldGroup);
-                player.getPlayer().sendMessage(locale.getMessage("Stash.itemsWaiting"));
+            if(worldGroupManager.getGroup(player) != worldGroup) {
+                plugin.getItemStash().store(player, itemStack, worldGroup);
+                player.getPlayer().sendMessage(String.format(locale.getMessage("Stash.itemsWaitingInGroup"), worldGroup.getGroupName()));
+            }
+            else {
+                HashMap<Integer, ItemStack> remainingItems = player.getPlayer().getInventory().addItem(itemStack);
+                if(!remainingItems.isEmpty()) {
+                    plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()), worldGroup);
+                    player.getPlayer().sendMessage(locale.getMessage("Stash.itemsWaiting"));
+                }
             }
         }
         else plugin.getItemStash().store(player, itemStack, worldGroup);
