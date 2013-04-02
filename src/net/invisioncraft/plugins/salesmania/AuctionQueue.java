@@ -19,7 +19,10 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.AuctionQueueSettings;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import net.invisioncraft.plugins.salesmania.event.auction.AuctionEvent;
+import net.invisioncraft.plugins.salesmania.event.auction.queue.AuctionQueueStartEvent;
+import net.invisioncraft.plugins.salesmania.event.auction.queue.AuctionQueueStopEvent;
+import net.invisioncraft.plugins.salesmania.event.auction.queue.AuctionQueuedEvent;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.entity.Player;
 
@@ -106,7 +109,7 @@ public class AuctionQueue extends LinkedList<Auction> {
         if(!isRunning) {
             if(size() != 0) {
                 isRunning = true;
-                plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STARTED));
+                plugin.getServer().getPluginManager().callEvent(new AuctionQueueStartEvent(this));
                 currentAuction = peek();
                 currentAuction.start();
                 timerID = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, timerRunnable, TICKS_PER_SECOND, TICKS_PER_SECOND);
@@ -117,7 +120,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     public void stop() {
         if(isRunning) {
             plugin.getServer().getScheduler().cancelTask(timerID);
-            plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.QUEUE_STOPPED));
+            plugin.getServer().getPluginManager().callEvent(new AuctionQueueStopEvent(this));
             isRunning = false;
         }
     }
@@ -130,7 +133,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     public boolean add(Auction auction) {
         if(super.add(auction)) {
             queueSettings.saveAuction(auction, auction.getWorldGroup());
-            plugin.getServer().getPluginManager().callEvent(new AuctionEvent(auction, AuctionEvent.EventType.QUEUED));
+            plugin.getServer().getPluginManager().callEvent(new AuctionQueuedEvent(this, auction));
             if(auctionSettings.getEnabled() && !isRunning) {
                 start();
             }
@@ -145,5 +148,9 @@ public class AuctionQueue extends LinkedList<Auction> {
         Auction auction = super.remove();
         queueSettings.removeAuction(0, auction.getWorldGroup());
         return auction;
+    }
+
+    public Salesmania getPlugin() {
+        return plugin;
     }
 }

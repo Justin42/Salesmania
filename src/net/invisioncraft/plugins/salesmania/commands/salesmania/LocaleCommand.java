@@ -17,8 +17,8 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania.commands.salesmania;
 
-import net.invisioncraft.plugins.salesmania.commands.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.commands.CommandHandler;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleSettings;
 import org.bukkit.command.Command;

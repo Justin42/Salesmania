@@ -19,7 +19,7 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import net.invisioncraft.plugins.salesmania.event.auction.*;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import net.milkbowl.vault.economy.Economy;
@@ -161,7 +161,7 @@ public class Auction {
 
     protected AuctionStatus start() {
         isRunning = true;
-        plugin.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.START));
+        plugin.getServer().getPluginManager().callEvent(new AuctionStartEvent(this));
         return AuctionStatus.SUCCESS;
     }
 
@@ -197,7 +197,7 @@ public class Auction {
         this.bid = bid;
         plugin.getAuctionIgnoreList().setIgnore(player, false);
         updateInfoTokens();
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.BID));
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionBidEvent(this));
         return AuctionStatus.SUCCESS;
     }
 
@@ -211,14 +211,14 @@ public class Auction {
                 }
             }
 
-            Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.END));
+            Bukkit.getServer().getPluginManager().callEvent(new AuctionEndEvent(this));
             isRunning = false;
         }
     }
 
     public AuctionStatus cancel() {
         if(!isRunning()) return AuctionStatus.NOT_RUNNING;
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.CANCEL));
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionCancelEvent(this));
         isRunning = false;
         return AuctionStatus.SUCCESS;
     }
@@ -289,7 +289,7 @@ public class Auction {
     }
 
     protected void timerTick() {
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionEvent(this, AuctionEvent.EventType.TIMER));
+        Bukkit.getServer().getPluginManager().callEvent(new AuctionTimerEvent(this));
         if(isRunning) {
             timeRemaining -= 1;
             if (timeRemaining == 0) {

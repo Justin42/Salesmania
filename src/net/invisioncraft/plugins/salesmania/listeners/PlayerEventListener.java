@@ -41,7 +41,7 @@ public class PlayerEventListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoinEvent(PlayerJoinEvent event) {
+    public void onPlayerJoinEvent(final PlayerJoinEvent event) {
         Player player = event.getPlayer();
         localeHandler.updateLocale(player);
         Locale locale = localeHandler.getLocale(player);
@@ -53,7 +53,7 @@ public class PlayerEventListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChangedWorldEvent(PlayerChangedWorldEvent event) {
+    public void onPlayerChangedWorldEvent(final PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
         Locale locale = localeHandler.getLocale(player);
 
@@ -64,7 +64,7 @@ public class PlayerEventListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+    public void onPlayerQuitEvent(final PlayerQuitEvent event) {
         localeHandler.updateLocale(event.getPlayer());
         plugin.getWorldGroupManager().getCache().savePlayer(event.getPlayer(), event.getPlayer().getWorld());
     }

@@ -15,34 +15,19 @@ This file is part of Salesmania.
     along with Salesmania.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package net.invisioncraft.plugins.salesmania.event;
+package net.invisioncraft.plugins.salesmania.event.auction;
 
 import net.invisioncraft.plugins.salesmania.Auction;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+import net.invisioncraft.plugins.salesmania.event.salesmania.SalesmaniaEvent;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
 
-public class AuctionEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
+public class AuctionEvent extends SalesmaniaEvent {
 
-    EventType eventType;
-    Auction auction;
+    protected Auction auction;
 
-    public enum EventType {
-        BID,
-        END,
-        CANCEL,
-        START,
-        TIMER,
-        ENABLE,
-        DISABLE,
-        RELOAD,
-        QUEUED,
-        QUEUE_STARTED,
-        QUEUE_STOPPED
-    }
-
-    public AuctionEvent(Auction auction, EventType eventType) {
-        this.eventType = eventType;
+    public AuctionEvent(Auction auction) {
+        super(auction.getPlugin());
         this.auction = auction;
     }
 
@@ -50,16 +35,11 @@ public class AuctionEvent extends Event {
         return auction;
     }
 
-    public EventType getEventType() {
-        return eventType;
+    public ItemStack getItemStack() {
+        return auction.getItemStack();
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
+    public OfflinePlayer getOwner() {
+        return auction.getOwner();
     }
 }

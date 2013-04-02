@@ -1,3 +1,17 @@
+1.32 -
+- Event API changes
+- Fixed bug when attempting to use /auction ignore from console
+
+1.31 -
+- Channel support for Herochat
+
+1.3 -
+- World groups
+- Channel support for TownyChat
+
+1.2.5 -
+- Auction queues
+
 1.2 -
 - Updated to work with craftbukkit v1.5
 - Duplication exploit fixed.

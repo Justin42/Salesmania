@@ -24,7 +24,10 @@ import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
-import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import net.invisioncraft.plugins.salesmania.event.auction.*;
+import net.invisioncraft.plugins.salesmania.event.auction.queue.AuctionQueuedEvent;
+import net.invisioncraft.plugins.salesmania.event.salesmania.AuctionDisableEvent;
+import net.invisioncraft.plugins.salesmania.event.salesmania.AuctionEnableEvent;
 import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.invisioncraft.plugins.salesmania.util.MsgUtil;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
@@ -61,60 +64,8 @@ public class AuctionEventListener implements Listener {
         logger = plugin.getLogger();
     }
 
-    public void onAuctionReload(AuctionEvent auctionEvent) {
-        auctionSettings =  plugin.getSettings().getAuctionSettings();
-        auctionIgnoreList = plugin.getAuctionIgnoreList();
-        economy = plugin.getEconomy();
-        localeHandler = plugin.getLocaleHandler();
-    }
-
     @EventHandler
-    public void onAuctionEvent(AuctionEvent auctionEvent) {
-        auctionSettings = plugin.getSettings().getAuctionSettings();
-        auctionIgnoreList = plugin.getAuctionIgnoreList();
-        economy = plugin.getEconomy();
-        localeHandler = plugin.getLocaleHandler();
-
-        switch (auctionEvent.getEventType()) {
-            case BID: onAuctionBidEvent(auctionEvent); break;
-            case END: onAuctionEndEvent(auctionEvent); break;
-            case START: onAuctionStartEvent(auctionEvent); break;
-            case TIMER: onAuctionTimerEvent(auctionEvent); break;
-            case CANCEL: onAuctionCancelEvent(auctionEvent); break;
-            case ENABLE: onAuctionEnableEvent(auctionEvent); break;
-            case DISABLE: onAuctionDisableEvent(auctionEvent); break;
-            case RELOAD: onAuctionReload(auctionEvent); break;
-            case QUEUED: onAuctionQueue(auctionEvent); break;
-        }
-    }
-
-    private void processTax(AuctionEvent auctionEvent) {
-        Auction auction = auctionEvent.getAuction();
-        OfflinePlayer owner = auction.getOwner();
-        Locale locale = localeHandler.getLocale(owner.getPlayer());
-        double taxAmount = 0;
-        switch(auctionEvent.getEventType()) {
-            case START:
-                taxAmount = auction.getStartTax();
-                break;
-            case END:
-                taxAmount = auction.getEndTax();
-                break;
-            default: return;
-        }
-        if(taxAmount != 0) {
-            economy.withdrawPlayer(owner.getName(), taxAmount);
-            if(auctionSettings.useTaxAccount()) {
-                economy.depositPlayer(auctionSettings.getTaxAccount(), taxAmount);
-            }
-            if(owner.isOnline()) {
-            owner.getPlayer().sendMessage(String.format(locale.getMessage("Auction.tax"),
-                    taxAmount));
-            }
-        }
-    }
-
-    private void onAuctionTimerEvent(AuctionEvent auctionEvent) {
+    private void onAuctionTimerEvent(final AuctionTimerEvent auctionEvent) {
         long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
         List<Long> notifyTimes = auctionSettings.getNofityTime();
         WorldGroup worldGroup = auctionEvent.getAuction().getWorldGroup();
@@ -129,7 +80,8 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    private void onAuctionStartEvent(AuctionEvent auctionEvent) {
+    @EventHandler
+    private void onAuctionStartEvent(final AuctionStartEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         OfflinePlayer player = auctionEvent.getAuction().getOwner();
         WorldGroup worldGroup = auctionEvent.getAuction().getWorldGroup();
@@ -151,7 +103,8 @@ public class AuctionEventListener implements Listener {
         logger.info(String.format("Starting Bid: %,.2f", auction.getBid()));
     }
 
-    private void onAuctionQueue(AuctionEvent auctionEvent) {
+    @EventHandler
+    private void onAuctionQueueEvent(final AuctionQueuedEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
 
         // Take item
@@ -160,10 +113,11 @@ public class AuctionEventListener implements Listener {
                 auction.getOwner().getName(), auction.getItemStack().toString()));
 
         // Tax
-        processTax(auctionEvent);
+        processTax(new AuctionStartEvent(auction));
     }
 
-    public void onAuctionBidEvent(AuctionEvent auctionEvent) {
+    @EventHandler
+    public void onAuctionBidEvent(final AuctionBidEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         // Anti-Snipe
         if(auction.getTimeRemaining() < auctionSettings.getSnipeTime()) {
@@ -202,7 +156,8 @@ public class AuctionEventListener implements Listener {
         }
     }
 
-    public void onAuctionEndEvent(AuctionEvent auctionEvent) {
+    @EventHandler
+    public void onAuctionEndEvent(final AuctionEndEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         WorldGroup worldGroup = auction.getWorldGroup();
 
@@ -260,7 +215,8 @@ public class AuctionEventListener implements Listener {
         worldGroup.getAuctionQueue().startCooldown();
     }
 
-    public void onAuctionCancelEvent(AuctionEvent auctionEvent) {
+    @EventHandler
+    public void onAuctionCancelEvent(final AuctionCancelEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         WorldGroup worldGroup = auction.getWorldGroup();
 
@@ -288,7 +244,8 @@ public class AuctionEventListener implements Listener {
     }
 
     // TODO allow enable/disable in specific world groups
-    public void onAuctionEnableEvent(AuctionEvent auctionEvent) {
+    @EventHandler
+    public void onAuctionEnableEvent(final AuctionEnableEvent auctionEvent) {
         for(WorldGroup worldGroup : worldGroupManager.getWorldGroups()) {
             worldGroup.getAuctionQueue().start();
             // Broadcast
@@ -301,7 +258,8 @@ public class AuctionEventListener implements Listener {
         logger.info("Auction enabled, queue processing started.");
     }
 
-    public void onAuctionDisableEvent(AuctionEvent auctionEvent) {
+    @EventHandler
+    public void onAuctionDisableEvent(final AuctionDisableEvent auctionEvent) {
         for(WorldGroup worldGroup : worldGroupManager.getWorldGroups()) {
             worldGroup.getAuctionQueue().stop();
             // Broadcast
@@ -331,5 +289,31 @@ public class AuctionEventListener implements Listener {
             }
         }
         else plugin.getItemStash().store(player, itemStack, worldGroup);
+    }
+
+    private void processTax(AuctionEvent auctionEvent) {
+        Auction auction = auctionEvent.getAuction();
+        OfflinePlayer owner = auction.getOwner();
+        Locale locale = localeHandler.getLocale(owner.getPlayer());
+
+        double taxAmount;
+        if(auctionEvent instanceof AuctionStartEvent) {
+            taxAmount = auction.getStartTax();
+        }
+        else if (auctionEvent instanceof AuctionEndEvent) {
+            taxAmount = auction.getEndTax();
+        }
+        else return;
+
+        if(taxAmount != 0) {
+            economy.withdrawPlayer(owner.getName(), taxAmount);
+            if(auctionSettings.useTaxAccount()) {
+                economy.depositPlayer(auctionSettings.getTaxAccount(), taxAmount);
+            }
+            if(owner.isOnline()) {
+                owner.getPlayer().sendMessage(String.format(locale.getMessage("Auction.tax"),
+                        taxAmount));
+            }
+        }
     }
 }

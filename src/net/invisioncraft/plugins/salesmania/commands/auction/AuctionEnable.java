@@ -17,11 +17,13 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania.commands.auction;
 
-import net.invisioncraft.plugins.salesmania.commands.CommandHandler;
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.commands.CommandHandler;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
+import net.invisioncraft.plugins.salesmania.event.auction.AuctionEvent;
+import net.invisioncraft.plugins.salesmania.event.salesmania.AuctionDisableEvent;
+import net.invisioncraft.plugins.salesmania.event.salesmania.AuctionEnableEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -48,7 +50,7 @@ public class AuctionEnable extends CommandHandler {
             }
             else {
                 auctionSettings.setEnabled(true);
-                plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.ENABLE));
+                plugin.getServer().getPluginManager().callEvent(new AuctionEnableEvent(plugin));
                 sender.sendMessage(locale.getMessage("Auction.enabled"));
             }
         }
@@ -65,7 +67,7 @@ public class AuctionEnable extends CommandHandler {
             }
             else {
                 auctionSettings.setEnabled(false);
-                plugin.getServer().getPluginManager().callEvent(new AuctionEvent(null, AuctionEvent.EventType.DISABLE));
+                plugin.getServer().getPluginManager().callEvent(new AuctionDisableEvent(plugin));
                 sender.sendMessage(locale.getMessage("Auction.disabled"));
             }
         }
