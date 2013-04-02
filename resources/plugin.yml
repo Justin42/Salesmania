@@ -6,6 +6,7 @@ authors: [Khaos_Fury]
 website: http://invisioncraft.net
 main: net.invisioncraft.plugins.salesmania.Salesmania
 depend: [Vault]
+softdepend: [TownyChat, Herochat]
 
 commands:
   auction:
