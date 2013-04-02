@@ -34,13 +34,13 @@ public class ChannelManager implements ChannelAdapter {
     public ChannelManager(Salesmania plugin) {
         // Channel support
         PluginManager pluginManager = plugin.getServer().getPluginManager();
-        if(pluginManager.getPlugin("TownyChat") != null && pluginManager.getPlugin("TownyChat").isEnabled()) {
-            channelAdapter = new TownyChatAdapter(plugin);
-            plugin.getLogger().info("TownyChat channel support enabled.");
-        }
-        else if(pluginManager.getPlugin("Herochat") != null && pluginManager.getPlugin("Herochat").isEnabled()) {
+        if(pluginManager.getPlugin("Herochat") != null && pluginManager.getPlugin("Herochat").isEnabled()) {
             channelAdapter = new HeroChatAdapter(plugin);
             plugin.getLogger().info("Herochat channel support enabled.");
+        }
+        else if(pluginManager.getPlugin("TownyChat") != null && pluginManager.getPlugin("TownyChat").isEnabled()) {
+            channelAdapter = new TownyChatAdapter(plugin);
+            plugin.getLogger().info("TownyChat channel support enabled.");
         }
         else {
             channelAdapter = new GenericAdapter(plugin);

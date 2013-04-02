@@ -17,6 +17,10 @@ This file is part of Salesmania.
 
 package net.invisioncraft.plugins.salesmania.channels.adapters;
 
+import com.dthielke.herochat.Channel;
+import com.dthielke.herochat.ChannelManager;
+import com.dthielke.herochat.Chatter;
+import com.dthielke.herochat.Herochat;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
@@ -27,20 +31,29 @@ import java.util.ArrayList;
 public class HeroChatAdapter implements ChannelAdapter {
     private Salesmania plugin;
     private AuctionIgnoreList auctionIgnoreList;
+    ChannelManager channelManager;
 
     public HeroChatAdapter(Salesmania plugin) {
         this.plugin = plugin;
         auctionIgnoreList = plugin.getAuctionIgnoreList();
+        channelManager = Herochat.getChannelManager();
     }
 
     @Override
     public void broadcast(String channelName, String[] message) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if(channelManager.hasChannel(channelName)) {
+            Channel channel = channelManager.getChannel(channelName);
+            for(String msg : message) {
+                channel.announce(msg);
+            }
+        }
     }
 
     @Override
     public void broadcast(WorldGroup worldGroup, String[] message) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        for(String channelName : worldGroup.getChannels()) {
+            broadcast(channelName, message);
+        }
     }
 
     @Override
@@ -50,11 +63,20 @@ public class HeroChatAdapter implements ChannelAdapter {
 
     @Override
     public void broadcast(WorldGroup worldGroup, String[] message, ArrayList<Player> players) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        for(String channelName : worldGroup.getChannels()) {
+            if(channelManager.hasChannel(channelName)) {
+                Channel channel = channelManager.getChannel(channelName);
+                for(Chatter chatter : channel.getMembers()) {
+                    if(players.contains(chatter.getPlayer())) {
+                        chatter.getPlayer().sendMessage(message);
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void broadcast(WorldGroup worldGroup, String message, ArrayList<Player> players) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        broadcast(worldGroup, new String[]{message}, players);
     }
 }
