@@ -15,8 +15,9 @@ This file is part of Salesmania.
     along with Salesmania.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package net.invisioncraft.plugins.salesmania;
+package net.invisioncraft.plugins.salesmania.commands;
 
+import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
 import net.invisioncraft.plugins.salesmania.configuration.Settings;
 import org.bukkit.command.Command;

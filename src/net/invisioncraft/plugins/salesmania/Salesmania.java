@@ -23,7 +23,7 @@ import net.invisioncraft.plugins.salesmania.commands.salesmania.SalesmaniaComman
 import net.invisioncraft.plugins.salesmania.commands.stash.StashCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
-import net.invisioncraft.plugins.salesmania.listeners.LoginListener;
+import net.invisioncraft.plugins.salesmania.listeners.PlayerEventListener;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -62,7 +62,7 @@ public class Salesmania extends JavaPlugin {
         getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
 
         getServer().getPluginManager().registerEvents(new AuctionEventListener(this), this);
-        getServer().getPluginManager().registerEvents(new LoginListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
 
         // Vault
         if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {

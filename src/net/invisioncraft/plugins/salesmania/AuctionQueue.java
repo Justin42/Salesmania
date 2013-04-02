@@ -19,16 +19,16 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.AuctionQueueSettings;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.configuration.ConfigurationHandler;
 import net.invisioncraft.plugins.salesmania.event.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.LinkedList;
 
 public class AuctionQueue extends LinkedList<Auction> {
     private Salesmania plugin;
-    private AuctionQueueSettings queueConfig;
+    private AuctionQueueSettings queueSettings;
+    private AuctionSettings auctionSettings;
 
     private boolean isRunning = false;
     private boolean isCooldown = false;
@@ -38,17 +38,14 @@ public class AuctionQueue extends LinkedList<Auction> {
     private static long TICKS_PER_SECOND = 20;
     private Integer timerID;
 
-    AuctionSettings auctionConfig;
-
     public AuctionQueue(Salesmania plugin, WorldGroup worldGroup) {
         this.plugin = plugin;
-        queueConfig = plugin.getSettings().getAuctionQueueSettings();
-        auctionConfig = plugin.getSettings().getAuctionSettings();
-        queueConfig.loadQueue(this, worldGroup);
+        queueSettings = plugin.getSettings().getAuctionQueueSettings();
+        auctionSettings = plugin.getSettings().getAuctionSettings();
+        queueSettings.loadQueue(this, worldGroup);
         start();
     }
 
-    // TODO queues can be slightly optimized by ticking once instead of once per world group
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
@@ -82,7 +79,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     }
 
     public void update() {
-        queueConfig.update(currentAuction, currentAuction.getWorldGroup());
+        queueSettings.update(currentAuction, currentAuction.getWorldGroup());
     }
 
     public boolean nextAuction() {
@@ -132,9 +129,9 @@ public class AuctionQueue extends LinkedList<Auction> {
     @Override
     public boolean add(Auction auction) {
         if(super.add(auction)) {
-            queueConfig.saveAuction(auction, auction.getWorldGroup());
+            queueSettings.saveAuction(auction, auction.getWorldGroup());
             plugin.getServer().getPluginManager().callEvent(new AuctionEvent(auction, AuctionEvent.EventType.QUEUED));
-            if(auctionConfig.getEnabled() && !isRunning) {
+            if(auctionSettings.getEnabled() && !isRunning) {
                 start();
             }
             return true;
@@ -146,7 +143,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     @Override
     public Auction remove() {
         Auction auction = super.remove();
-        queueConfig.removeAuction(0, auction.getWorldGroup());
+        queueSettings.removeAuction(0, auction.getWorldGroup());
         return auction;
     }
 }

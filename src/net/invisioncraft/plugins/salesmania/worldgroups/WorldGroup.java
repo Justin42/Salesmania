@@ -98,4 +98,16 @@ public class WorldGroup {
     public AuctionQueue getAuctionQueue() {
         return auctionQueue;
     }
+
+    public void addWord(World world) {
+        if(!worldList.contains(world)) {
+            worldList.add(world);
+        }
+    }
+
+    public void removeWorld(World world) {
+        if(worldList.contains(world)) {
+            worldList.remove(world);
+        }
+    }
 }

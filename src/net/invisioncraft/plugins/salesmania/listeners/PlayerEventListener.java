@@ -29,12 +29,12 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class LoginListener implements Listener {
+public class PlayerEventListener implements Listener {
     private Salesmania plugin;
     private LocaleHandler localeHandler;
     private WorldGroupManager worldGroupManager;
 
-    public LoginListener(Salesmania plugin) {
+    public PlayerEventListener(Salesmania plugin) {
         this.plugin = plugin;
         localeHandler = plugin.getLocaleHandler();
         worldGroupManager = plugin.getWorldGroupManager();

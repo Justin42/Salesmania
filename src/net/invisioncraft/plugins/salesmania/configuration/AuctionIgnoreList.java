@@ -22,19 +22,17 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class AuctionIgnoreList extends Configuration implements IgnoreList {
+public class AuctionIgnoreList extends Configuration {
     public AuctionIgnoreList(Salesmania plugin) {
         super(plugin, "auctionIgnore.yml");
     }
 
-    @Override
     public boolean isIgnored(Player player) {
         List<String> ignoreList = getConfig().getStringList("Ignore");
         if(ignoreList.contains(player.getName())) return true;
         else return false;
     }
 
-    @Override
     public boolean setIgnore(Player player, boolean ignored) {
         List<String> ignoreList = getConfig().getStringList("Ignore");
         if(ignored) {
@@ -56,7 +54,6 @@ public class AuctionIgnoreList extends Configuration implements IgnoreList {
         return ignored;
     }
 
-    @Override
     public boolean toggleIgnore(Player player) {
         List<String> ignoreList = getConfig().getStringList("Ignore");
         if(ignoreList.contains(player.getName())) {
