@@ -43,8 +43,10 @@ public class HeroChatAdapter implements ChannelAdapter {
     public void broadcast(String channelName, String[] message) {
         if(channelManager.hasChannel(channelName)) {
             Channel channel = channelManager.getChannel(channelName);
-            for(String msg : message) {
-                channel.announce(msg);
+            for(Chatter chatter : channel.getMembers()) {
+                if(!auctionIgnoreList.isIgnored(chatter.getPlayer())) {
+                    chatter.getPlayer().sendMessage(message);
+                }
             }
         }
     }
@@ -67,7 +69,7 @@ public class HeroChatAdapter implements ChannelAdapter {
             if(channelManager.hasChannel(channelName)) {
                 Channel channel = channelManager.getChannel(channelName);
                 for(Chatter chatter : channel.getMembers()) {
-                    if(players.contains(chatter.getPlayer())) {
+                    if(players.contains(chatter.getPlayer()) && !auctionIgnoreList.isIgnored(chatter.getPlayer())) {
                         chatter.getPlayer().sendMessage(message);
                     }
                 }
