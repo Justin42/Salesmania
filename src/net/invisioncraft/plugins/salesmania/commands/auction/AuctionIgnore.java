@@ -34,7 +34,9 @@ public class AuctionIgnore extends CommandHandler {
         Locale locale = localeHandler.getLocale(sender);
         if(!(sender instanceof Player)) {
             sender.sendMessage(locale.getMessage("Auction.Console.cantConsole"));
+            return false;
         }
+
         Player player = (Player) sender;
         if(plugin.getAuctionIgnoreList().toggleIgnore(player)) {
             sender.sendMessage(locale.getMessage("Auction.ignoring"));
