@@ -41,18 +41,25 @@ public class WorldGroupSettings implements ConfigurationHandler  {
         List<Map<?, ?>> groupData = config.getMapList("Auction.WorldGroups.groups");
         for(Map<?, ?> data : groupData) {
             if((Boolean)data.get("enabled")) {
-                WorldGroup worldGroup = new WorldGroup(plugin, (ArrayList<String>)data.get("worlds"));
-                worldGroup.setGroupName((String)data.get("groupName"));
-                if(data.containsKey("channels")) {
-                    for(String channelName : (ArrayList<String>)data.get("channels")) {
-                        worldGroup.addChannel(channelName);
+                try {
+                    WorldGroup worldGroup = new WorldGroup(plugin, (ArrayList<String>)data.get("worlds"));
+                    worldGroup.setGroupName((String)data.get("groupName"));
+                    if(data.containsKey("channels")) {
+                        for(String channelName : (ArrayList<String>)data.get("channels")) {
+                            worldGroup.addChannel(channelName);
+                        }
                     }
+                    worldGroups.add(worldGroup);
+                } catch (ClassCastException ex) {
+                    corruptionWarning();
                 }
-                worldGroups.add(worldGroup);
-
             }
         }
         return worldGroups;
+    }
+
+    public void corruptionWarning() {
+        plugin.getLogger().severe("World groups configuration is invalid.");
     }
 
     @Override
