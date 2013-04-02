@@ -25,11 +25,9 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 
 public class GenericAdapter implements ChannelAdapter {
-    private Salesmania plugin;
     private AuctionIgnoreList auctionIgnoreList;
 
     public GenericAdapter(Salesmania plugin) {
-        this.plugin = plugin;
         auctionIgnoreList = plugin.getAuctionIgnoreList();
     }
 

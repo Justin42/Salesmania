@@ -29,8 +29,7 @@ public class AuctionIgnoreList extends Configuration {
 
     public boolean isIgnored(Player player) {
         List<String> ignoreList = getConfig().getStringList("Ignore");
-        if(ignoreList.contains(player.getName())) return true;
-        else return false;
+        return ignoreList.contains(player.getName());
     }
 
     public boolean setIgnore(Player player, boolean ignored) {

@@ -25,6 +25,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+
 public class LocaleCommand extends CommandHandler {
     LocaleSettings localeSettings;
     enum LocaleCommands {
@@ -48,13 +50,15 @@ public class LocaleCommand extends CommandHandler {
         }
         // Syntax
         if(args.length < 2) {
-            sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+            ArrayList<String> messageList = locale.getMessageList("Syntax.Salesmania.salesmania");
+            sender.sendMessage(messageList.toArray(new String[messageList.size()]));
             return false;
         }
         try {
             localeCommand = LocaleCommands.valueOf(args[1].toUpperCase());
         } catch (IllegalArgumentException ex) {
-            sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+            ArrayList<String> messageList = locale.getMessageList("Syntax.Salesmania.salesmania");
+            sender.sendMessage(messageList.toArray(new String[messageList.size()]));
             return false;
         }
 
@@ -71,7 +75,8 @@ public class LocaleCommand extends CommandHandler {
                 break;
             case SET:
                 if(args.length < 3) {
-                    sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+                    ArrayList<String> messageList = locale.getMessageList("Syntax.Salesmania.salesmania");
+                    sender.sendMessage(messageList.toArray(new String[messageList.size()]));
                     return false;
                 }
                 if(localeHandler.setLocale(player, args[2])) {

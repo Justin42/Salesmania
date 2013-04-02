@@ -41,8 +41,7 @@ public class TownyChatAdapter implements ChannelAdapter {
         Channel channel = townyChat.getChannelsHandler().getChannel(channelName);
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if(channel.isPresent(player.getName())) {
-                if(auctionIgnoreList.isIgnored(player)) continue;
-                player.sendMessage(message);
+                if(!auctionIgnoreList.isIgnored(player)) player.sendMessage(message);
             }
         }
     }

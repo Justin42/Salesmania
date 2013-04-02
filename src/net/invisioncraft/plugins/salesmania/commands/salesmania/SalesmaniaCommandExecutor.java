@@ -22,6 +22,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
+
 public class SalesmaniaCommandExecutor implements CommandExecutor {
     protected Salesmania plugin;
     protected LocaleCommand localeCommand;
@@ -44,13 +46,15 @@ public class SalesmaniaCommandExecutor implements CommandExecutor {
 
         // Syntax
         if(args.length < 1) {
-            sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+            ArrayList<String> messageList = locale.getMessageList("Syntax.Salesmania.salesmania");
+            sender.sendMessage(messageList.toArray(new String[messageList.size()]));
             return false;
         }
         try {
             salesmaniaCommand = SalesmaniaCommand.valueOf(args[0].toUpperCase());
         } catch (IllegalArgumentException ex) {
-            sender.sendMessage(locale.getMessageList("Syntax.Salesmania.salesmania").toArray(new String[0]));
+            ArrayList<String> messageList = locale.getMessageList("Syntax.Salesmania.salesmania");
+            sender.sendMessage(messageList.toArray(new String[messageList.size()]));
             return false;
         }
 

@@ -94,7 +94,6 @@ public class ItemStash extends Configuration {
     }
 
     public boolean hasItems(OfflinePlayer player, WorldGroup worldGroup) {
-        if(worldGroup == null) return false;
-        else return config.contains(player.getName() + "." + worldGroup.getGroupName());
+        return worldGroup != null && config.contains(player.getName() + "." + worldGroup.getGroupName());
     }
 }

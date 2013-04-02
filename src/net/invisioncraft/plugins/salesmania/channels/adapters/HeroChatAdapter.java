@@ -29,12 +29,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 
 public class HeroChatAdapter implements ChannelAdapter {
-    private Salesmania plugin;
     private AuctionIgnoreList auctionIgnoreList;
     ChannelManager channelManager;
 
     public HeroChatAdapter(Salesmania plugin) {
-        this.plugin = plugin;
         auctionIgnoreList = plugin.getAuctionIgnoreList();
         channelManager = Herochat.getChannelManager();
     }
