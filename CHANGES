@@ -1,6 +1,9 @@
 1.32 -
 - Event API changes
 - Fixed bug when attempting to use /auction ignore from console
+- Added minTime and maxTime to configuration
+- Auction time can now be set /auction start <startbid> <quantity> [time]
+- Fixes a bug where reloading the config can cause unusual world group behavior.
 
 1.31 -
 - Channel support for Herochat

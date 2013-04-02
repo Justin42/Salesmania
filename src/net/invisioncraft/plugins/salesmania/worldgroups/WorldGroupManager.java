@@ -34,15 +34,20 @@ public class WorldGroupManager implements ConfigurationHandler {
     private GroupCache cache;
 
     public WorldGroupManager(Salesmania plugin) {
-        worldGroupSettings = plugin.getSettings().getWorldGroupSettings();
         this.plugin = plugin;
         cache = new GroupCache(plugin);
         plugin.getSettings().registerHandler(this);
+        worldGroupSettings = plugin.getSettings().getWorldGroupSettings();
+        worldGroups = worldGroupSettings.parseGroups(); // TODO <---
         update();
     }
 
+    // TODO more elegant reloading of world groups
+    @Override
     public void update() {
-        worldGroups = worldGroupSettings.parseGroups();
+        for(WorldGroup worldGroup : worldGroups) {
+            plugin.getSettings().getAuctionQueueSettings().loadQueue(worldGroup.getAuctionQueue(), worldGroup);
+        }
     }
 
     public ArrayList<WorldGroup> getWorldGroups() {

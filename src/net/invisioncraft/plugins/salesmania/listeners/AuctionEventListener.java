@@ -65,8 +65,8 @@ public class AuctionEventListener implements Listener {
     }
 
     @EventHandler
-    private void onAuctionTimerEvent(final AuctionTimerEvent auctionEvent) {
-        long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
+    public void onAuctionTimerEvent(final AuctionTimerEvent auctionEvent) {
+        int timeRemaining = auctionEvent.getAuction().getTimeRemaining();
         List<Integer> notifyTimes = auctionSettings.getNofityTime();
         WorldGroup worldGroup = auctionEvent.getAuction().getWorldGroup();
         if(notifyTimes.contains(timeRemaining)) {
@@ -81,7 +81,7 @@ public class AuctionEventListener implements Listener {
     }
 
     @EventHandler
-    private void onAuctionStartEvent(final AuctionStartEvent auctionEvent) {
+    public void onAuctionStartEvent(final AuctionStartEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         OfflinePlayer player = auctionEvent.getAuction().getOwner();
         WorldGroup worldGroup = auctionEvent.getAuction().getWorldGroup();
@@ -104,7 +104,7 @@ public class AuctionEventListener implements Listener {
     }
 
     @EventHandler
-    private void onAuctionQueueEvent(final AuctionQueuedEvent auctionEvent) {
+    public void onAuctionQueueEvent(final AuctionQueuedEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
 
         // Take item

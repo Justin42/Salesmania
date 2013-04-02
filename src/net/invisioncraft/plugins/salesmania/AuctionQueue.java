@@ -41,11 +41,13 @@ public class AuctionQueue extends LinkedList<Auction> {
     private static long TICKS_PER_SECOND = 20;
     private Integer timerID;
 
+    private WorldGroup worldGroup;
+
     public AuctionQueue(Salesmania plugin, WorldGroup worldGroup) {
         this.plugin = plugin;
         queueSettings = plugin.getSettings().getAuctionQueueSettings();
         auctionSettings = plugin.getSettings().getAuctionSettings();
-        queueSettings.loadQueue(this, worldGroup);
+        this.worldGroup = worldGroup;
         start();
     }
 
@@ -66,7 +68,8 @@ public class AuctionQueue extends LinkedList<Auction> {
 
                 else if(currentAuction.isRunning()) {
                     currentAuction.timerTick();
-                } else {
+                }
+                else {
                     nextAuction();
                 }
             }
@@ -152,5 +155,9 @@ public class AuctionQueue extends LinkedList<Auction> {
 
     public Salesmania getPlugin() {
         return plugin;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
     }
 }

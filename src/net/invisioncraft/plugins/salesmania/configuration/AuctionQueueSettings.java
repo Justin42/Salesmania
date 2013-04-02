@@ -47,9 +47,15 @@ public class AuctionQueueSettings extends Configuration {
                 if(dataMap.containsKey("winner")) {
                     winner = plugin.getServer().getOfflinePlayer((String)dataMap.get("winner"));
                 } else winner = null;
-                auctionList.add(new Auction(plugin, owner, winner, itemStack, startBid));
+                Auction auction = new Auction(plugin, owner, winner, itemStack, startBid);
+                auction.setWorldGroup(worldGroup);
+                auctionList.add(auction);
             }
+            queue.clear();
             queue.addAll(auctionList);
+            if(plugin.getSettings().getAuctionSettings().getEnabled() && !queue.isRunning()) {
+                queue.start();
+            }
         }
     }
 

@@ -321,4 +321,8 @@ public class Auction {
     public WorldGroup getWorldGroup() {
         return worldGroup;
     }
+
+    public void setWorldGroup(WorldGroup worldGroup) {
+        this.worldGroup = worldGroup;
+    }
 }
