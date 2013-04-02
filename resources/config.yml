@@ -46,6 +46,8 @@ Auction:
     minIncrement: 100
     maxIncrement: 10000
     defaultTime: 60
+    minTime: 30
+    maxTime: 120
     snipeTime: 10
     snipeValue: 10
     

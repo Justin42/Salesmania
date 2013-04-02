@@ -67,7 +67,7 @@ public class AuctionEventListener implements Listener {
     @EventHandler
     private void onAuctionTimerEvent(final AuctionTimerEvent auctionEvent) {
         long timeRemaining = auctionEvent.getAuction().getTimeRemaining();
-        List<Long> notifyTimes = auctionSettings.getNofityTime();
+        List<Integer> notifyTimes = auctionSettings.getNofityTime();
         WorldGroup worldGroup = auctionEvent.getAuction().getWorldGroup();
         if(notifyTimes.contains(timeRemaining)) {
             for(Locale locale : localeHandler.getLocales()) {

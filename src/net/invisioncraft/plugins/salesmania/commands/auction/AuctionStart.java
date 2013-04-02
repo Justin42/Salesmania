@@ -76,13 +76,19 @@ public class AuctionStart extends CommandHandler {
 
         float startingBid;
         int quantity;
+        int time = auctionSettings.getDefaultTime();
         try {
             startingBid = Float.valueOf(args[1]);
             quantity = Integer.valueOf(args[2]);
+            if(args.length > 3) time = Integer.valueOf(args[3]);
         } catch (NumberFormatException ex) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
         }
+
+        // Time check
+        if(time > auctionSettings.getMaxTime()) time = auctionSettings.getMaxTime();
+        else if (time < auctionSettings.getMinTime()) time = auctionSettings.getMinTime();
 
         // Permission check
         if(!sender.hasPermission("salesmania.auction.start")) {
@@ -111,6 +117,7 @@ public class AuctionStart extends CommandHandler {
         else itemStack.setAmount(quantity);
 
         Auction auction = new Auction(plugin);
+        auction.setTimeRemaining(time);
         switch(auction.queue(player, itemStack, startingBid)) {
             case QUEUE_FULL:
                 player.sendMessage(locale.getMessage("Auction.queueFull"));

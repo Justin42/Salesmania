@@ -36,8 +36,8 @@ public class AuctionSettings implements ConfigurationHandler {
     }
 
     // Bidding
-    public long getCooldown() {
-        return config.getLong("Auction.cooldown");
+    public int getCooldown() {
+        return config.getInt("Auction.cooldown");
     }
 
     public double getMinStart() {
@@ -60,20 +60,24 @@ public class AuctionSettings implements ConfigurationHandler {
         return config.getInt("Auction.Bidding.defaultTime");
     }
 
-    public long getMaxTime() {
-        return config.getLong("Auction.maxTime");
+    public int getMaxTime() {
+        return config.getInt("Auction.Bidding.maxTime");
     }
 
-    public List<Long> getNofityTime() {
-        return config.getLongList("Auction.notifyTime");
+    public int getMinTime() {
+        return config.getInt("Auction.Bidding.minTime");
     }
 
-    public long getSnipeTime() {
-        return config.getLong("Auction.Bidding.snipeTime");
+    public List<Integer> getNofityTime() {
+        return config.getIntegerList("Auction.notifyTime");
     }
 
-    public long getSnipeValue() {
-        return config.getLong("Auction.Bidding.snipeValue");
+    public int getSnipeTime() {
+        return config.getInt("Auction.Bidding.snipeTime");
+    }
+
+    public int getSnipeValue() {
+        return config.getInt("Auction.Bidding.snipeValue");
     }
 
     public List<String> getBlacklist() {

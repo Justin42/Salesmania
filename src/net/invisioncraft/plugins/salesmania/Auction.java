@@ -55,7 +55,7 @@ public class Auction {
 
     private ItemStack itemStack;
 
-    private long timeRemaining = 0;
+    private int timeRemaining = 0;
 
     public static enum AuctionStatus {
         OVER_MAX,
@@ -280,11 +280,11 @@ public class Auction {
         else tokenMap.put("%winner%", "None");
     }
 
-    public long getTimeRemaining() {
+    public int getTimeRemaining() {
         return timeRemaining;
     }
 
-    public void setTimeRemaining(long time) {
+    public void setTimeRemaining(int time) {
         timeRemaining = time;
     }
 
