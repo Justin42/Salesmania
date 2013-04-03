@@ -167,6 +167,7 @@ public class Auction {
 
     private AuctionStatus performChecks(Player player, double startBid) {
         AuctionQueue auctionQueue = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue();
+        String ecoWorld = getWorldGroup().getWorlds().get(0).getName();
         if(auctionQueue.size() >= auctionSettings.getMaxQueueSize()) return AuctionStatus.QUEUE_FULL;
         if(auctionQueue.playerSize(player) >= auctionSettings.getMaxQueuePerPlayer()) return AuctionStatus.PLAYER_QUEUE_FULL;
         if(startBid < auctionSettings.getMinStart()) return AuctionStatus.UNDER_MIN;
@@ -178,7 +179,7 @@ public class Auction {
             if(auctionSettings.isStartTaxPercent()) {
                 startTax = (startTax / 100) * startBid;
             }
-            if(!economy.has(player.getName(), startTax)) return AuctionStatus.CANT_AFFORD_TAX;
+            if(!economy.has(player.getName(), ecoWorld, startTax)) return AuctionStatus.CANT_AFFORD_TAX;
         }
         return AuctionStatus.SUCCESS;
     }

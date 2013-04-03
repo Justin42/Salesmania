@@ -119,6 +119,7 @@ public class AuctionEventListener implements Listener {
     @EventHandler
     public void onAuctionBidEvent(final AuctionBidEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
+        String ecoWorld = auction.getWorldGroup().getWorlds().get(0).getName();
         // Anti-Snipe
         if(auction.getTimeRemaining() < auctionSettings.getSnipeTime()) {
             auction.setTimeRemaining(auction.getTimeRemaining() + auctionSettings.getSnipeValue());
@@ -128,7 +129,7 @@ public class AuctionEventListener implements Listener {
         if(auction.getLastWinner() != null) {
             OfflinePlayer player = auction.getLastWinner();
 
-            economy.depositPlayer(player.getName(), auction.getLastBid());
+            economy.depositPlayer(player.getName(), ecoWorld, auction.getLastBid());
             logger.info(String.format("Returned %,.2f to player '%s' for previous bid.",
                     auction.getLastBid(), player.getName()));
 
@@ -140,7 +141,7 @@ public class AuctionEventListener implements Listener {
         }
 
         // Take new bid
-        economy.withdrawPlayer(auction.getWinner().getName(), auction.getBid());
+        economy.withdrawPlayer(auction.getWinner().getName(), ecoWorld, auction.getBid());
         logger.info(String.format("Removed %,.2f from player '%s' for auction bid.",
                 auction.getBid(), auction.getWinner().getName()));
 
@@ -160,6 +161,7 @@ public class AuctionEventListener implements Listener {
     public void onAuctionEndEvent(final AuctionEndEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         WorldGroup worldGroup = auction.getWorldGroup();
+        String ecoWorld = auction.getWorldGroup().getWorlds().get(0).getName();
 
         // NO BIDS
         if(auctionEvent.getAuction().getWinner() == null) {
@@ -198,7 +200,7 @@ public class AuctionEventListener implements Listener {
             }
 
             // Give money to owner
-            economy.depositPlayer(auction.getOwner().getName(), auction.getBid());
+            economy.depositPlayer(auction.getOwner().getName(), ecoWorld, auction.getBid());
             logger.info(String.format("Auction finished, %,.2f given to player '%s'",
                     auction.getBid(), auction.getOwner().getName()));
 
@@ -219,6 +221,7 @@ public class AuctionEventListener implements Listener {
     public void onAuctionCancelEvent(final AuctionCancelEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         WorldGroup worldGroup = auction.getWorldGroup();
+        String ecoWorld = auction.getWorldGroup().getWorlds().get(0).getName();
 
         // Broadcast
         for(Locale locale : localeHandler.getLocales()) {
@@ -229,7 +232,7 @@ public class AuctionEventListener implements Listener {
 
         // Give back bid
         if(auction.getWinner() != null) {
-            economy.depositPlayer(auction.getWinner().getName(), auction.getBid());
+            economy.depositPlayer(auction.getWinner().getName(), ecoWorld, auction.getBid());
             logger.info(String.format("Returned %,.2f to player '%s' for canceled auction bid.",
                     auction.getBid(), auction.getWinner().getName()));
         }
@@ -294,6 +297,7 @@ public class AuctionEventListener implements Listener {
     private void processTax(AuctionEvent auctionEvent) {
         Auction auction = auctionEvent.getAuction();
         OfflinePlayer owner = auction.getOwner();
+        String ecoWorld = auction.getWorldGroup().getWorlds().get(0).getName();
         Locale locale = localeHandler.getLocale(owner.getPlayer());
 
         double taxAmount;
@@ -306,7 +310,7 @@ public class AuctionEventListener implements Listener {
         else return;
 
         if(taxAmount != 0) {
-            economy.withdrawPlayer(owner.getName(), taxAmount);
+            economy.withdrawPlayer(owner.getName(), ecoWorld, taxAmount);
             if(auctionSettings.useTaxAccount()) {
                 economy.depositPlayer(auctionSettings.getTaxAccount(), taxAmount);
             }
