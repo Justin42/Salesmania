@@ -36,6 +36,7 @@ public class WorldGroup {
         worldList = new ArrayList<World>(worlds.size());
         this.plugin = plugin;
         auctionQueue = new AuctionQueue(plugin, this);
+        channelList = new ArrayList<String>();
         updateWorlds(worlds);
     }
 
