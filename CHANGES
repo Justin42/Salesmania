@@ -1,3 +1,7 @@
+1.33 -
+- Fixes NPE during world group initialization
+- Funds now deposited/withdrawn from correct world account
+
 1.32 -
 - Event API changes
 - Fixed bug when attempting to use /auction ignore from console
