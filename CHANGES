@@ -1,3 +1,7 @@
+1.34 -
+- Fixes NPE when starting an auction
+- Fixes array out of bounds exception when quantity is not specified
+
 1.33 -
 - Fixes NPE during world group initialization
 - Funds now deposited/withdrawn from correct world account

@@ -75,12 +75,12 @@ public class AuctionStart extends CommandHandler {
         }
 
         float startingBid;
-        int quantity;
+        int quantity = 1;
         int time = auctionSettings.getDefaultTime();
         try {
             startingBid = Float.valueOf(args[1]);
-            quantity = Integer.valueOf(args[2]);
-            if(args.length > 3) time = Integer.valueOf(args[3]);
+            if(args.length == 3) quantity = Integer.valueOf(args[2]);
+            if(args.length == 4) time = Integer.valueOf(args[3]);
         } catch (NumberFormatException ex) {
             sender.sendMessage(locale.getMessage("Syntax.Auction.auctionStart"));
             return false;
@@ -118,6 +118,7 @@ public class AuctionStart extends CommandHandler {
 
         Auction auction = new Auction(plugin);
         auction.setTimeRemaining(time);
+        auction.setWorldGroup(worldGroup);
         switch(auction.queue(player, itemStack, startingBid)) {
             case QUEUE_FULL:
                 player.sendMessage(locale.getMessage("Auction.queueFull"));
