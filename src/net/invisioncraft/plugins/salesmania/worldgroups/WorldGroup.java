@@ -31,8 +31,8 @@ public class WorldGroup {
     private AuctionQueue auctionQueue;
     private ArrayList<String> channelList;
 
-    public WorldGroup(Salesmania plugin, ArrayList<String> worlds) {
-        groupName = "NoName";
+    public WorldGroup(Salesmania plugin, String groupName, ArrayList<String> worlds) {
+        this.groupName = groupName;
         worldList = new ArrayList<World>(worlds.size());
         this.plugin = plugin;
         auctionQueue = new AuctionQueue(plugin, this);
@@ -66,6 +66,9 @@ public class WorldGroup {
             World world = plugin.getServer().getWorld(worldName);
             if(world != null && !worldList.contains(world)) {
                 worldList.add(world);
+            }
+            else {
+                plugin.getLogger().warning("Could not find world '" + worldName + "' in worldgroup '" + groupName + "' please check your configuration.");
             }
         }
     }
