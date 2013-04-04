@@ -1,12 +1,12 @@
 name: Salesmania
-version: 1.35
+version: 1.36
 description: Plugin for handling player auctions.
 author: Justin
 authors: [Khaos_Fury]
 website: http://invisioncraft.net
 main: net.invisioncraft.plugins.salesmania.Salesmania
 depend: [Vault]
-softdepend: [TownyChat, Herochat]
+softdepend: [TownyChat, Herochat, Multiverse-Core]
 
 commands:
   auction:
