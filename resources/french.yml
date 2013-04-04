@@ -21,13 +21,13 @@ Locale:
 Syntax:
   Auction:
     auction:
-    - "/auction start <startbid> [quantity]"
+    - "/auction start <startbid> [quantity] [time]"
     - "/auction bid <bid>"
     - "/auction cancel"
     - "/auction end"
     - "/auction info"
     - "/auction ignore"
-    auctionStart: "/auction start <startbid> [quantity]"
+    auctionStart: "/auction start <startbid> [quantity] [time]"
     auctionBid: "/auction bid <bid>"
   
   Salesmania:
