@@ -298,7 +298,6 @@ public class AuctionEventListener implements Listener {
         Auction auction = auctionEvent.getAuction();
         OfflinePlayer owner = auction.getOwner();
         String ecoWorld = auction.getWorldGroup().getWorlds().get(0).getName();
-        Locale locale = localeHandler.getLocale(owner.getPlayer());
 
         double taxAmount;
         if(auctionEvent instanceof AuctionStartEvent) {
@@ -315,6 +314,7 @@ public class AuctionEventListener implements Listener {
                 economy.depositPlayer(auctionSettings.getTaxAccount(), taxAmount);
             }
             if(owner.isOnline()) {
+                Locale locale = localeHandler.getLocale(owner.getPlayer());
                 owner.getPlayer().sendMessage(String.format(locale.getMessage("Auction.tax"),
                         taxAmount));
             }
