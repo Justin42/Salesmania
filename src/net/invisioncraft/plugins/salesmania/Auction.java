@@ -198,7 +198,7 @@ public class Auction {
         this.bid = bid;
         plugin.getAuctionIgnoreList().setIgnore(player, false);
         updateInfoTokens();
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionBidEvent(this));
+        plugin.getServer().getPluginManager().callEvent(new AuctionBidEvent(this));
         return AuctionStatus.SUCCESS;
     }
 
@@ -212,14 +212,14 @@ public class Auction {
                 }
             }
 
-            Bukkit.getServer().getPluginManager().callEvent(new AuctionEndEvent(this));
+            plugin.getServer().getPluginManager().callEvent(new AuctionEndEvent(this));
             isRunning = false;
         }
     }
 
     public AuctionStatus cancel() {
         if(!isRunning()) return AuctionStatus.NOT_RUNNING;
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionCancelEvent(this));
+        plugin.getServer().getPluginManager().callEvent(new AuctionCancelEvent(this));
         isRunning = false;
         return AuctionStatus.SUCCESS;
     }
@@ -290,7 +290,7 @@ public class Auction {
     }
 
     protected void timerTick() {
-        Bukkit.getServer().getPluginManager().callEvent(new AuctionTimerEvent(this));
+        plugin.getServer().getPluginManager().callEvent(new AuctionTimerEvent(this));
         if(isRunning) {
             timeRemaining -= 1;
             if (timeRemaining == 0) {

@@ -61,9 +61,6 @@ public class Salesmania extends JavaPlugin {
         getCommand("collect").setExecutor(new StashCommandExecutor(this));
         getCommand("salesmania").setExecutor(new SalesmaniaCommandExecutor(this));
 
-        getServer().getPluginManager().registerEvents(new AuctionEventListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
-
         // Vault
         if(getServer().getPluginManager().getPlugin("Vault") != null && getServer().getPluginManager().getPlugin("Vault").isEnabled()) {
             consoleLogger.info("Found Vault.");
@@ -78,6 +75,9 @@ public class Salesmania extends JavaPlugin {
             consoleLogger.severe("Vault not found.");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
+
+        getServer().getPluginManager().registerEvents(new AuctionEventListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
 
         if(isEnabled()) consoleLogger.info("Salesmania Activated");
     }
