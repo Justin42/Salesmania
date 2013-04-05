@@ -283,9 +283,9 @@ public class AuctionEventListener implements Listener {
         if(player.isOnline()) {
             Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
             // Region
-            if(regionSettings.shouldStash((Player)player)) {
+            if(regionSettings.shouldStash(player.getPlayer())) {
                 plugin.getItemStash().store(player, itemStack, worldGroup);
-                ((Player) player).sendMessage(locale.getMessage("Auction.regionStashed"));
+                player.getPlayer().sendMessage(locale.getMessage("Auction.regionStashed"));
                 return;
             }
 
