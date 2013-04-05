@@ -21,9 +21,11 @@ import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecu
 
 import java.util.ArrayList;
 
+import static net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor.*;
+
 public class RegionAccess {
-    private ArrayList<AuctionCommandExecutor.AuctionCommand> allowCommands;
-    private ArrayList<AuctionCommandExecutor.AuctionCommand> denyCommands;
+    private ArrayList<AuctionCommand> allowCommands;
+    private ArrayList<AuctionCommand> denyCommands;
     private boolean itemsToStash;
 
     public RegionAccess() {
@@ -32,19 +34,19 @@ public class RegionAccess {
         itemsToStash = false;
     }
 
-    public void allow(AuctionCommandExecutor.AuctionCommand command) {
+    public void allow(AuctionCommand command) {
         allowCommands.add(command);
     }
 
-    public boolean isAllowed(AuctionCommandExecutor.AuctionCommand command) {
+    public boolean isAllowed(AuctionCommand command) {
         return allowCommands.contains(command);
     }
 
-    public void deny(AuctionCommandExecutor.AuctionCommand command) {
+    public void deny(AuctionCommand command) {
         denyCommands.add(command);
     }
 
-    public boolean isDenied(AuctionCommandExecutor.AuctionCommand command) {
+    public boolean isDenied(AuctionCommand command) {
         return denyCommands.contains(command);
     }
 

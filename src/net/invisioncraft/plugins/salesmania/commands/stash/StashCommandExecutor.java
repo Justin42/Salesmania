@@ -18,8 +18,10 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.commands.stash;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
+import net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.ItemStash;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.configuration.RegionSettings;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import org.bukkit.command.Command;
@@ -30,14 +32,19 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
+import static net.invisioncraft.plugins.salesmania.commands.auction.AuctionCommandExecutor.*;
+
 public class StashCommandExecutor implements CommandExecutor {
-    ItemStash itemStash;
-    Salesmania plugin;
-    WorldGroupManager worldGroupManager;
+    private ItemStash itemStash;
+    private Salesmania plugin;
+    private WorldGroupManager worldGroupManager;
+    private RegionSettings regionSettings;
+
     public StashCommandExecutor(Salesmania plugin) {
         this.plugin = plugin;
         itemStash = plugin.getItemStash();
         worldGroupManager = plugin.getWorldGroupManager();
+        regionSettings = plugin.getSettings().getRegionSettings();
     }
 
     @Override
@@ -48,6 +55,12 @@ public class StashCommandExecutor implements CommandExecutor {
         Locale locale = plugin.getLocaleHandler().getLocale(player);
 
         WorldGroup worldGroup = worldGroupManager.getGroup(player);
+
+        if(!regionSettings.isAllowed(player, AuctionCommand.COLLECT)) {
+            player.sendMessage(locale.getMessage("Auction.regionDisabled"));
+            return false;
+        }
+
         if(itemStash.hasItems(player, worldGroup)) {
             ArrayList<ItemStack> remainingItems = new ArrayList<ItemStack>();
             for(ItemStack itemStack : itemStash.collect(player, worldGroup)) {

@@ -19,9 +19,11 @@ package net.invisioncraft.plugins.salesmania.commands.auction;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.Locale;
+import net.invisioncraft.plugins.salesmania.configuration.RegionSettings;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +31,7 @@ import java.util.Collections;
 public class AuctionCommandExecutor implements CommandExecutor {
     private Salesmania plugin;
 
-    public enum AuctionCommand {
+    public static enum AuctionCommand {
         START, S,
         BID, B,
         END,
@@ -38,16 +40,20 @@ public class AuctionCommandExecutor implements CommandExecutor {
         IGNORE,
         ENABLE,
         DISABLE,
+        COLLECT,
         ALL, NONE
     }
 
-    AuctionStart auctionStart;
-    AuctionBid auctionBid;
-    AuctionEnd auctionEnd;
-    AuctionCancel auctionCancel;
-    AuctionInfo auctionInfo;
-    AuctionIgnore auctionIgnore;
-    AuctionEnable auctionEnable;
+    private AuctionStart auctionStart;
+    private AuctionBid auctionBid;
+    private AuctionEnd auctionEnd;
+    private AuctionCancel auctionCancel;
+    private AuctionInfo auctionInfo;
+    private AuctionIgnore auctionIgnore;
+    private AuctionEnable auctionEnable;
+
+    RegionSettings regionSettings;
+
     public AuctionCommandExecutor(Salesmania plugin) {
         this.plugin = plugin;
 
@@ -59,16 +65,20 @@ public class AuctionCommandExecutor implements CommandExecutor {
         auctionInfo = new AuctionInfo(plugin);
         auctionIgnore = new AuctionIgnore(plugin);
         auctionEnable = new AuctionEnable(plugin);
+
+        regionSettings = plugin.getSettings().getRegionSettings();
     }
 
     @Override
+    // TODO This is messy...
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Locale locale = plugin.getLocaleHandler().getLocale(sender);
         AuctionCommand auctionCommand;
 
         // Syntax
         if(args.length < 1) {
-            sender.sendMessage(locale.getMessageList("Syntax.Auction.auction").toArray(new String[0]));
+            ArrayList<String> messageList = locale.getMessageList("Syntax.Auction.auction");
+            sender.sendMessage(messageList.toArray(new String[messageList.size()]));
             return false;
         }
 
@@ -80,8 +90,17 @@ public class AuctionCommandExecutor implements CommandExecutor {
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException ex) {
-            sender.sendMessage(locale.getMessageList("Syntax.Auction.auction").toArray(new String[0]));
+            ArrayList<String> messageList = locale.getMessageList("Syntax.Auction.auction");
+            sender.sendMessage(messageList.toArray(new String[messageList.size()]));
             return false;
+        }
+
+        if(sender instanceof Player) {
+            Player player = (Player) sender;
+            if(!regionSettings.isAllowed(player, auctionCommand)) {
+                player.sendMessage(locale.getMessage("Auction.regionDisabled"));
+                return false;
+            }
         }
 
         switch(auctionCommand) {
@@ -95,7 +114,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
             case B:
                 if(label.equalsIgnoreCase("bid")) {
                     // We need to set "bid"' as the first argument
-                    ArrayList<String> newArgs = new ArrayList<String>(args.length+1);
+                    ArrayList<String> newArgs = new ArrayList<>(args.length+1);
                     newArgs.add("bid");
                     Collections.addAll(newArgs, args);
                     args = newArgs.toArray(new String[newArgs.size()]);

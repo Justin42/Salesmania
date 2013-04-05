@@ -21,6 +21,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.GlobalRegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.worldguard.RegionAccess;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -67,12 +68,16 @@ public class RegionSettings implements ConfigurationHandler {
             // Get players region
             ApplicableRegionSet regionSet = regionManager.get(player.getWorld()).getApplicableRegions(player.getLocation());
 
-            // Unlisted inner regions will use defaults, not parent region access
             boolean allowed = false;
-            for(ProtectedRegion region : regionSet) {
-                RegionAccess access = getRegionAccess(region.getId());
+            if(regionSet.size() == 0) { // Default
+                RegionAccess access = getRegionAccess(DEFAULT_MAP_KEY);
                 allowed = isAllowed(access, command);
             }
+            else for(ProtectedRegion region : regionSet) {
+                    RegionAccess access = getRegionAccess(region.getId());
+                    allowed = isAllowed(access, command);
+            }
+
             return allowed;
         }
 
@@ -80,16 +85,21 @@ public class RegionSettings implements ConfigurationHandler {
     }
 
     public boolean shouldStash(Player player) {
-        if(!isEnabled) return true;
+        if(!isEnabled) return false;
         if(player.hasPermission("salesmania.auction.region-override")) return true;
 
         if(isEnabled) {
             ApplicableRegionSet regionSet = regionManager.get(player.getWorld()).getApplicableRegions(player.getLocation());
 
             boolean shouldStash = false;
-            for(ProtectedRegion region : regionSet) {
+            if(regionSet.size() == 0) { // Default
+                RegionAccess access = getRegionAccess(DEFAULT_MAP_KEY);
+                shouldStash = access.itemsToStash();
+            }
+            else for(ProtectedRegion region : regionSet) {
                 RegionAccess access = getRegionAccess(region.getId());
                 shouldStash = access.itemsToStash();
+                plugin.getLogger().info("Should stash? " + shouldStash);
             }
             return shouldStash;
         }
@@ -99,8 +109,7 @@ public class RegionSettings implements ConfigurationHandler {
     public boolean isAllowed(RegionAccess access, AuctionCommand command) {
         // Sometimes i like to use funny syntax like this for jokes. don't mind me.
         return !access.isDenied(command) &&
-               !access.isDenied(AuctionCommand.ALL) &&
-               !access.isAllowed(AuctionCommand.NONE);
+               !access.isDenied(AuctionCommand.ALL);
     }
 
     public RegionAccess getRegionAccess(String region) {
@@ -116,9 +125,13 @@ public class RegionSettings implements ConfigurationHandler {
         try {
             RegionAccess defaultAccess = new RegionAccess();
             defaultAccess.getAllowed().addAll(parseCommandList(config.getStringList("Auction.WorldGuardRegions.defaultAllow")));
-            defaultAccess.getDenied().addAll(parseCommandList(config.getStringList("Auction.WorldGuardRegions.defaultAllow")));
+            defaultAccess.getDenied().addAll(parseCommandList(config.getStringList("Auction.WorldGuardRegions.defaultDeny")));
             defaultAccess.setItemsToStash(config.getBoolean("Auction.WorldGuardRegions.defaultToStash"));
             accessMap.put(DEFAULT_MAP_KEY, defaultAccess);
+
+            // Debug
+            plugin.getLogger().info("Default allow: " + defaultAccess.getAllowed().toString());
+            plugin.getLogger().info("Default deny: " + defaultAccess.getDenied().toString());
         } catch (IllegalArgumentException ex) {
             plugin.getLogger().warning("Bad command '" + ex.getMessage() +  "' in world guard region default allow or deny list");
         }
@@ -133,6 +146,12 @@ public class RegionSettings implements ConfigurationHandler {
                 regionAccess.getDenied().addAll(parseCommandList((List<String>)map.get("deny")));
                 regionAccess.setItemsToStash((Boolean)map.get("toStash"));
                 accessMap.put((String)map.get("regionName"), regionAccess);
+
+                // Debug
+                plugin.getLogger().info("Region: " + map.get("regionName"));
+                plugin.getLogger().info("Allow: " + regionAccess.getAllowed());
+                plugin.getLogger().info("Deny: " + regionAccess.getDenied());
+                plugin.getLogger().info("To stash: " + regionAccess.itemsToStash());
             } catch (ClassCastException | IllegalArgumentException ex) {
                 plugin.getLogger().warning("Configuration for world guard region '" + map.get("regionName") + "' seems invalid.");
                 if(ex instanceof IllegalArgumentException) {

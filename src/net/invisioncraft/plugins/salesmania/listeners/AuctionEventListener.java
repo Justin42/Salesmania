@@ -20,10 +20,7 @@ package net.invisioncraft.plugins.salesmania.listeners;
 import net.invisioncraft.plugins.salesmania.Auction;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.channels.ChannelManager;
-import net.invisioncraft.plugins.salesmania.configuration.AuctionIgnoreList;
-import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.configuration.Locale;
-import net.invisioncraft.plugins.salesmania.configuration.LocaleHandler;
+import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.event.auction.*;
 import net.invisioncraft.plugins.salesmania.event.auction.queue.AuctionQueuedEvent;
 import net.invisioncraft.plugins.salesmania.event.salesmania.AuctionDisableEvent;
@@ -34,6 +31,7 @@ import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -51,6 +49,7 @@ public class AuctionEventListener implements Listener {
     LocaleHandler localeHandler;
     ChannelManager channelManager;
     WorldGroupManager worldGroupManager;
+    RegionSettings regionSettings;
     Logger logger;
 
     public AuctionEventListener(Salesmania plugin) {
@@ -62,6 +61,7 @@ public class AuctionEventListener implements Listener {
         channelManager = plugin.getChannelManager();
         worldGroupManager = plugin.getWorldGroupManager();
         logger = plugin.getLogger();
+        regionSettings = plugin.getSettings().getRegionSettings();
     }
 
     @EventHandler
@@ -279,6 +279,14 @@ public class AuctionEventListener implements Listener {
     private void giveItem(OfflinePlayer player, ItemStack itemStack, WorldGroup worldGroup) {
         if(player.isOnline()) {
             Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
+            // Region
+            if(regionSettings.shouldStash((Player)player)) {
+                plugin.getItemStash().store(player, itemStack, worldGroup);
+                ((Player) player).sendMessage(locale.getMessage("Auction.regionStashed"));
+                return;
+            }
+
+            // World group
             if(worldGroupManager.getGroup(player) != worldGroup) {
                 plugin.getItemStash().store(player, itemStack, worldGroup);
                 player.getPlayer().sendMessage(String.format(locale.getMessage("Stash.itemsWaitingInGroup"), worldGroup.getGroupName()));
