@@ -65,7 +65,7 @@ Auction:
   cooldown: "&cVente aux enchères est dans une période de refroidissement qui."
   worldDisabled: "&cAuctions are disabled for this world."
   regionDisabled: "&cThat command is disabled here."
-  regionStashed: "&cYou aren't allowed to collect auction items here, they've been added to your stash."
+  regionStashed: "&cYou aren't allowed to receive auction items here, they've been added to your stash."
   
   enabled: "&ala vente aux enchères a été activé."
   disabled: "&cLa vente aux enchères a été désactivé."

@@ -64,7 +64,7 @@ Auction:
   cooldown: "&cO leilão está em cooldown."
   worldDisabled: "&cAuctions are disabled for this world."
   regionDisabled: "&cThat command is disabled here."
-  regionStashed: "&cYou aren't allowed to collect auction items here, they've been added to your stash."
+  regionStashed: "&cYou aren't allowed to receive auction items here, they've been added to your stash."
   
   enabled: "&aOs leilões foram activados."
   disabled: "&cOs leilões foram desactivados."
