@@ -1,3 +1,7 @@
+1.39.1 -
+- World guard regions
+- Fixed 'locale message not found' issues.
+
 1.37 -
 - Added warning on invalid world names in config
 - Fixes a locale related NPE after auction end for offline players

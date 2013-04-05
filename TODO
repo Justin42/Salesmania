@@ -1,0 +1,6 @@
+1.4 -
+- World guard regions. - DONE
+- List items in queue.
+- World groups can be disabled entirely .
+- Fixed 'locale message not found' issues. - DONE
+- Allows min and day for time
