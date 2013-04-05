@@ -63,6 +63,8 @@ Auction:
   queued: "&aYour auction has been added to the queue."
   cooldown: "&aYour auction will begin shortly."
   worldDisabled: "&cAuctions are disabled for this world."
+  regionDisabled: "&cThat command is disabled here."
+  regionStashed: "&cYou aren't allowed to collect auction items here, they've been added to your stash."
   
   enabled: "&aThe auction has been enabled."
   disabled: "&cThe auction has been disabled."
