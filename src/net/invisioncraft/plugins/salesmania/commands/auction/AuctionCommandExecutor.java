@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class AuctionCommandExecutor implements CommandExecutor {
-    protected Salesmania plugin;
+    private Salesmania plugin;
 
-    enum AuctionCommand {
+    public enum AuctionCommand {
         START, S,
         BID, B,
         END,
@@ -37,7 +37,8 @@ public class AuctionCommandExecutor implements CommandExecutor {
         INFO,
         IGNORE,
         ENABLE,
-        DISABLE
+        DISABLE,
+        ALL, NONE
     }
 
     AuctionStart auctionStart;
@@ -74,6 +75,10 @@ public class AuctionCommandExecutor implements CommandExecutor {
         if(label.equalsIgnoreCase("bid")) auctionCommand = AuctionCommand.BID;
         else try {
             auctionCommand = AuctionCommand.valueOf(args[0].toUpperCase());
+            // Reserved for region configuration.
+            if (auctionCommand == AuctionCommand.ALL | auctionCommand == AuctionCommand.NONE) {
+                throw new IllegalArgumentException();
+            }
         } catch (IllegalArgumentException ex) {
             sender.sendMessage(locale.getMessageList("Syntax.Auction.auction").toArray(new String[0]));
             return false;
