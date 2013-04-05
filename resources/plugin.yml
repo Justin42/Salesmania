@@ -40,6 +40,7 @@ permissions:
       salesmania.auction.end: true
       salesmania.auction.enable: true
       salesmania.auction.disable: true
+      salesmania.auction.region-override: true
   salesmania.auction.start:
     description: Allows you to start an auction.
     default: op
@@ -59,7 +60,9 @@ permissions:
     description: Allows you to disable the auction.
     default: op
   salesmania.admin.reload:
-    description: Allows you to reload salesmania configuration
+    description: Allows you to reload salesmania configuration.
     default: op
+  salesmania.auction.region-override:
+    description: Allows override of protected worldguard regions.
   
   
