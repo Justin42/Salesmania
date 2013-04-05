@@ -52,7 +52,7 @@ Auction:
   canceled: "&cAuction canceled."
   startOverMax: "&cThe starting bid can't be over $%,.2f"
   startUnderMin: "&cThe starting bid must be atleast $%,.2f"
-  timeRemaining: "%d seconds remaining."
+  timeRemaining: "%timeremaining% seconds remaining."
   notRunning: "&cThere is no auction running"
   noBids: "&cAuction ended with no bids."
   notEnough: "&cYou don't have enough of that item."

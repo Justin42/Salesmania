@@ -76,7 +76,7 @@ public class Auction {
     private static Pattern tokenPattern;
     private static String[] tokens = new String[] {
             "%owner%", "%quantity%", "%item%", "%durability%",
-            "%bid%", "%winner%", "%enchantinfo%"
+            "%bid%", "%winner%", "%enchantinfo%", "%timeremaining%"
     };
 
     public Auction(Salesmania plugin) {
@@ -256,6 +256,18 @@ public class Auction {
         return newInfoList;
     }
 
+    public String infoReplace(String infoMessage) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add(infoMessage);
+        return infoReplace(list).get(0);
+    }
+
+    public String enchantReplace(String enchantMessage, String enchant, String enchantFormat, Locale locale) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add(enchantMessage);
+        return enchantReplace(list, enchant, enchantFormat, locale).get(0);
+    }
+
     public ArrayList<String> enchantReplace(ArrayList<String> infoList, String enchant, String enchantInfo, Locale locale) {
         if(itemStack.getEnchantments().isEmpty()) {
             infoList.remove("%enchantinfo%");
@@ -271,12 +283,13 @@ public class Auction {
         return infoList;
     }
 
-    private void updateInfoTokens() {
+    public void updateInfoTokens() {
         tokenMap.put("%owner%", owner.getName());
         tokenMap.put("%quantity%", String.valueOf(itemStack.getAmount()));
         tokenMap.put("%item%", ItemManager.getName(itemStack));
         tokenMap.put("%durability%", String.format("%.2f%%", getDurability()));
         tokenMap.put("%bid%", String.format("%,.2f", bid));
+        tokenMap.put("%timeremaining%", String.valueOf(timeRemaining));
         if(winner != null) tokenMap.put("%winner%", winner.getName());
         else tokenMap.put("%winner%", "None");
     }

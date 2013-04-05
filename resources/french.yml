@@ -53,7 +53,7 @@ Auction:
   canceled: "&cLa vente aux enchères a été annulée en."
   startOverMax: "&cLe prix de départ ne peut pas être plus que $%,.2f"
   startUnderMin: "&cLe prix de départ doit être au moins $%,.2f"
-  timeRemaining: "%d secondes restantes."
+  timeRemaining: "%timeremaining% secondes restantes."
   notRunning: "&cIl n'ya pas de vente aux enchères en cours d'exécution"
   noBids: "&cFin des enchères sans aucune des soumissions."
   notEnough: "&cVous n'avez pas assez de ce poste."

@@ -52,7 +52,7 @@ Auction:
   canceled: "&cLeilão cancelado."
   startOverMax: "&cO preço inicial não pode ser superior a $%,.2f"
   startUnderMin: "&cO preço inicial deve ser superior a $%,.2f"
-  timeRemaining: "%d segundos restantes."
+  timeRemaining: "%timeremaining% segundos restantes."
   notRunning: "&cNão está a decorrer nenhum leilão."
   noBids: "&cO leilão terminou sem licitações."
   notEnough: "&cNão tens o suficiente desse objeto."

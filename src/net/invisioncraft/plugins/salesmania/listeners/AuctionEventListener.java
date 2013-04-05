@@ -73,7 +73,10 @@ public class AuctionEventListener implements Listener {
             for(Locale locale : localeHandler.getLocales()) {
                 String message =
                         locale.getMessage("Auction.tag") +
-                        String.format(locale.getMessage("Auction.timeRemaining"), timeRemaining);
+                        locale.getMessage("Auction.timeRemaining");
+                auctionEvent.getAuction().updateInfoTokens();
+                message = auctionEvent.getAuction().infoReplace(message);
+                message = auctionEvent.getAuction().enchantReplace(message, locale.getMessage("Auction.enchantInfo"), locale.getMessage("Auction.enchantInfo"), locale);
                 channelManager.broadcast(worldGroup, message, locale.getPlayers());
             }
 
