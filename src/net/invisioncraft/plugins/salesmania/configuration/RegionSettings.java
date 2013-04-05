@@ -99,7 +99,6 @@ public class RegionSettings implements ConfigurationHandler {
             else for(ProtectedRegion region : regionSet) {
                 RegionAccess access = getRegionAccess(region.getId());
                 shouldStash = access.itemsToStash();
-                plugin.getLogger().info("Should stash? " + shouldStash);
             }
             return shouldStash;
         }
@@ -128,8 +127,6 @@ public class RegionSettings implements ConfigurationHandler {
             defaultAccess.setItemsToStash(config.getBoolean("Auction.WorldGuardRegions.defaultToStash"));
             accessMap.put(DEFAULT_MAP_KEY, defaultAccess);
 
-            // Debug
-            plugin.getLogger().info("Default deny: " + defaultAccess.getDenied().toString());
         } catch (IllegalArgumentException ex) {
             plugin.getLogger().warning("Bad command '" + ex.getMessage() +  "' in world guard region default deny list");
         }
@@ -142,12 +139,13 @@ public class RegionSettings implements ConfigurationHandler {
                 RegionAccess regionAccess = new RegionAccess();
                 regionAccess.getDenied().addAll(parseCommandList((List<String>)map.get("deny")));
                 regionAccess.setItemsToStash((Boolean)map.get("toStash"));
-                accessMap.put((String)map.get("regionName"), regionAccess);
 
-                // Debug
-                plugin.getLogger().info("Region: " + map.get("regionName"));
-                plugin.getLogger().info("Deny: " + regionAccess.getDenied());
-                plugin.getLogger().info("To stash: " + regionAccess.itemsToStash());
+               if(map.get("regionName") instanceof ArrayList) {
+                    for (String regionName : (ArrayList<String>)map.get("regionName")) {
+                        accessMap.put(regionName, regionAccess);
+                    }
+               } else accessMap.put((String)map.get("regionName"), regionAccess);
+
             } catch (ClassCastException | IllegalArgumentException ex) {
                 plugin.getLogger().warning("Configuration for world guard region '" + map.get("regionName") + "' seems invalid.");
                 if(ex instanceof IllegalArgumentException) {
