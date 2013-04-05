@@ -36,6 +36,7 @@ public class WorldGroupSettings implements ConfigurationHandler  {
         update();
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayList<WorldGroup> parseGroups() {
         ArrayList<WorldGroup> worldGroups = new ArrayList<WorldGroup>();
         List<Map<?, ?>> groupData = config.getMapList("Auction.WorldGroups.groups");
