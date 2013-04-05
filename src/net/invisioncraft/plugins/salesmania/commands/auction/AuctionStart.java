@@ -94,7 +94,7 @@ public class AuctionStart extends CommandHandler {
         if(!sender.hasPermission("salesmania.auction.start")) {
             sender.sendMessage(String.format(
                     locale.getMessage("Permission.noPermission"),
-                    locale.getMessage("Permisson.Auction.start")));
+                    locale.getMessage("Permission.Auction.start")));
             return false;
         }
 

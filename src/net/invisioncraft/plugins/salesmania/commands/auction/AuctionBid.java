@@ -57,7 +57,7 @@ public class AuctionBid extends CommandHandler {
         if(!sender.hasPermission("salesmania.auction.bid")) {
             sender.sendMessage(String.format(
                     locale.getMessage("Permission.noPermission"),
-                    locale.getMessage("Permisson.Auction.bid")));
+                    locale.getMessage("Permission.Auction.bid")));
             return false;
         }
 
