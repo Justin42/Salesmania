@@ -30,7 +30,6 @@ Auction:
   - 5
 
   WorldGroups:
-    enabled: false
     groups:
     - groupName: default
       enabled: true
@@ -41,12 +40,10 @@ Auction:
     enabled: false
     defaultToStash: true
     defaultDeny: [start, cancel, end, collect]
-    defaultAllow: [bid, info, ignore]
     regions:
-    - regionName: spawn
+    - regionName: [spawn]
       enabled: true
       toStash: false
-      allow: [all]
       deny: [none]
 
 
