@@ -86,7 +86,7 @@ public class RegionSettings implements ConfigurationHandler {
 
     public boolean shouldStash(Player player) {
         if(!isEnabled) return false;
-        if(player.hasPermission("salesmania.auction.region-override")) return true;
+        if(player.hasPermission("salesmania.auction.region-override")) return false;
 
         if(isEnabled) {
             ApplicableRegionSet regionSet = regionManager.get(player.getWorld()).getApplicableRegions(player.getLocation());
