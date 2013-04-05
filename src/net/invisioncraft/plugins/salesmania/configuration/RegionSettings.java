@@ -18,8 +18,9 @@ This file is part of Salesmania.
 package net.invisioncraft.plugins.salesmania.configuration;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.GlobalRegionManager;
-import com.sun.javaws.exceptions.InvalidArgumentException;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.worldguard.RegionAccess;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,7 +40,6 @@ public class RegionSettings implements ConfigurationHandler {
     private Salesmania plugin;
 
     private boolean wgEnabled;
-    private WorldGuardPlugin worldGuard;
     private GlobalRegionManager regionManager;
 
     private HashMap<String, RegionAccess> accessMap;
@@ -48,9 +48,9 @@ public class RegionSettings implements ConfigurationHandler {
     public RegionSettings(Settings settings) {
         this.settings = settings;
         plugin = settings.getPlugin();
-        accessMap = new HashMap<String, RegionAccess>();
+        accessMap = new HashMap<>();
 
-        worldGuard = (WorldGuardPlugin) plugin.getServer().getPluginManager().getPlugin("WorldGuard");
+        WorldGuardPlugin worldGuard = (WorldGuardPlugin) plugin.getServer().getPluginManager().getPlugin("WorldGuard");
         if(worldGuard != null && worldGuard.isEnabled()) {
             wgEnabled = true;
             regionManager = worldGuard.getGlobalRegionManager();
@@ -60,12 +60,30 @@ public class RegionSettings implements ConfigurationHandler {
     }
 
     public boolean isAllowed(Player player, AuctionCommand command) {
+        if(!isEnabled) return true;
         if(player.hasPermission("salesmania.auction.region-override")) return true;
 
-        else if(isEnabled) {
+        if(isEnabled) {
+            // Get players region
+            ApplicableRegionSet regionSet = regionManager.get(player.getWorld()).getApplicableRegions(player.getLocation());
+
+            // Unlisted inner regions will use defaults, not parent region access
+            boolean allowed = false;
+            for(ProtectedRegion region : regionSet) {
+                RegionAccess access = getRegionAccess(region.getId());
+                allowed = isAllowed(access, command);
+            }
+            return allowed;
         }
 
-        return true;
+        return false;
+    }
+
+    public boolean isAllowed(RegionAccess access, AuctionCommand command) {
+        // Sometimes i like to use funny syntax like this for jokes. don't mind me.
+        return !access.isDenied(command) &&
+               !access.isDenied(AuctionCommand.ALL) &&
+               !access.isAllowed(AuctionCommand.NONE);
     }
 
     public RegionAccess getRegionAccess(String region) {
@@ -75,32 +93,33 @@ public class RegionSettings implements ConfigurationHandler {
 
     @SuppressWarnings("unchecked")
     public void parseRegions() {
-        List defaultAllow = new ArrayList<AuctionCommand>();
-        List defaultDeny = new ArrayList<AuctionCommand>();
-        boolean defaultToStash = false;
+        accessMap.clear();
 
         // Parse defaults
         try {
-            defaultAllow = parseCommandList((List<String>)config.get("Auction.WorldGuardRegions.defaultAllow"));
-            defaultDeny = parseCommandList((List<String>)config.get("Auction.WorldGuardRegions.defaultAllow"));
-        } catch (ClassCastException | IllegalArgumentException ex) {
-            plugin.getLogger().warning("Configuration for world guard region default allow/deny commands seems invalid.");
-            if (ex instanceof  IllegalArgumentException) {
-                plugin.getLogger().warning("Bad command '" + ((IllegalArgumentException) ex).getMessage() +  "' in world guard region default allow or deny list");
-            }
+            RegionAccess defaultAccess = new RegionAccess();
+            defaultAccess.getAllowed().addAll(parseCommandList(config.getStringList("Auction.WorldGuardRegions.defaultAllow")));
+            defaultAccess.getDenied().addAll(parseCommandList(config.getStringList("Auction.WorldGuardRegions.defaultAllow")));
+            defaultAccess.setItemsToStash(config.getBoolean("Auction.WorldGuardRegions.defaultToStash"));
+            accessMap.put(DEFAULT_MAP_KEY, defaultAccess);
+        } catch (IllegalArgumentException ex) {
+            plugin.getLogger().warning("Bad command '" + ex.getMessage() +  "' in world guard region default allow or deny list");
         }
 
 
         // Parse regions
         for(Map<?,?> map : config.getMapList("Auction.WorldGuardRegions.regions")) {
-            RegionAccess regionAccess = new RegionAccess();
             try {
+                if(!(Boolean)map.get("enabled")) continue;
+                RegionAccess regionAccess = new RegionAccess();
                 regionAccess.getAllowed().addAll(parseCommandList((List<String>)map.get("allow")));
                 regionAccess.getDenied().addAll(parseCommandList((List<String>)map.get("deny")));
+                regionAccess.setItemsToStash((Boolean)map.get("toStash"));
+                accessMap.put((String)map.get("regionName"), regionAccess);
             } catch (ClassCastException | IllegalArgumentException ex) {
                 plugin.getLogger().warning("Configuration for world guard region '" + map.get("regionName") + "' seems invalid.");
                 if(ex instanceof IllegalArgumentException) {
-                    plugin.getLogger().warning("Bad command in allow or deny list '" + ((IllegalArgumentException) ex).getMessage() + "'");
+                    plugin.getLogger().warning("Bad command in allow or deny list '" + ex.getMessage() + "'");
                 }
             }
         }
@@ -108,15 +127,15 @@ public class RegionSettings implements ConfigurationHandler {
 
     // TODO
     private ArrayList<AuctionCommand> parseCommandList(List<String> cmdlist) throws IllegalArgumentException {
+        ArrayList<AuctionCommand> commandList = new ArrayList<>();
         for (String cmdString : cmdlist) {
-            AuctionCommand cmd;
             try {
-
+                commandList.add(AuctionCommand.valueOf(cmdString.toUpperCase()));
             } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException(cmdString);
+                throw new IllegalArgumentException(cmdString); // Rethrow it with the command that failed in the message
             }
         }
-        return null;
+        return commandList;
     }
 
 
@@ -124,10 +143,7 @@ public class RegionSettings implements ConfigurationHandler {
     @Override
     public void update() {
         config = settings.getConfig();
-        if(config.getBoolean("Auction.WorldGuardRegions.enabled") && wgEnabled) {
-            isEnabled = true;
-        }
-        else isEnabled = false;
+        isEnabled = config.getBoolean("Auction.WorldGuardRegions.enabled") && wgEnabled;
         if(isEnabled) parseRegions();
     }
 }

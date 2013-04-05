@@ -29,6 +29,7 @@ public class RegionAccess {
     public RegionAccess() {
         allowCommands = new ArrayList<>();
         denyCommands = new ArrayList<>();
+        itemsToStash = false;
     }
 
     public void allow(AuctionCommandExecutor.AuctionCommand command) {
