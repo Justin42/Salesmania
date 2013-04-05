@@ -79,6 +79,23 @@ public class RegionSettings implements ConfigurationHandler {
         return false;
     }
 
+    public boolean shouldStash(Player player) {
+        if(!isEnabled) return true;
+        if(player.hasPermission("salesmania.auction.region-override")) return true;
+
+        if(isEnabled) {
+            ApplicableRegionSet regionSet = regionManager.get(player.getWorld()).getApplicableRegions(player.getLocation());
+
+            boolean shouldStash = false;
+            for(ProtectedRegion region : regionSet) {
+                RegionAccess access = getRegionAccess(region.getId());
+                shouldStash = access.itemsToStash();
+            }
+            return shouldStash;
+        }
+        return false;
+    }
+
     public boolean isAllowed(RegionAccess access, AuctionCommand command) {
         // Sometimes i like to use funny syntax like this for jokes. don't mind me.
         return !access.isDenied(command) &&
@@ -125,7 +142,6 @@ public class RegionSettings implements ConfigurationHandler {
         }
     }
 
-    // TODO
     private ArrayList<AuctionCommand> parseCommandList(List<String> cmdlist) throws IllegalArgumentException {
         ArrayList<AuctionCommand> commandList = new ArrayList<>();
         for (String cmdString : cmdlist) {
