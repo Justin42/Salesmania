@@ -30,11 +30,26 @@ Auction:
   - 5
 
   WorldGroups:
+    enabled: false
     groups:
     - groupName: default
       enabled: true
       worlds: [world, world_the_end, world_nether]
       channels: []
+
+  WorldGuardRegions:
+    enabled: false
+    defaultToStash: true
+    defaultDeny: [start, cancel, end, collect]
+    defaultAllow: [bid, info, ignore]
+    regions:
+    - regionName: spawn
+      enabled: true
+      toStash: false
+      allow: [all]
+      deny: [none]
+
+
   
   Blacklist:
   - Bedrock
