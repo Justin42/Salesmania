@@ -124,16 +124,14 @@ public class RegionSettings implements ConfigurationHandler {
         // Parse defaults
         try {
             RegionAccess defaultAccess = new RegionAccess();
-            defaultAccess.getAllowed().addAll(parseCommandList(config.getStringList("Auction.WorldGuardRegions.defaultAllow")));
             defaultAccess.getDenied().addAll(parseCommandList(config.getStringList("Auction.WorldGuardRegions.defaultDeny")));
             defaultAccess.setItemsToStash(config.getBoolean("Auction.WorldGuardRegions.defaultToStash"));
             accessMap.put(DEFAULT_MAP_KEY, defaultAccess);
 
             // Debug
-            plugin.getLogger().info("Default allow: " + defaultAccess.getAllowed().toString());
             plugin.getLogger().info("Default deny: " + defaultAccess.getDenied().toString());
         } catch (IllegalArgumentException ex) {
-            plugin.getLogger().warning("Bad command '" + ex.getMessage() +  "' in world guard region default allow or deny list");
+            plugin.getLogger().warning("Bad command '" + ex.getMessage() +  "' in world guard region default deny list");
         }
 
 
@@ -142,20 +140,18 @@ public class RegionSettings implements ConfigurationHandler {
             try {
                 if(!(Boolean)map.get("enabled")) continue;
                 RegionAccess regionAccess = new RegionAccess();
-                regionAccess.getAllowed().addAll(parseCommandList((List<String>)map.get("allow")));
                 regionAccess.getDenied().addAll(parseCommandList((List<String>)map.get("deny")));
                 regionAccess.setItemsToStash((Boolean)map.get("toStash"));
                 accessMap.put((String)map.get("regionName"), regionAccess);
 
                 // Debug
                 plugin.getLogger().info("Region: " + map.get("regionName"));
-                plugin.getLogger().info("Allow: " + regionAccess.getAllowed());
                 plugin.getLogger().info("Deny: " + regionAccess.getDenied());
                 plugin.getLogger().info("To stash: " + regionAccess.itemsToStash());
             } catch (ClassCastException | IllegalArgumentException ex) {
                 plugin.getLogger().warning("Configuration for world guard region '" + map.get("regionName") + "' seems invalid.");
                 if(ex instanceof IllegalArgumentException) {
-                    plugin.getLogger().warning("Bad command in allow or deny list '" + ex.getMessage() + "'");
+                    plugin.getLogger().warning("Bad command in deny list '" + ex.getMessage() + "'");
                 }
             }
         }
