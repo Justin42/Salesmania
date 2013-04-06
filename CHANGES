@@ -1,3 +1,12 @@
+1.39.2 -
+- Time remaining message can now contain info tokens
+- Fixes an exception that sometimes occurs when players receive an item.
+- Fixes a bug where items for players with region override permission always goto stash.
+- Can now list the auctions in queue with /auction list
+- Reload messages no longer show twice when reloading configuration from console.
+- Region access now accounts for command aliases
+- Trying to bid on an auction before the queue is started no longer causes an error.
+
 1.39.1 -
 - World guard regions
 - Fixed 'locale message not found' issues.
