@@ -41,6 +41,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
         ENABLE,
         DISABLE,
         COLLECT,
+        LIST, L, QUEUE, Q,
         ALL, NONE
     }
 
@@ -51,6 +52,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
     private AuctionInfo auctionInfo;
     private AuctionIgnore auctionIgnore;
     private AuctionEnable auctionEnable;
+    private AuctionList auctionList;
 
     RegionSettings regionSettings;
 
@@ -65,6 +67,7 @@ public class AuctionCommandExecutor implements CommandExecutor {
         auctionInfo = new AuctionInfo(plugin);
         auctionIgnore = new AuctionIgnore(plugin);
         auctionEnable = new AuctionEnable(plugin);
+        auctionList = new AuctionList(plugin);
 
         regionSettings = plugin.getSettings().getRegionSettings();
     }
@@ -145,6 +148,13 @@ public class AuctionCommandExecutor implements CommandExecutor {
             case DISABLE:
                 auctionEnable.execute(sender, command, label, args);
                 break;
+
+            case LIST:
+            case L:
+            case QUEUE:
+            case Q:
+                auctionList.execute(sender, command, label, args);
+
 
             default:
                 return false;
