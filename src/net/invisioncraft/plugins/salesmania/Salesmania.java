@@ -28,6 +28,7 @@ import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -104,9 +105,11 @@ public class Salesmania extends JavaPlugin {
         for(Configuration config : configSet) {
             consoleLogger.info(String.format(
                     locale.getMessage("Misc.reloadConfig"), config.getFilename()));
-            sender.sendMessage(String.format(
-                    locale.getMessage("Misc.reloadConfig"),
-                    config.getFilename()));
+            if(!(sender instanceof ConsoleCommandSender)) {
+                sender.sendMessage(String.format(
+                        locale.getMessage("Misc.reloadConfig"),
+                        config.getFilename()));
+            }
             config.reload();
         }
     }
