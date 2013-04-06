@@ -36,8 +36,25 @@ public class RegionAccess {
         if(denyCommands.contains(command)) denyCommands.remove(command);
     }
 
+    // Todo this is a bit messy...
     public boolean isAllowed(AuctionCommand command) {
-        return !denyCommands.contains(command);
+        if(denyCommands.contains(command)) return false;
+        else if(denyCommands.contains(AuctionCommand.ALL)) return false;
+        // Account for aliases
+        else switch(command) {
+                case START:
+                case S:
+                    return !denyCommands.contains(AuctionCommand.START);
+                case BID:
+                case B:
+                    return !denyCommands.contains(AuctionCommand.BID);
+                case LIST:
+                case L:
+                case QUEUE:
+                case Q:
+                    return !denyCommands.contains(AuctionCommand.LIST);
+                default: return true;
+        }
     }
 
     public void deny(AuctionCommand command) {
@@ -45,7 +62,7 @@ public class RegionAccess {
     }
 
     public boolean isDenied(AuctionCommand command) {
-        return denyCommands.contains(command);
+        return !isAllowed(command);
     }
 
     public ArrayList<AuctionCommandExecutor.AuctionCommand> getDenied() {
