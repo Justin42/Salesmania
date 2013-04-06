@@ -87,6 +87,11 @@ public class AuctionBid extends CommandHandler {
         }
 
         Auction auction = plugin.getWorldGroupManager().getGroup(player).getAuctionQueue().getCurrentAuction();
+        if(auction == null) {
+            player.sendMessage(locale.getMessage("Auction.notRunning"));
+            return false;
+        }
+
         switch(auction.bid(player, bidAmount)) {
             case SUCCESS:
                 player.sendMessage(String.format(
