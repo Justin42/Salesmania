@@ -101,7 +101,6 @@ public class Auction {
         this.itemStack = itemStack;
         this.bid = bid;
         this.winner = winner;
-        updateInfoTokens();
     }
 
     public boolean isRunning() {
@@ -144,10 +143,9 @@ public class Auction {
         worldGroup = plugin.getWorldGroupManager().getGroup(player);
         AuctionQueue auctionQueue = worldGroup.getAuctionQueue();
 
+        position = auctionQueue.size()+1;
         updateInfoTokens();
-
         if(auctionQueue.add(this)) {
-            position = auctionQueue.size();
             if(auctionQueue.size() != 1) return AuctionStatus.QUEUE_SUCCESS;
             if(auctionQueue.isCooldown()) return AuctionStatus.COOLDOWN_SUCCESS;
             else return AuctionStatus.SUCCESS;

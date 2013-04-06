@@ -38,6 +38,7 @@ public class AuctionQueueSettings extends Configuration {
         if(config.contains("Auctions")) {
             List<Auction> auctionList = new LinkedList<Auction>();
             List<Map<?, ?>> savedAuctions = config.getMapList("Auctions." + worldGroup.getGroupName());
+            int position = 1;
             for(Map<?, ?> dataMap : savedAuctions) {
                 ItemStack itemStack = (ItemStack) dataMap.get("itemStack");
                 double startBid = (Double) dataMap.get("currentBid");
@@ -49,7 +50,10 @@ public class AuctionQueueSettings extends Configuration {
                 } else winner = null;
                 Auction auction = new Auction(plugin, owner, winner, itemStack, startBid);
                 auction.setWorldGroup(worldGroup);
+                auction.setPosition(position);
+                auction.updateInfoTokens();
                 auctionList.add(auction);
+                position++;
             }
             queue.clear();
             queue.addAll(auctionList);

@@ -65,6 +65,10 @@ Auction:
   worldDisabled: "&cAuctions are disabled for this world."
   regionDisabled: "&cThat command is disabled here."
   regionStashed: "&cYou aren't allowed to receive auction items here, they've been added to your stash."
+  queueListNone: "&aThere are no auctions in the queue."
+  queueListHeader: "&2The following items are in the auction queue:"
+  queueListOther: "&c #%position% - %item% from %owner% @ $%bid%"
+  queueListOwn: "&a #%position% - %item% from %owner% @ $%bid%"
   
   enabled: "&aOs leilões foram activados."
   disabled: "&cOs leilões foram desactivados."

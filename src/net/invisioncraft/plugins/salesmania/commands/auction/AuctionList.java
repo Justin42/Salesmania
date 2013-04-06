@@ -48,16 +48,22 @@ public class AuctionList extends CommandHandler {
         }
 
         // Todo allow multiple pages for long queues
-        for(Auction auction : worldGroup.getAuctionQueue()) {
-            String message;
-            if(auction.getOwner().isOnline() && auction.getOwner().getPlayer() == player) {
-                message = locale.getMessage("Auction.queueListOwn");
-            }
-            else message = locale.getMessage("Auction.queueListOther");
+        if(worldGroup.getAuctionQueue().size() == 0) {
+            player.sendMessage(locale.getMessage("Auction.queueListNone"));
+        }
+        else {
+            player.sendMessage(locale.getMessage("Auction.queueListHeader"));
+            for(Auction auction : worldGroup.getAuctionQueue()) {
+                String message;
+                if(auction.getOwner().isOnline() && auction.getOwner().getPlayer() == player) {
+                    message = locale.getMessage("Auction.queueListOwn");
+                }
+                else message = locale.getMessage("Auction.queueListOther");
 
-            auction.infoReplace(message);
-            auction.enchantReplace(message, "", locale.getMessage("Auction.enchantInfo"), locale);
-            player.sendMessage(message);
+                message = auction.infoReplace(message);
+                message = auction.enchantReplace(message, "", locale.getMessage("Auction.enchantInfo"), locale);
+                player.sendMessage(message);
+            }
         }
         return true;
     }
