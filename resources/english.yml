@@ -65,6 +65,8 @@ Auction:
   worldDisabled: "&cAuctions are disabled for this world."
   regionDisabled: "&cThat command is disabled here."
   regionStashed: "&cYou aren't allowed to receive auction items here, they've been added to your stash."
+  queueListOther: "&c#%position% - %item% from %owner% @ $%bid%"
+  queueListOwn: "&a%position% - %item% from %owner% @ $%bid%"
   
   enabled: "&aThe auction has been enabled."
   disabled: "&cThe auction has been disabled."

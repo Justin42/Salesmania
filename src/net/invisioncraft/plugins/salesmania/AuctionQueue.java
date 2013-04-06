@@ -89,6 +89,7 @@ public class AuctionQueue extends LinkedList<Auction> {
     }
 
     public boolean nextAuction() {
+        updatePositions();
         if(size() != 0) {
             currentAuction = peek();
             if(!isCooldown) currentAuction.start();
@@ -97,6 +98,14 @@ public class AuctionQueue extends LinkedList<Auction> {
             return false;
         }
         return true;
+    }
+
+    public void updatePositions() {
+        int position = 0;
+        for(Auction auction : this) {
+            position++;
+            auction.setPosition(position);
+        }
     }
 
     public void startCooldown() {

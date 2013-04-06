@@ -56,6 +56,7 @@ public class Auction {
     private ItemStack itemStack;
 
     private int timeRemaining = 0;
+    private int position = 0;
 
     public static enum AuctionStatus {
         OVER_MAX,
@@ -76,7 +77,7 @@ public class Auction {
     private static Pattern tokenPattern;
     private static String[] tokens = new String[] {
             "%owner%", "%quantity%", "%item%", "%durability%",
-            "%bid%", "%winner%", "%enchantinfo%", "%timeremaining%"
+            "%bid%", "%winner%", "%enchantinfo%", "%timeremaining%", "%position%"
     };
 
     public Auction(Salesmania plugin) {
@@ -146,6 +147,7 @@ public class Auction {
         updateInfoTokens();
 
         if(auctionQueue.add(this)) {
+            position = auctionQueue.size();
             if(auctionQueue.size() != 1) return AuctionStatus.QUEUE_SUCCESS;
             if(auctionQueue.isCooldown()) return AuctionStatus.COOLDOWN_SUCCESS;
             else return AuctionStatus.SUCCESS;
@@ -268,6 +270,7 @@ public class Auction {
         return enchantReplace(list, enchant, enchantFormat, locale).get(0);
     }
 
+    // TODO hmm...
     public ArrayList<String> enchantReplace(ArrayList<String> infoList, String enchant, String enchantInfo, Locale locale) {
         if(itemStack.getEnchantments().isEmpty()) {
             infoList.remove("%enchantinfo%");
@@ -290,6 +293,7 @@ public class Auction {
         tokenMap.put("%durability%", String.format("%.2f%%", getDurability()));
         tokenMap.put("%bid%", String.format("%,.2f", bid));
         tokenMap.put("%timeremaining%", String.valueOf(timeRemaining));
+        tokenMap.put("%position%", String.valueOf(position));
         if(winner != null) tokenMap.put("%winner%", winner.getName());
         else tokenMap.put("%winner%", "None");
     }
@@ -338,5 +342,13 @@ public class Auction {
 
     public void setWorldGroup(WorldGroup worldGroup) {
         this.worldGroup = worldGroup;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }
