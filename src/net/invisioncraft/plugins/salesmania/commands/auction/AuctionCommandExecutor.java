@@ -153,8 +153,8 @@ public class AuctionCommandExecutor implements CommandExecutor {
             case L:
             case QUEUE:
             case Q:
-                auctionList.execute(sender, command, label, args);
-
+               auctionList.execute(sender, command, label, args);
+                break;
 
             default:
                 return false;
