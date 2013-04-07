@@ -213,7 +213,7 @@ public class AuctionEventListener implements Listener {
             // Give item to winner
             giveItem(auction.getWinner(), auction.getItemStack(), auction.getWorldGroup());
             logger.info(String.format("Item stack '%s' given to auction winner '%s'",
-                    auction.getItemStack(), auction.getWinner()));
+                    auction.getItemStack().toString(), auction.getWinner()));
         }
 
         worldGroup.getAuctionQueue().remove();
@@ -243,7 +243,7 @@ public class AuctionEventListener implements Listener {
         // Give back item to owner
         giveItem(auction.getOwner(), auction.getItemStack(), auction.getWorldGroup());
         logger.info(String.format("Returned item stack '%s' to auction owner '%s' for canceled auction.",
-                auction.getItemStack(), auction.getOwner().getName()));
+                auction.getItemStack().toString(), auction.getOwner().getName()));
 
         worldGroup.getAuctionQueue().remove();
         worldGroup.getAuctionQueue().startCooldown();
@@ -284,20 +284,20 @@ public class AuctionEventListener implements Listener {
             Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
             // Region
             if(regionSettings.shouldStash(player.getPlayer())) {
-                plugin.getItemStash().store(player, itemStack, worldGroup);
+                plugin.getItemStash().store(player, itemStack.clone(), worldGroup);
                 player.getPlayer().sendMessage(locale.getMessage("Auction.regionStashed"));
                 return;
             }
 
             // World group
             if(worldGroupManager.getGroup(player) != worldGroup) {
-                plugin.getItemStash().store(player, itemStack, worldGroup);
+                plugin.getItemStash().store(player, itemStack.clone(), worldGroup);
                 player.getPlayer().sendMessage(String.format(locale.getMessage("Stash.itemsWaitingInGroup"), worldGroup.getGroupName()));
             }
             else {
-                HashMap<Integer, ItemStack> remainingItems = player.getPlayer().getInventory().addItem(itemStack);
+                HashMap<Integer, ItemStack> remainingItems = player.getPlayer().getInventory().addItem(itemStack.clone());
                 if(!remainingItems.isEmpty()) {
-                    plugin.getItemStash().store(player, new ArrayList<ItemStack>(remainingItems.values()), worldGroup);
+                    plugin.getItemStash().store(player, new ArrayList<>(remainingItems.values()), worldGroup);
                     player.getPlayer().sendMessage(locale.getMessage("Stash.itemsWaiting"));
                 }
             }

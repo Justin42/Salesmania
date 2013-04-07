@@ -1,3 +1,8 @@
+1.39.3 -
+- Fixes an issue with storing multiple stacks in item stash
+- Fixes an issue where the incorrect stack size may be logged (for stacks >64)
+- /auction list command added to syntax for locales
+
 1.39.2 -
 - Time remaining message can now contain info tokens
 - Fixes an exception that sometimes occurs when players receive an item.

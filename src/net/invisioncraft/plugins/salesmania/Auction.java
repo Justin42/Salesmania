@@ -137,7 +137,7 @@ public class Auction {
         if(checkResult != AuctionStatus.SUCCESS) return checkResult;
 
         bid = startBid;
-        this.itemStack = itemStack;
+        this.itemStack = itemStack.clone();
         owner = player;
         plugin.getAuctionIgnoreList().setIgnore(player, false);
         worldGroup = plugin.getWorldGroupManager().getGroup(player);
