@@ -1,3 +1,6 @@
+1.39.4 -
+- Bane of Anthropods enchantment should now display properly
+
 1.39.3 -
 - Fixes an issue with storing multiple stacks in item stash
 - Fixes an issue where the incorrect stack size may be logged (for stacks >64)
