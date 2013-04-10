@@ -82,6 +82,8 @@ Auction:
   
   startInfo:
   - "&3%owner%&f has put &a%quantity% %item%&f up for auction."
+  - "&aRenamed to:&a '%displayname%'"
+  - "&aTitle:&f '%booktitle%' by %bookauthor%"
   - "&aDurability: &6%durability%"
   - "%enchantinfo%"
   - "&aStarting Bid: &2$%bid%"
@@ -91,6 +93,8 @@ Auction:
   
   info:
   - "&aItem: %quantity% %item%"
+  - "&aRenamed to:&a '%displayname%'"
+  - "&aTitle:&f '%booktitle%' by %bookauthor%"
   - "&aDurability: &6%durability%"
   - "%enchantinfo%"
   - "&aOwner: &3%owner%"

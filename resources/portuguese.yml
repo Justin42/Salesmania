@@ -82,6 +82,8 @@ Auction:
   
   startInfo:
   - "&3%owner%&f colocou &a%quantity% %item%&f à venda em leilão."
+  - "&aRenamed to:&a '%displayname%'"
+  - "&aTitle:&f '%booktitle%' by %bookauthor%"
   - "&aDurabilidade: &6%durability%"
   - "%enchantinfo%"
   - "&aPreço inicial: &2$%bid%"
@@ -91,6 +93,8 @@ Auction:
   
   info:
   - "&aObjecto: %quantity% %item%"
+  - "&aRenamed to:&a '%displayname%'"
+  - "&aTitle:&f '%booktitle%' by %bookauthor%"
   - "&aDurabilidade: &6%durability%"
   - "%enchantinfo%"
   - "&aDono: &3%owner%"
