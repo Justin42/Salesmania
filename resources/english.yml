@@ -124,7 +124,7 @@ Enchantment:
   ARROW_INFINITE: "Infinity"
   ARROW_KNOCKBACK: "Knockback"
   DAMAGE_ALL: "Sharpness"
-  DAMAGE_ANTHROPODS: "Bane of Anthropods"
+  DAMAGE_ARTHROPODS: "Bane of Arthropods"
   DAMAGE_UNDEAD: "Smite"
   DIG_SPEED: "Efficiency"
   DURABILITY: "Unbreaking"
@@ -140,6 +140,5 @@ Enchantment:
   PROTECTION_PROJECTILE: "Projectile Protection"
   SILK_TOUCH: "Silk Touch"
   WATER_WORKER: "Aqua Affinity"
-  DAMAGE_ANTHROPODS: "Bane of Anthropods"
 
   

@@ -125,7 +125,7 @@ Enchantment:
   ARROW_INFINITE: "L'infini"
   ARROW_KNOCKBACK: "Pousser"
   DAMAGE_ALL: "Tranchant"
-  DAMAGE_ANTHROPODS: "Fléau des arthropodes"
+  DAMAGE_ARTHROPODS: "Fléau des arthropodes"
   DAMAGE_UNDEAD: "Châtiment"
   DIG_SPEED: "Efficacité"
   DURABILITY: "Solidité"
