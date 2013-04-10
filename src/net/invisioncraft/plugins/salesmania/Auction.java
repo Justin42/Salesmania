@@ -29,6 +29,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -287,7 +289,27 @@ public class Auction {
     public void updateInfoTokens() {
         tokenMap.put("%owner%", owner.getName());
         tokenMap.put("%quantity%", String.valueOf(itemStack.getAmount()));
-        tokenMap.put("%item%", ItemManager.getName(itemStack));
+        tokenMap.put("%displayname%", ""); // Default if item has no display name
+
+        // Books
+        if(itemStack.getType() == Material.ENCHANTED_BOOK) {
+            tokenMap.put("%item%", itemStack.getItemMeta().getDisplayName());
+        }
+        else if(itemStack.getType() == Material.WRITTEN_BOOK) {
+            BookMeta bookMeta = (BookMeta)itemStack.getItemMeta();
+            tokenMap.put("%item%", "'" + bookMeta.getTitle() + "' - " + bookMeta.getAuthor());
+        }
+
+         // Renamed items (%displayname% can be used regardless of config)
+        else if(itemStack.getItemMeta().hasDisplayName()) {
+            tokenMap.put("%displayname%", itemStack.getItemMeta().getDisplayName());
+            if(auctionSettings.getDisplayRenamed()) {
+                tokenMap.put("%item%", itemStack.getItemMeta().getDisplayName());
+            }
+        }
+
+        else tokenMap.put("%item%", ItemManager.getName(itemStack));
+
         tokenMap.put("%durability%", String.format("%.2f%%", getDurability()));
         tokenMap.put("%bid%", String.format("%,.2f", bid));
         tokenMap.put("%timeremaining%", String.valueOf(timeRemaining));

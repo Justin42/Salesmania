@@ -8,6 +8,7 @@ Main:
 Auction:
   enabled: true
   allowCreative: false
+  displayRenamed: true
   cooldown: 60
   minStart: 100
   maxStart: 100000

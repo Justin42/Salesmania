@@ -139,6 +139,10 @@ public class AuctionSettings implements ConfigurationHandler {
         return config.getInt("Auction.Queue.maxPerPlayer");
     }
 
+    public boolean getDisplayRenamed() {
+        return config.getBoolean("Auction.displayRenamed");
+    }
+
     @Override
     public void update() {
         config = settings.getConfig();
