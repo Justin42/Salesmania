@@ -2,6 +2,8 @@
 - Bane of Anthropods enchantment should now display properly
 - Fixes issue with quantity being set to 1 when a custom time is used
 - Support for written books, enchanted books, and renamed items.
+- Better handling of stack comparisons
+
 
 1.39.3 -
 - Fixes an issue with storing multiple stacks in item stash

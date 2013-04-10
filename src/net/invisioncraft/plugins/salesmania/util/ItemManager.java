@@ -34,7 +34,7 @@ public class ItemManager {
         int quantity = 0;
         for(Map.Entry<Integer, ? extends ItemStack> entry : player.getInventory().all(itemStack.getTypeId()).entrySet()) {
             // Check for data value + enchants
-            if(!compareItem(entry.getValue(), itemStack)) continue;
+            if(!itemStack.isSimilar(entry.getValue())) continue;
             quantity += entry.getValue().getAmount();
         }
         return quantity;
@@ -43,7 +43,7 @@ public class ItemManager {
     public static boolean takeItem(Player player, ItemStack itemStack) {
         int remainingQuantity = itemStack.getAmount();
         for(Map.Entry<Integer, ? extends ItemStack> entry : player.getInventory().all(itemStack.getTypeId()).entrySet()) {
-            if(!compareItem(entry.getValue(), itemStack)) continue;
+            if(!itemStack.isSimilar(entry.getValue())) continue;
 
             if(remainingQuantity == 0) break;
             ItemStack stack = entry.getValue();
@@ -63,14 +63,6 @@ public class ItemManager {
             return false;
         }
         else return true;
-    }
-
-    public static boolean compareItem(ItemStack stack1, ItemStack stack2) {
-        if(!stack1.getType().equals(stack2.getType())) return false;
-        if(!stack1.getEnchantments().equals(stack2.getEnchantments())) return false;
-        if(!stack1.getData().equals(stack2.getData())) return false;
-        if(stack1.getDurability() != stack2.getDurability()) return false;
-        return true;
     }
 
     public static String getName(ItemStack itemStack) {
