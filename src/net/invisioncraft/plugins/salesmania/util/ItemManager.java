@@ -20,10 +20,13 @@ package net.invisioncraft.plugins.salesmania.util;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.milkbowl.vault.item.Items;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -78,5 +81,13 @@ public class ItemManager {
             itemName = itemStack.getType().name();
         }
         return itemName;
+    }
+
+    public static Map<Enchantment, Integer> getEnchants(ItemStack itemStack) {
+        if(!itemStack.getEnchantments().isEmpty()) return itemStack.getEnchantments();
+        else if(itemStack.hasItemMeta() && itemStack.getItemMeta() instanceof EnchantmentStorageMeta) {
+            return ((EnchantmentStorageMeta) itemStack.getItemMeta()).getStoredEnchants();
+        }
+        else return new HashMap<>();
     }
 }
