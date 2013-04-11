@@ -30,6 +30,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
@@ -79,7 +80,8 @@ public class Auction {
     private static Pattern tokenPattern;
     private static String[] tokens = new String[] {
             "%owner%", "%quantity%", "%item%", "%durability%",
-            "%bid%", "%winner%", "%enchantinfo%", "%timeremaining%", "%position%"
+            "%bid%", "%winner%", "%enchantinfo%", "%timeremaining%", "%position%",
+            "%booktitle%", "%bookauthor%", "%displayname%"
     };
 
     public Auction(Salesmania plugin) {
@@ -236,12 +238,22 @@ public class Auction {
 
         for(String string : infoList) {
             // Remove unused lines
-            if(itemStack.getEnchantments().isEmpty() && string.contains("%enchant%")) continue;
+            if(itemStack.getEnchantments().isEmpty() && !(itemStack.getItemMeta() instanceof EnchantmentStorageMeta)) {
+                if(string.contains("%enchantinfo%")) continue;
+            }
+
             if(itemStack.getType().getMaxDurability() == 0 && string.contains("%durability%")) continue;
 
             // Remove enchant display from spawner
             if(itemStack.getType() == Material.MOB_SPAWNER && string.contains("%enchantinfo%")) continue;
 
+            // Remove display and book lines from non-books
+            if(itemStack.getType() != Material.WRITTEN_BOOK) {
+                if(string.contains("%booktitle%") | string.contains("%bookauthor%")) continue;
+            }
+
+            // Remove display name line from non-renamed items
+            if(!itemStack.getItemMeta().hasDisplayName() && string.contains("%displayname%")) continue;
 
             // Replace tokens
             StringBuffer buffer = new StringBuffer();
@@ -272,40 +284,40 @@ public class Auction {
 
     // TODO hmm...
     public ArrayList<String> enchantReplace(ArrayList<String> infoList, String enchant, String enchantInfo, Locale locale) {
-        if(itemStack.getEnchantments().isEmpty()) {
+        if(ItemManager.getEnchants(itemStack).isEmpty()) {
             infoList.remove("%enchantinfo%");
             return infoList;
         }
         if(!infoList.contains("%enchantinfo%")) return infoList;
-        for(Map.Entry<Enchantment, Integer> ench : itemStack.getEnchantments().entrySet()) {
+
+        for(Map.Entry<Enchantment, Integer> ench : ItemManager.getEnchants(itemStack).entrySet()) {
             enchant += enchantInfo.replace("%enchantlvl%", String.valueOf(ench.getValue()));
             if(locale != null) enchant = enchant.replace("%enchant%", locale.getMessage("Enchantment." + ench.getKey().getName()));
             else enchant = enchant.replace("%enchant%", ench.getKey().getName());
         }
+
         infoList.set(infoList.indexOf("%enchantinfo%"), enchant);
         return infoList;
     }
 
     public void updateInfoTokens() {
+        tokenMap.clear();
         tokenMap.put("%owner%", owner.getName());
         tokenMap.put("%quantity%", String.valueOf(itemStack.getAmount()));
-        tokenMap.put("%displayname%", ""); // Default if item has no display name
-
+        tokenMap.put("%item%", ItemManager.getName(itemStack));
         // Books
         if(itemStack.getType() == Material.ENCHANTED_BOOK) {
-            tokenMap.put("%item%", itemStack.getItemMeta().getDisplayName());
         }
+
         else if(itemStack.getType() == Material.WRITTEN_BOOK) {
             BookMeta bookMeta = (BookMeta)itemStack.getItemMeta();
-            tokenMap.put("%item%", "'" + bookMeta.getTitle() + "' - " + bookMeta.getAuthor());
+            tokenMap.put("%booktitle%", bookMeta.getTitle());
+            tokenMap.put("%bookauthor%", bookMeta.getAuthor());
         }
 
          // Renamed items (%displayname% can be used regardless of config)
         else if(itemStack.getItemMeta().hasDisplayName()) {
             tokenMap.put("%displayname%", itemStack.getItemMeta().getDisplayName());
-            if(auctionSettings.getDisplayRenamed()) {
-                tokenMap.put("%item%", itemStack.getItemMeta().getDisplayName());
-            }
         }
 
         else tokenMap.put("%item%", ItemManager.getName(itemStack));
