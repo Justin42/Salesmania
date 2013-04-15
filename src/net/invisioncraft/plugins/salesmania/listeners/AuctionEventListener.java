@@ -30,6 +30,7 @@ import net.invisioncraft.plugins.salesmania.util.MsgUtil;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,6 +39,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -279,8 +281,10 @@ public class AuctionEventListener implements Listener {
 
     }
 
+    // TODO make ItemManager non-static, move this method there.
     private void giveItem(OfflinePlayer player, ItemStack itemStack, WorldGroup worldGroup) {
         if(player.isOnline()) {
+            Player onlinePlayer = player.getPlayer();
             Locale locale = plugin.getLocaleHandler().getLocale(player.getPlayer());
             // Region
             if(regionSettings.shouldStash(player.getPlayer())) {
@@ -295,9 +299,30 @@ public class AuctionEventListener implements Listener {
                 player.getPlayer().sendMessage(String.format(locale.getMessage("Stash.itemsWaitingInGroup"), worldGroup.getGroupName()));
             }
             else {
-                HashMap<Integer, ItemStack> remainingItems = player.getPlayer().getInventory().addItem(itemStack.clone());
-                if(!remainingItems.isEmpty()) {
-                    plugin.getItemStash().store(player, new ArrayList<>(remainingItems.values()), worldGroup);
+                // Give item to player, respecting max stack size.
+                ItemStack remainingItems = itemStack.clone();
+                ItemStack[] inventory = onlinePlayer.getInventory().getContents();
+                for(int inventoryPosition = 0; inventoryPosition < inventory.length; inventoryPosition++) {
+                    ItemStack currentStack = inventory[inventoryPosition];
+                    int placeableQuantity = 0;
+                    if(currentStack == null) {
+                        placeableQuantity = remainingItems.getMaxStackSize();
+                    }
+                    else if(currentStack.isSimilar(remainingItems)) {
+                        placeableQuantity = remainingItems.getMaxStackSize() - currentStack.getAmount();
+                    }
+                    if(placeableQuantity > remainingItems.getAmount()) {
+                        placeableQuantity = remainingItems.getAmount();
+                    }
+                    ItemStack place = remainingItems.clone();
+                    place.setAmount(placeableQuantity);
+                    onlinePlayer.getInventory().setItem(inventoryPosition, place);
+                    remainingItems.setAmount(remainingItems.getAmount() - place.getAmount());
+                    if(remainingItems.getAmount() == 0) break;
+                }
+
+                if(remainingItems.getAmount() > 0) {
+                    plugin.getItemStash().store(player, remainingItems, worldGroup);
                     player.getPlayer().sendMessage(locale.getMessage("Stash.itemsWaiting"));
                 }
             }
