@@ -64,10 +64,13 @@ public class StashCommandExecutor implements CommandExecutor {
         if(itemStash.hasItems(player, worldGroup)) {
             ArrayList<ItemStack> remainingItems = new ArrayList<ItemStack>();
             for(ItemStack itemStack : itemStash.collect(player, worldGroup)) {
-                remainingItems.addAll(player.getInventory().addItem(itemStack).values());
+                ItemStack remaining = plugin.getItemManager().giveItem(player, itemStack, worldGroup, false);
+                if(remaining.getAmount() != 0) {
+                    plugin.getLogger().info(remaining.toString());
+                    remainingItems.add(remaining);
+                }
             }
             if(!remainingItems.isEmpty()) {
-                itemStash.store(player, remainingItems, worldGroup);
                 player.sendMessage(locale.getMessage("Stash.inventoryFull"));
             }
             else player.sendMessage(locale.getMessage("Stash.gotItems"));
@@ -75,7 +78,6 @@ public class StashCommandExecutor implements CommandExecutor {
         else {
             player.sendMessage(locale.getMessage("Stash.noItems"));
         }
-
         return true;
     }
 }
