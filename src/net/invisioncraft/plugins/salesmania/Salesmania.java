@@ -24,6 +24,7 @@ import net.invisioncraft.plugins.salesmania.commands.stash.StashCommandExecutor;
 import net.invisioncraft.plugins.salesmania.configuration.*;
 import net.invisioncraft.plugins.salesmania.listeners.AuctionEventListener;
 import net.invisioncraft.plugins.salesmania.listeners.PlayerEventListener;
+import net.invisioncraft.plugins.salesmania.util.ItemManager;
 import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroupManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -45,10 +46,11 @@ public class Salesmania extends JavaPlugin {
     private ItemStash itemStash;
     private WorldGroupManager worldGroupManager;
     private ChannelManager channelManager;
+    private ItemManager itemManager;
 
     @Override
     public void onEnable() {
-        configSet = new HashSet<Configuration>();
+        configSet = new HashSet<>();
         settings = new Settings(this);
         consoleLogger = this.getLogger();
         localeHandler = new LocaleHandler(this);
@@ -56,6 +58,7 @@ public class Salesmania extends JavaPlugin {
         itemStash = new ItemStash(this);
         worldGroupManager = new WorldGroupManager(this);
         channelManager = new ChannelManager(this);
+        itemManager = new ItemManager(this);
 
         getCommand("auction").setExecutor(new AuctionCommandExecutor(this));
         getCommand("bid").setExecutor(getCommand("auction").getExecutor());
@@ -142,5 +145,9 @@ public class Salesmania extends JavaPlugin {
 
     public ChannelManager getChannelManager() {
         return channelManager;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
     }
 }
