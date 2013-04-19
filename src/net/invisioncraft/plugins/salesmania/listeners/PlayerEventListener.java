@@ -49,6 +49,7 @@ public class PlayerEventListener implements Listener {
         WorldGroup worldGroup = worldGroupManager.getGroup(player);
         if(worldGroup != null && plugin.getItemStash().hasItems(player, worldGroup)) {
             player.sendMessage(locale.getMessage("Stash.itemsWaiting"));
+            worldGroupManager.getCache().removePlayer(player);
         }
     }
 

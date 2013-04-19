@@ -20,6 +20,7 @@ package net.invisioncraft.plugins.salesmania.configuration;
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class GroupCache extends Configuration {
     public GroupCache(Salesmania plugin) {
@@ -28,6 +29,11 @@ public class GroupCache extends Configuration {
 
     public void savePlayer(OfflinePlayer player, World world) {
         config.set(player.getName(), world.getName());
+        save();
+    }
+
+    public void removePlayer(Player player) {
+        config.set(player.getName(), null);
         save();
     }
 
