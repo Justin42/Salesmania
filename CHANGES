@@ -1,5 +1,5 @@
 1.39.6 -
-- Players should now be removed from the GroupCache normally.
+- Group cache removed completely. (you can delete GroupCache.yml)
 
 1.39.5 -
 - Fixes a duplication exploit with potions

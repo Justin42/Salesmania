@@ -170,4 +170,8 @@ public class AuctionQueue extends LinkedList<Auction> {
     public boolean isRunning() {
         return isRunning;
     }
+
+    public WorldGroup getWorldGroup() {
+        return worldGroup;
+    }
 }

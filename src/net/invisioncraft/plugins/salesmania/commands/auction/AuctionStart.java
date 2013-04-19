@@ -116,9 +116,8 @@ public class AuctionStart extends CommandHandler {
         }
         else itemStack.setAmount(quantity);
 
-        Auction auction = new Auction(plugin);
+        Auction auction = new Auction(plugin, worldGroup);
         auction.setTimeRemaining(time);
-        auction.setWorldGroup(worldGroup);
         switch(auction.queue(player, itemStack, startingBid)) {
             case QUEUE_FULL:
                 player.sendMessage(locale.getMessage("Auction.queueFull"));

@@ -44,6 +44,7 @@ public class Auction {
     Economy economy;
     AuctionSettings auctionSettings;
     WorldGroup worldGroup;
+    AuctionQueue auctionQueue;
 
     private boolean isRunning = false;
 
@@ -84,7 +85,7 @@ public class Auction {
             "%booktitle%", "%bookauthor%", "%displayname%"
     };
 
-    public Auction(Salesmania plugin) {
+    public Auction(Salesmania plugin, WorldGroup worldGroup) {
         this.plugin = plugin;
         auctionSettings = plugin.getSettings().getAuctionSettings();
 
@@ -97,10 +98,11 @@ public class Auction {
         tokenMap = new HashMap<String, String>();
         economy = plugin.getEconomy();
         timeRemaining = auctionSettings.getDefaultTime();
+        this.auctionQueue = worldGroup.getAuctionQueue();
     }
 
-    public Auction(Salesmania plugin, OfflinePlayer owner, OfflinePlayer winner, ItemStack itemStack, double bid) {
-        this(plugin);
+    public Auction(Salesmania plugin, WorldGroup worldGroup, OfflinePlayer owner, OfflinePlayer winner, ItemStack itemStack, double bid) {
+        this(plugin, worldGroup);
         this.owner = owner;
         this.itemStack = itemStack;
         this.bid = bid;
@@ -234,7 +236,7 @@ public class Auction {
     }
 
     public ArrayList<String> infoReplace(ArrayList<String> infoList) {
-        ArrayList<String> newInfoList = new ArrayList<String>();
+        ArrayList<String> newInfoList = new ArrayList<>();
 
         for(String string : infoList) {
             // Remove unused lines
@@ -305,11 +307,8 @@ public class Auction {
         tokenMap.put("%owner%", owner.getName());
         tokenMap.put("%quantity%", String.valueOf(itemStack.getAmount()));
         tokenMap.put("%item%", ItemManager.getName(itemStack));
-        // Books
-        if(itemStack.getType() == Material.ENCHANTED_BOOK) {
-        }
 
-        else if(itemStack.getType() == Material.WRITTEN_BOOK) {
+        if(itemStack.getType() == Material.WRITTEN_BOOK) {
             BookMeta bookMeta = (BookMeta)itemStack.getItemMeta();
             tokenMap.put("%booktitle%", bookMeta.getTitle());
             tokenMap.put("%bookauthor%", bookMeta.getAuthor());
@@ -369,11 +368,7 @@ public class Auction {
     }
 
     public WorldGroup getWorldGroup() {
-        return worldGroup;
-    }
-
-    public void setWorldGroup(WorldGroup worldGroup) {
-        this.worldGroup = worldGroup;
+        return auctionQueue.getWorldGroup();
     }
 
     public int getPosition() {

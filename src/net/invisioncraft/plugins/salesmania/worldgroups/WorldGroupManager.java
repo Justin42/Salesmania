@@ -19,10 +19,7 @@ package net.invisioncraft.plugins.salesmania.worldgroups;
 
 import net.invisioncraft.plugins.salesmania.Salesmania;
 import net.invisioncraft.plugins.salesmania.configuration.ConfigurationHandler;
-import net.invisioncraft.plugins.salesmania.configuration.GroupCache;
 import net.invisioncraft.plugins.salesmania.configuration.WorldGroupSettings;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -31,11 +28,9 @@ public class WorldGroupManager implements ConfigurationHandler {
     private WorldGroupSettings worldGroupSettings;
     private Salesmania plugin;
     private ArrayList<WorldGroup> worldGroups;
-    private GroupCache cache;
 
     public WorldGroupManager(Salesmania plugin) {
         this.plugin = plugin;
-        cache = new GroupCache(plugin);
         plugin.getSettings().registerHandler(this);
         worldGroupSettings = plugin.getSettings().getWorldGroupSettings();
         worldGroups = worldGroupSettings.parseGroups(); // TODO <---
@@ -59,18 +54,5 @@ public class WorldGroupManager implements ConfigurationHandler {
             if(worldGroup.hasPlayer(player)) return worldGroup;
         }
         return null;
-    }
-
-    public WorldGroup getGroup(OfflinePlayer player) {
-        if(player.isOnline()) return getGroup(player.getPlayer());
-        World world = cache.loadPlayer(player);
-        for(WorldGroup worldGroup : worldGroups) {
-           if(worldGroup.getWorlds().contains(world)) return worldGroup;
-        }
-        return null;
-    }
-
-    public GroupCache getCache() {
-        return cache;
     }
 }

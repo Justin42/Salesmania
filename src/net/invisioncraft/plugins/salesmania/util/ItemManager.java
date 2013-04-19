@@ -95,7 +95,7 @@ public class ItemManager {
             }
 
             // World group
-            if(worldGroupManager.getGroup(player) != worldGroup) {
+            if(worldGroupManager.getGroup(onlinePlayer) != worldGroup) {
                 plugin.getItemStash().store(player, itemStack.clone(), worldGroup);
                 player.getPlayer().sendMessage(String.format(locale.getMessage("Stash.itemsWaitingInGroup"), worldGroup.getGroupName()));
             }
