@@ -1,5 +1,7 @@
 1.39.6 -
-- Group cache removed completely. (you can delete GroupCache.yml)
+- Group cache removed completely. (you can delete groupCache.yml)
+- Minor API changes regarding Auction, AuctionQueue, WorldGroup
+
 
 1.39.5 -
 - Fixes a duplication exploit with potions

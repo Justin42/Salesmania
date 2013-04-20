@@ -19,11 +19,9 @@ package net.invisioncraft.plugins.salesmania;
 
 import net.invisioncraft.plugins.salesmania.configuration.AuctionQueueSettings;
 import net.invisioncraft.plugins.salesmania.configuration.AuctionSettings;
-import net.invisioncraft.plugins.salesmania.event.auction.AuctionEvent;
 import net.invisioncraft.plugins.salesmania.event.auction.queue.AuctionQueueStartEvent;
 import net.invisioncraft.plugins.salesmania.event.auction.queue.AuctionQueueStopEvent;
 import net.invisioncraft.plugins.salesmania.event.auction.queue.AuctionQueuedEvent;
-import net.invisioncraft.plugins.salesmania.worldgroups.WorldGroup;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
@@ -41,13 +39,10 @@ public class AuctionQueue extends LinkedList<Auction> {
     private static long TICKS_PER_SECOND = 20;
     private Integer timerID;
 
-    private WorldGroup worldGroup;
-
-    public AuctionQueue(Salesmania plugin, WorldGroup worldGroup) {
+    public AuctionQueue(Salesmania plugin) {
         this.plugin = plugin;
         queueSettings = plugin.getSettings().getAuctionQueueSettings();
         auctionSettings = plugin.getSettings().getAuctionSettings();
-        this.worldGroup = worldGroup;
         start();
     }
 
@@ -169,9 +164,5 @@ public class AuctionQueue extends LinkedList<Auction> {
 
     public boolean isRunning() {
         return isRunning;
-    }
-
-    public WorldGroup getWorldGroup() {
-        return worldGroup;
     }
 }

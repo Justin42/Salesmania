@@ -44,7 +44,6 @@ public class Auction {
     Economy economy;
     AuctionSettings auctionSettings;
     WorldGroup worldGroup;
-    AuctionQueue auctionQueue;
 
     private boolean isRunning = false;
 
@@ -98,7 +97,7 @@ public class Auction {
         tokenMap = new HashMap<String, String>();
         economy = plugin.getEconomy();
         timeRemaining = auctionSettings.getDefaultTime();
-        this.auctionQueue = worldGroup.getAuctionQueue();
+        this.worldGroup = worldGroup;
     }
 
     public Auction(Salesmania plugin, WorldGroup worldGroup, OfflinePlayer owner, OfflinePlayer winner, ItemStack itemStack, double bid) {
@@ -368,7 +367,11 @@ public class Auction {
     }
 
     public WorldGroup getWorldGroup() {
-        return auctionQueue.getWorldGroup();
+        return worldGroup;
+    }
+
+    public AuctionQueue getAuctionQueue() {
+        return worldGroup.getAuctionQueue();
     }
 
     public int getPosition() {

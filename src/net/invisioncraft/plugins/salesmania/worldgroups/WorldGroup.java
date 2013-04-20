@@ -33,10 +33,10 @@ public class WorldGroup {
 
     public WorldGroup(Salesmania plugin, String groupName, ArrayList<String> worlds) {
         this.groupName = groupName;
-        worldList = new ArrayList<World>(worlds.size());
+        worldList = new ArrayList<>(worlds.size());
         this.plugin = plugin;
-        auctionQueue = new AuctionQueue(plugin, this);
-        channelList = new ArrayList<String>();
+        auctionQueue = new AuctionQueue(plugin);
+        channelList = new ArrayList<>();
         updateWorlds(worlds);
     }
 
@@ -45,7 +45,7 @@ public class WorldGroup {
     }
 
     public ArrayList<Player> getPlayers() {
-        ArrayList<Player> playersInGroup = new ArrayList<Player>();
+        ArrayList<Player> playersInGroup = new ArrayList<>();
         for(World world : worldList) {
             playersInGroup.addAll(world.getPlayers());
         }
