@@ -51,7 +51,7 @@ public class ItemManager {
         int quantity = 0;
         for(Map.Entry<Integer, ? extends ItemStack> entry : player.getInventory().all(itemStack.getTypeId()).entrySet()) {
             // Check for data value + enchants
-            if(!itemStack.isSimilar(entry.getValue())) continue;
+            if(!itemStack.isSimilar(entry.getValue()) | !itemStack.getData().equals(entry.getValue().getData())) continue;
             quantity += entry.getValue().getAmount();
         }
         return quantity;
@@ -59,10 +59,25 @@ public class ItemManager {
 
     public static boolean takeItem(Player player, ItemStack itemStack) {
         int remainingQuantity = itemStack.getAmount();
-        for(Map.Entry<Integer, ? extends ItemStack> entry : player.getInventory().all(itemStack.getTypeId()).entrySet()) {
-            if(!itemStack.isSimilar(entry.getValue())) continue;
 
+        // Start with currently held item
+        if(player.getItemInHand().isSimilar(itemStack) && player.getItemInHand().getData().equals(itemStack.getData())) {
+            ItemStack inHand = player.getItemInHand();
+            if(remainingQuantity >= inHand.getAmount()) {
+                remainingQuantity -= inHand.getAmount();
+                inHand.setAmount(0);
+            }
+            else if(remainingQuantity < inHand.getAmount()) {
+                inHand.setAmount(inHand.getAmount() - remainingQuantity);
+                remainingQuantity = 0;
+            }
+            player.getInventory().setItem(player.getInventory().getHeldItemSlot(), inHand);
+        }
+
+        for(Map.Entry<Integer, ? extends ItemStack> entry : player.getInventory().all(itemStack.getTypeId()).entrySet()) {
             if(remainingQuantity == 0) break;
+            if(!itemStack.isSimilar(entry.getValue()) | !itemStack.getData().equals(entry.getValue().getData())) continue;
+
             ItemStack stack = entry.getValue();
 
             if(remainingQuantity >= stack.getAmount()) {
@@ -91,52 +106,56 @@ public class ItemManager {
             if(regionSettings.shouldStash(player.getPlayer())) {
                 plugin.getItemStash().store(player, itemStack.clone(), worldGroup);
                 if(stashNotify)player.getPlayer().sendMessage(locale.getMessage("Auction.regionStashed"));
-                return remainingItems;
+                remainingItems.setAmount(0);
             }
 
             // World group
-            if(worldGroupManager.getGroup(onlinePlayer) != worldGroup) {
+            else if(worldGroupManager.getGroup(onlinePlayer) != worldGroup) {
                 plugin.getItemStash().store(player, itemStack.clone(), worldGroup);
                 player.getPlayer().sendMessage(String.format(locale.getMessage("Stash.itemsWaitingInGroup"), worldGroup.getGroupName()));
+                remainingItems.setAmount(0);
             }
+
             else {
                 ItemStack[] inventory = onlinePlayer.getInventory().getContents();
 
                 // Try to place into existing stack
                 for(ItemStack currentStack : onlinePlayer.getInventory().all(remainingItems.getType()).values()) {
+                    if(remainingItems.getAmount() == 0) break;
                     int placeableQuantity = 0;
                     if(currentStack.isSimilar(remainingItems) && currentStack.getData().equals(remainingItems.getData())) {
                         placeableQuantity = remainingItems.getMaxStackSize() - currentStack.getAmount();
                     }
+                    if(placeableQuantity > remainingItems.getAmount()) placeableQuantity = remainingItems.getAmount();
                     if(placeableQuantity > 0) {
                         currentStack.setAmount(currentStack.getAmount() + placeableQuantity);
                         remainingItems.setAmount(remainingItems.getAmount() - placeableQuantity);
                     }
                 }
 
-                // Place remaining amount into any available slots.
-                for(int inventoryPosition = 0; inventoryPosition < inventory.length; inventoryPosition++) {
-                    ItemStack currentStack = inventory[inventoryPosition];
-                    int placeableQuantity = 0;
+                if(remainingItems.getAmount() > 0) {
+                    for(int inventoryPosition = 0; inventoryPosition < inventory.length; inventoryPosition++) {
+                        if(remainingItems.getAmount() == 0) break;
+                        ItemStack currentStack = inventory[inventoryPosition];
+                        int placeableQuantity = 0;
 
-                    if(currentStack == null) {
-                        placeableQuantity = remainingItems.getMaxStackSize();
-                    }
-                    else if(currentStack.isSimilar(remainingItems) && currentStack.getData().equals(remainingItems.getData())) {
-                        placeableQuantity = remainingItems.getMaxStackSize() - currentStack.getAmount();
-                    }
+                        if(currentStack == null) {
+                            placeableQuantity = remainingItems.getMaxStackSize();
+                        }
+                        else if(currentStack.isSimilar(remainingItems) && currentStack.getData().equals(remainingItems.getData())) {
+                            placeableQuantity = remainingItems.getMaxStackSize() - currentStack.getAmount();
+                        }
 
-                    if(placeableQuantity > remainingItems.getAmount()) {
-                        placeableQuantity = remainingItems.getAmount();
+                        if(placeableQuantity > remainingItems.getAmount()) {
+                            placeableQuantity = remainingItems.getAmount();
+                        }
+                        if(placeableQuantity > 0) {
+                            ItemStack place = remainingItems.clone();
+                            place.setAmount(placeableQuantity);
+                            onlinePlayer.getInventory().setItem(inventoryPosition, place);
+                            remainingItems.setAmount(remainingItems.getAmount() - place.getAmount());
+                        }
                     }
-                    if(placeableQuantity > 0) {
-                        ItemStack place = remainingItems.clone();
-                        place.setAmount(placeableQuantity);
-                        onlinePlayer.getInventory().setItem(inventoryPosition, place);
-                        remainingItems.setAmount(remainingItems.getAmount() - place.getAmount());
-                    }
-
-                    if(remainingItems.getAmount() == 0) break;
                 }
 
                 // Place remaining into item stash
@@ -147,7 +166,10 @@ public class ItemManager {
                 }
             }
         }
-        else plugin.getItemStash().store(player, itemStack, worldGroup);
+        else {
+            plugin.getItemStash().store(player, itemStack, worldGroup);
+            remainingItems.setAmount(0);
+        }
         return remainingItems;
     }
 
